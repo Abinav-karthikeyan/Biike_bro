@@ -1,0 +1,1692 @@
+{
+  "last_updated": 1779522009,
+  "ttl": 3600,
+  "version": "3.0",
+  "data": {
+    "geofencing_zones": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.28112,
+              55.849022
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z001",
+            "name": "West End Zone 1",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.261115,
+              55.859185
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z002",
+            "name": "Govan Zone 2",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.25686,
+              55.861913
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z003",
+            "name": "West End Zone 3",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.275017,
+              55.8648
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z004",
+            "name": "Finnieston Zone 4",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.277636,
+              55.87174
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z005",
+            "name": "Partick Zone 5",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.237837,
+              55.87373
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z006",
+            "name": "Dennistoun Zone 6",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.22659,
+              55.864499
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z007",
+            "name": "Govan Zone 7",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.251788,
+              55.861293
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z008",
+            "name": "Merchant City Zone 8",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.272173,
+              55.862036
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z009",
+            "name": "Shawlands Zone 9",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.245603,
+              55.854627
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z010",
+            "name": "Govan Zone 10",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.264264,
+              55.875015
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z011",
+            "name": "Byres Road Zone 11",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.237741,
+              55.86062
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z012",
+            "name": "Hillhead Zone 12",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.272126,
+              55.861171
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z013",
+            "name": "Merchant City Zone 13",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.255605,
+              55.857949
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z014",
+            "name": "Shawlands Zone 14",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.251186,
+              55.861762
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z015",
+            "name": "City Centre Zone 15",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.255281,
+              55.861852
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z016",
+            "name": "Govan Zone 16",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.238524,
+              55.870185
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z017",
+            "name": "West End Zone 17",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.265215,
+              55.84183
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z018",
+            "name": "Dennistoun Zone 18",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.330355,
+              55.890529
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z019",
+            "name": "City Centre Zone 19",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.256772,
+              55.850693
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z020",
+            "name": "Partick Zone 20",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.288354,
+              55.8599
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z021",
+            "name": "Merchant City Zone 21",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.251389,
+              55.855032
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z022",
+            "name": "Byres Road Zone 22",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.263899,
+              55.860597
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z023",
+            "name": "Byres Road Zone 23",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.251958,
+              55.879246
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z024",
+            "name": "Merchant City Zone 24",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.259936,
+              55.872415
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z025",
+            "name": "West End Zone 25",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.300528,
+              55.867393
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z026",
+            "name": "West End Zone 26",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.261022,
+              55.855318
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z027",
+            "name": "West End Zone 27",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.254443,
+              55.872863
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z028",
+            "name": "City Centre Zone 28",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.233048,
+              55.871382
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z029",
+            "name": "Merchant City Zone 29",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.294466,
+              55.86991
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z030",
+            "name": "Shawlands Zone 30",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.231913,
+              55.848977
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z031",
+            "name": "Hillhead Zone 31",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.318177,
+              55.884022
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z032",
+            "name": "Govan Zone 32",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.235467,
+              55.881019
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z033",
+            "name": "Finnieston Zone 33",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.257463,
+              55.860022
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z034",
+            "name": "Govan Zone 34",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.264944,
+              55.849253
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z035",
+            "name": "Partick Zone 35",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.308791,
+              55.869393
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z036",
+            "name": "Shawlands Zone 36",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.284548,
+              55.865472
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z037",
+            "name": "City Centre Zone 37",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.229555,
+              55.88449
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z038",
+            "name": "Finnieston Zone 38",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.271263,
+              55.86326
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z039",
+            "name": "Shawlands Zone 39",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.301484,
+              55.828057
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z040",
+            "name": "Partick Zone 40",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.206381,
+              55.85825
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z041",
+            "name": "Hillhead Zone 41",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.264005,
+              55.858967
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z042",
+            "name": "Hillhead Zone 42",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.251231,
+              55.873124
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z043",
+            "name": "Partick Zone 43",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.250614,
+              55.882624
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z044",
+            "name": "City Centre Zone 44",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.30304,
+              55.856818
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z045",
+            "name": "Merchant City Zone 45",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.329094,
+              55.864716
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z046",
+            "name": "Partick Zone 46",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.345783,
+              55.861342
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z047",
+            "name": "City Centre Zone 47",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.237139,
+              55.875592
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z048",
+            "name": "Byres Road Zone 48",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.259763,
+              55.866028
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z049",
+            "name": "Finnieston Zone 49",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.263349,
+              55.862925
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z050",
+            "name": "Hillhead Zone 50",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.22649,
+              55.888849
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z051",
+            "name": "Shawlands Zone 51",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.271209,
+              55.862699
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z052",
+            "name": "Byres Road Zone 52",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.255775,
+              55.870934
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z053",
+            "name": "Dennistoun Zone 53",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.2395,
+              55.864085
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z054",
+            "name": "West End Zone 54",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.242312,
+              55.865782
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z055",
+            "name": "Partick Zone 55",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.303992,
+              55.856144
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z056",
+            "name": "Dennistoun Zone 56",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.249474,
+              55.858337
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z057",
+            "name": "Merchant City Zone 57",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.282681,
+              55.877494
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z058",
+            "name": "Partick Zone 58",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.230716,
+              55.836151
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z059",
+            "name": "Dennistoun Zone 59",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": true,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4.27177,
+              55.848686
+            ]
+          },
+          "properties": {
+            "zone_id": "GLW_Z060",
+            "name": "Partick Zone 60",
+            "rules": [
+              {
+                "vehicle_type_id": [
+                  "standard_v1",
+                  "ebike_v2",
+                  "cargo_v1"
+                ],
+                "ride_end_rules": {
+                  "ride_through_allowed": true,
+                  "station_parking": false,
+                  "maximum_speed_kph": 15
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bike Parking Buddy — API Test Interface</title>
+  <meta name="description" content="Interactive API test interface for Bike Parking Buddy with real-time test execution and visual results." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0d14; --surface: #111827; --elevated: #1a2235;
+      --cyan: #00d4ff; --purple: #8b5cf6; --green: #10d48a;
+      --amber: #f59e0b; --red: #ef4444;
+      --text: #f1f5f9; --muted: #94a3b8; --dim: #475569;
+      --border: rgba(255,255,255,0.07);
+      --grad: linear-gradient(135deg, #00d4ff, #8b5cf6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
+    h1 { font-size: 1.5rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+    .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
+    .config-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 12px 16px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
+    .config-bar label { font-size: 0.8rem; color: var(--muted); }
+    .config-bar input { background: var(--elevated); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; width: 260px; }
+    .btn-run-all { background: var(--grad); color: #000; font-weight: 700; padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.15s; }
+    .btn-run-all:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,212,255,0.3); }
+    .stats-bar { display: flex; gap: 16px; margin-bottom: 20px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 20px; text-align: center; flex: 1; }
+    .stat-val { font-size: 1.5rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+    .tests-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .test-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: border-color 0.2s; }
+    .test-card:hover { border-color: rgba(0,212,255,0.3); }
+    .test-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .test-name { font-size: 0.88rem; font-weight: 600; }
+    .test-method { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; }
+    .method-get { background: rgba(16,212,138,0.15); color: var(--green); }
+    .method-post { background: rgba(139,92,246,0.15); color: var(--purple); }
+    .test-url { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--cyan); margin-bottom: 8px; word-break: break-all; }
+    .test-body { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--dim); background: var(--bg); border-radius: 6px; padding: 8px; margin-bottom: 8px; max-height: 60px; overflow: hidden; white-space: pre; }
+    .test-status { display: flex; align-items: center; gap: 8px; }
+    .status-badge { padding: 3px 10px; border-radius: 100px; font-size: 0.72rem; font-weight: 600; }
+    .status-pass { background: rgba(16,212,138,0.15); color: var(--green); }
+    .status-fail { background: rgba(239,68,68,0.15); color: var(--red); }
+    .status-pending { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .status-running { background: rgba(0,212,255,0.15); color: var(--cyan); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+    .test-latency { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+    .test-response { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); background: var(--bg); border-radius: 6px; padding: 8px; margin-top: 8px; max-height: 120px; overflow-y: auto; white-space: pre-wrap; word-break: break-word; line-height: 1.5; }
+    .prediction-comparison { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 20px; }
+    .comparison-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 16px; }
+    .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .comparison-card { background: var(--elevated); border-radius: 8px; padding: 14px; text-align: center; }
+    .comp-zone { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--cyan); margin-bottom: 4px; }
+    .comp-fill { font-size: 1.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+    .comp-context { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .fill-low { color: var(--green); }
+    .fill-mid { color: var(--amber); }
+    .fill-high { color: var(--red); }
+    @media (max-width: 800px) { .tests-grid { grid-template-columns: 1fr; } .comparison-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>🚲 API Test Interface</h1>
+  <div class="subtitle">Real-time endpoint testing against Glasgow synthetic data (60 zones, 725k snapshots, 8k rides)</div>
+
+  <div class="config-bar">
+    <label>API Base URL</label>
+    <input type="text" id="api-base" value="http://localhost:8001" />
+    <button class="btn-run-all" id="btn-run-all" onclick="runAllTests()">▶ Run All Tests</button>
+    <span id="run-status" style="font-size:0.8rem;color:var(--muted)"></span>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total Tests</div></div>
+    <div class="stat"><div class="stat-val" id="stat-pass" style="color:var(--green)">0</div><div class="stat-label">Passed</div></div>
+    <div class="stat"><div class="stat-val" id="stat-fail" style="color:var(--red)">0</div><div class="stat-label">Failed</div></div>
+    <div class="stat"><div class="stat-val" id="stat-latency" style="color:var(--cyan)">—</div><div class="stat-label">Avg Latency</div></div>
+  </div>
+
+  <div class="tests-grid" id="tests-grid"></div>
+
+  <div class="prediction-comparison" id="prediction-comparison" style="display:none">
+    <div class="comparison-title">🧠 Prediction Comparison (Rush Hour vs Night × Zone Types)</div>
+    <div class="comparison-grid" id="comparison-grid"></div>
+  </div>
+
+  <script>
+const API = () => document.getElementById('api-base').value;
+
+const TESTS = [
+  { name: 'Health Check', method: 'GET', path: '/health/', validate: d => d.status === 'ok' && d.version === '0.1.0', desc: 'Liveness probe' },
+  { name: 'List Zones', method: 'GET', path: '/zones/', validate: d => Array.isArray(d) && d.length === 60, desc: '60 Glasgow zones' },
+  { name: 'Filter by Venue', method: 'GET', path: '/zones/?venue_type=transit', validate: d => d.length > 0 && d.every(z => z.venue_type === 'transit'), desc: 'Transit zones only' },
+  { name: 'Zone Detail', method: 'GET', path: '/zones/GLW_Z008', validate: d => d.zone_id === 'GLW_Z008' && d.current_occupancy_pct !== undefined, desc: 'Zone with occupancy' },
+  { name: 'Zone 404', method: 'GET', path: '/zones/FAKE', validate: (d, status) => status === 404, desc: 'Missing zone error' },
+  { name: 'Zone Snapshots', method: 'GET', path: '/zones/GLW_Z001/snapshots?hours=2', validate: d => d.length > 0 && d[0].zone_id === 'GLW_Z001', desc: 'Recent snapshots' },
+  { name: 'Predict (Rush)', method: 'POST', path: '/predict/', body: { zone_id: 'GLW_Z008', current_timestamp: '2026-05-20T17:30:00Z', lookahead_mins: 30 }, validate: d => d.fill_probability >= 0 && d.fill_probability <= 1 && d.model_version === 'xgb-v1-synthetic', desc: 'Transit zone 5:30pm' },
+  { name: 'Predict (Night)', method: 'POST', path: '/predict/', body: { zone_id: 'GLW_Z004', current_timestamp: '2026-05-20T03:00:00Z', lookahead_mins: 30 }, validate: d => d.fill_probability >= 0 && d.fill_probability <= 1, desc: 'Residential zone 3am' },
+  { name: 'Predict (Weekend)', method: 'POST', path: '/predict/', body: { zone_id: 'GLW_Z002', current_timestamp: '2026-05-18T12:00:00Z', lookahead_mins: 60 }, validate: d => d.fill_probability >= 0 && d.reason.length > 0, desc: 'Park zone Sunday noon' },
+  { name: 'Rides List', method: 'GET', path: '/rides/?limit=5', validate: d => d.length === 5 && d[0].ride_id !== undefined, desc: '5 recent rides' },
+  { name: 'Ride Stats', method: 'GET', path: '/rides/stats', validate: d => d.total_rides === 8000 && d.redirect_rate > 0, desc: 'Aggregate stats' },
+  { name: 'Weather', method: 'GET', path: '/weather/?hours=12', validate: d => d.length > 0 && d[0].wmo_code !== undefined, desc: 'Recent weather' },
+  { name: 'Analytics KPIs', method: 'GET', path: '/analytics/summary', validate: d => d.total_zones === 60 && d.total_rides === 8000, desc: 'Dashboard KPIs' },
+  { name: 'Zone Heatmap', method: 'GET', path: '/analytics/zone-heatmap', validate: d => d.length > 100, desc: 'Occupancy heatmap data' },
+  { name: 'Model Metrics', method: 'GET', path: '/analytics/model-metrics', validate: d => d.accuracy > 0.5 && d.model_version === 'xgb-v1-synthetic', desc: 'XGBoost metrics' },
+  { name: 'Events', method: 'GET', path: '/analytics/events', validate: d => d.length > 0, desc: 'Local events list' },
+];
+
+function renderTests() {
+  const grid = document.getElementById('tests-grid');
+  grid.innerHTML = TESTS.map((t, i) => `
+    <div class="test-card" id="test-${i}">
+      <div class="test-header">
+        <span class="test-name">${t.name}</span>
+        <span class="test-method ${t.method === 'GET' ? 'method-get' : 'method-post'}">${t.method}</span>
+      </div>
+      <div class="test-url">${t.path}</div>
+      ${t.body ? `<div class="test-body">${JSON.stringify(t.body, null, 2)}</div>` : ''}
+      <div class="test-status">
+        <span class="status-badge status-pending" id="badge-${i}">PENDING</span>
+        <span class="test-latency" id="latency-${i}"></span>
+      </div>
+      <div class="test-response" id="resp-${i}" style="display:none"></div>
+    </div>
+  `).join('');
+  document.getElementById('stat-total').textContent = TESTS.length;
+}
+
+async function runTest(i) {
+  const t = TESTS[i];
+  const badge = document.getElementById(`badge-${i}`);
+  const latEl = document.getElementById(`latency-${i}`);
+  const respEl = document.getElementById(`resp-${i}`);
+
+  badge.className = 'status-badge status-running'; badge.textContent = 'RUNNING';
+  respEl.style.display = 'none';
+
+  const start = performance.now();
+  try {
+    const opts = t.method === 'POST' ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(t.body) } : {};
+    const res = await fetch(API() + t.path, opts);
+    const latency = Math.round(performance.now() - start);
+    latEl.textContent = latency + 'ms';
+
+    let data;
+    try { data = await res.json(); } catch { data = null; }
+
+    const pass = t.validate(data, res.status);
+    badge.className = `status-badge ${pass ? 'status-pass' : 'status-fail'}`;
+    badge.textContent = pass ? 'PASS' : 'FAIL';
+
+    respEl.textContent = JSON.stringify(data, null, 2).substring(0, 500);
+    respEl.style.display = 'block';
+
+    return { pass, latency, data };
+  } catch (e) {
+    const latency = Math.round(performance.now() - start);
+    badge.className = 'status-badge status-fail'; badge.textContent = 'ERROR';
+    latEl.textContent = latency + 'ms';
+    respEl.textContent = e.message; respEl.style.display = 'block';
+    return { pass: false, latency };
+  }
+}
+
+async function runAllTests() {
+  document.getElementById('btn-run-all').textContent = '⏳ Running...';
+  document.getElementById('btn-run-all').disabled = true;
+  document.getElementById('run-status').textContent = '';
+
+  let passed = 0, failed = 0, totalLat = 0;
+  const predResults = {};
+
+  for (let i = 0; i < TESTS.length; i++) {
+    const result = await runTest(i);
+    if (result.pass) passed++; else failed++;
+    totalLat += result.latency;
+
+    // Capture prediction results for comparison
+    if (TESTS[i].name.startsWith('Predict') && result.data) {
+      predResults[TESTS[i].name] = result.data;
+    }
+
+    document.getElementById('stat-pass').textContent = passed;
+    document.getElementById('stat-fail').textContent = failed;
+    document.getElementById('stat-latency').textContent = Math.round(totalLat / (i + 1)) + 'ms';
+  }
+
+  // Prediction comparison
+  if (Object.keys(predResults).length > 0) {
+    renderComparison(predResults);
+  }
+
+  document.getElementById('btn-run-all').textContent = '▶ Run All Tests';
+  document.getElementById('btn-run-all').disabled = false;
+  document.getElementById('run-status').textContent = `${passed}/${TESTS.length} passed`;
+}
+
+function renderComparison(predictions) {
+  const comp = document.getElementById('prediction-comparison');
+  const grid = document.getElementById('comparison-grid');
+  comp.style.display = 'block';
+
+  grid.innerHTML = Object.entries(predictions).map(([name, data]) => {
+    const pct = Math.round(data.fill_probability * 100);
+    const cls = pct > 70 ? 'fill-high' : pct > 40 ? 'fill-mid' : 'fill-low';
+    return `
+      <div class="comparison-card">
+        <div class="comp-zone">${data.zone_id}</div>
+        <div class="comp-fill ${cls}">${pct}%</div>
+        <div class="comp-context">${name}</div>
+        <div class="comp-context" style="margin-top:4px;color:var(--cyan)">${data.reason.substring(0, 80)}</div>
+        <div class="comp-context">Confidence: ${Math.round(data.confidence * 100)}% | Alts: ${data.alternative_zones.length}</div>
+      </div>`;
+  }).join('');
+}
+
+renderTests();
+  </script>
+</body>
+</html>

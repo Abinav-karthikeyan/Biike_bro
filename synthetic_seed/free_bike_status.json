@@ -1,0 +1,4009 @@
+{
+  "last_updated": 1779522009,
+  "ttl": 10,
+  "version": "3.0",
+  "data": {
+    "bikes": [
+      {
+        "bike_id": "GLW_B0001",
+        "lat": 55.876022,
+        "lon": -4.23683,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10660,
+        "last_reported": "2026-05-23T07:39:01.531799Z"
+      },
+      {
+        "bike_id": "GLW_B0002",
+        "lat": 55.875028,
+        "lon": -4.264056,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531841Z"
+      },
+      {
+        "bike_id": "GLW_B0003",
+        "lat": 55.856689,
+        "lon": -4.303126,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531853Z"
+      },
+      {
+        "bike_id": "GLW_B0004",
+        "lat": 55.856842,
+        "lon": -4.303069,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531861Z"
+      },
+      {
+        "bike_id": "GLW_B0005",
+        "lat": 55.888601,
+        "lon": -4.226739,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531869Z"
+      },
+      {
+        "bike_id": "GLW_B0006",
+        "lat": 55.849263,
+        "lon": -4.26488,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531877Z"
+      },
+      {
+        "bike_id": "GLW_B0007",
+        "lat": 55.86491,
+        "lon": -4.274828,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17457,
+        "last_reported": "2026-05-23T07:39:01.531886Z"
+      },
+      {
+        "bike_id": "GLW_B0008",
+        "lat": 55.871721,
+        "lon": -4.232712,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24399,
+        "last_reported": "2026-05-23T07:39:01.531895Z"
+      },
+      {
+        "bike_id": "GLW_B0009",
+        "lat": 55.849218,
+        "lon": -4.264943,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531932Z"
+      },
+      {
+        "bike_id": "GLW_B0010",
+        "lat": 55.859894,
+        "lon": -4.288359,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531943Z"
+      },
+      {
+        "bike_id": "GLW_B0011",
+        "lat": 55.855625,
+        "lon": -4.304257,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531951Z"
+      },
+      {
+        "bike_id": "GLW_B0012",
+        "lat": 55.84161,
+        "lon": -4.265329,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531958Z"
+      },
+      {
+        "bike_id": "GLW_B0013",
+        "lat": 55.871491,
+        "lon": -4.233111,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24112,
+        "last_reported": "2026-05-23T07:39:01.531967Z"
+      },
+      {
+        "bike_id": "GLW_B0014",
+        "lat": 55.873571,
+        "lon": -4.237807,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531974Z"
+      },
+      {
+        "bike_id": "GLW_B0015",
+        "lat": 55.874889,
+        "lon": -4.264034,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.531981Z"
+      },
+      {
+        "bike_id": "GLW_B0016",
+        "lat": 55.870935,
+        "lon": -4.255789,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532009Z"
+      },
+      {
+        "bike_id": "GLW_B0017",
+        "lat": 55.861515,
+        "lon": -4.25183,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532023Z"
+      },
+      {
+        "bike_id": "GLW_B0018",
+        "lat": 55.873345,
+        "lon": -4.251469,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532033Z"
+      },
+      {
+        "bike_id": "GLW_B0019",
+        "lat": 55.828075,
+        "lon": -4.301923,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 25996,
+        "last_reported": "2026-05-23T07:39:01.532043Z"
+      },
+      {
+        "bike_id": "GLW_B0020",
+        "lat": 55.862259,
+        "lon": -4.272282,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28644,
+        "last_reported": "2026-05-23T07:39:01.532051Z"
+      },
+      {
+        "bike_id": "GLW_B0021",
+        "lat": 55.8634,
+        "lon": -4.271701,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532086Z"
+      },
+      {
+        "bike_id": "GLW_B0022",
+        "lat": 55.855571,
+        "lon": -4.260854,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532098Z"
+      },
+      {
+        "bike_id": "GLW_B0023",
+        "lat": 55.861241,
+        "lon": -4.251857,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532131Z"
+      },
+      {
+        "bike_id": "GLW_B0024",
+        "lat": 55.864677,
+        "lon": -4.328834,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532143Z"
+      },
+      {
+        "bike_id": "GLW_B0025",
+        "lat": 55.869477,
+        "lon": -4.308683,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12473,
+        "last_reported": "2026-05-23T07:39:01.532151Z"
+      },
+      {
+        "bike_id": "GLW_B0026",
+        "lat": 55.856573,
+        "lon": -4.303791,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 33811,
+        "last_reported": "2026-05-23T07:39:01.532159Z"
+      },
+      {
+        "bike_id": "GLW_B0027",
+        "lat": 55.881019,
+        "lon": -4.235466,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27002,
+        "last_reported": "2026-05-23T07:39:01.532167Z"
+      },
+      {
+        "bike_id": "GLW_B0028",
+        "lat": 55.87302,
+        "lon": -4.251224,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532202Z"
+      },
+      {
+        "bike_id": "GLW_B0029",
+        "lat": 55.869415,
+        "lon": -4.309062,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532213Z"
+      },
+      {
+        "bike_id": "GLW_B0030",
+        "lat": 55.856832,
+        "lon": -4.302837,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 18426,
+        "last_reported": "2026-05-23T07:39:01.532223Z"
+      },
+      {
+        "bike_id": "GLW_B0031",
+        "lat": 55.874967,
+        "lon": -4.237032,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532235Z"
+      },
+      {
+        "bike_id": "GLW_B0032",
+        "lat": 55.889073,
+        "lon": -4.226961,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532246Z"
+      },
+      {
+        "bike_id": "GLW_B0033",
+        "lat": 55.881174,
+        "lon": -4.235501,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532256Z"
+      },
+      {
+        "bike_id": "GLW_B0034",
+        "lat": 55.864211,
+        "lon": -4.226637,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 29455,
+        "last_reported": "2026-05-23T07:39:01.532268Z"
+      },
+      {
+        "bike_id": "GLW_B0035",
+        "lat": 55.854878,
+        "lon": -4.245475,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532310Z"
+      },
+      {
+        "bike_id": "GLW_B0036",
+        "lat": 55.867077,
+        "lon": -4.300962,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 20452,
+        "last_reported": "2026-05-23T07:39:01.532324Z"
+      },
+      {
+        "bike_id": "GLW_B0037",
+        "lat": 55.85971,
+        "lon": -4.288548,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532333Z"
+      },
+      {
+        "bike_id": "GLW_B0038",
+        "lat": 55.82846,
+        "lon": -4.301299,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532341Z"
+      },
+      {
+        "bike_id": "GLW_B0039",
+        "lat": 55.876164,
+        "lon": -4.236774,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11293,
+        "last_reported": "2026-05-23T07:39:01.532349Z"
+      },
+      {
+        "bike_id": "GLW_B0040",
+        "lat": 55.871486,
+        "lon": -4.232868,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532355Z"
+      },
+      {
+        "bike_id": "GLW_B0041",
+        "lat": 55.864728,
+        "lon": -4.27476,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532362Z"
+      },
+      {
+        "bike_id": "GLW_B0042",
+        "lat": 55.86545,
+        "lon": -4.284595,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532369Z"
+      },
+      {
+        "bike_id": "GLW_B0043",
+        "lat": 55.872293,
+        "lon": -4.26005,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532375Z"
+      },
+      {
+        "bike_id": "GLW_B0044",
+        "lat": 55.869792,
+        "lon": -4.294605,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 23245,
+        "last_reported": "2026-05-23T07:39:01.532383Z"
+      },
+      {
+        "bike_id": "GLW_B0045",
+        "lat": 55.877425,
+        "lon": -4.282394,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532389Z"
+      },
+      {
+        "bike_id": "GLW_B0046",
+        "lat": 55.884387,
+        "lon": -4.229233,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17899,
+        "last_reported": "2026-05-23T07:39:01.532397Z"
+      },
+      {
+        "bike_id": "GLW_B0047",
+        "lat": 55.861525,
+        "lon": -4.272127,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532403Z"
+      },
+      {
+        "bike_id": "GLW_B0048",
+        "lat": 55.860071,
+        "lon": -4.264166,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532440Z"
+      },
+      {
+        "bike_id": "GLW_B0049",
+        "lat": 55.873119,
+        "lon": -4.251228,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9607,
+        "last_reported": "2026-05-23T07:39:01.532452Z"
+      },
+      {
+        "bike_id": "GLW_B0050",
+        "lat": 55.835877,
+        "lon": -4.230932,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532461Z"
+      },
+      {
+        "bike_id": "GLW_B0051",
+        "lat": 55.862764,
+        "lon": -4.270693,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532467Z"
+      },
+      {
+        "bike_id": "GLW_B0052",
+        "lat": 55.870057,
+        "lon": -4.238787,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28586,
+        "last_reported": "2026-05-23T07:39:01.532501Z"
+      },
+      {
+        "bike_id": "GLW_B0053",
+        "lat": 55.864839,
+        "lon": -4.226826,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532513Z"
+      },
+      {
+        "bike_id": "GLW_B0054",
+        "lat": 55.884459,
+        "lon": -4.22952,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532523Z"
+      },
+      {
+        "bike_id": "GLW_B0055",
+        "lat": 55.855336,
+        "lon": -4.260986,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532530Z"
+      },
+      {
+        "bike_id": "GLW_B0056",
+        "lat": 55.859899,
+        "lon": -4.257464,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532538Z"
+      },
+      {
+        "bike_id": "GLW_B0057",
+        "lat": 55.849162,
+        "lon": -4.231951,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 23346,
+        "last_reported": "2026-05-23T07:39:01.532546Z"
+      },
+      {
+        "bike_id": "GLW_B0058",
+        "lat": 55.872148,
+        "lon": -4.277138,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21022,
+        "last_reported": "2026-05-23T07:39:01.532554Z"
+      },
+      {
+        "bike_id": "GLW_B0059",
+        "lat": 55.865833,
+        "lon": -4.242455,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 25582,
+        "last_reported": "2026-05-23T07:39:01.532562Z"
+      },
+      {
+        "bike_id": "GLW_B0060",
+        "lat": 55.860932,
+        "lon": -4.251683,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 34948,
+        "last_reported": "2026-05-23T07:39:01.532569Z"
+      },
+      {
+        "bike_id": "GLW_B0061",
+        "lat": 55.858308,
+        "lon": -4.206404,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532576Z"
+      },
+      {
+        "bike_id": "GLW_B0062",
+        "lat": 55.858531,
+        "lon": -4.249546,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28820,
+        "last_reported": "2026-05-23T07:39:01.532583Z"
+      },
+      {
+        "bike_id": "GLW_B0063",
+        "lat": 55.870675,
+        "lon": -4.255716,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9485,
+        "last_reported": "2026-05-23T07:39:01.532590Z"
+      },
+      {
+        "bike_id": "GLW_B0064",
+        "lat": 55.861833,
+        "lon": -4.256634,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532597Z"
+      },
+      {
+        "bike_id": "GLW_B0065",
+        "lat": 55.861875,
+        "lon": -4.272037,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532604Z"
+      },
+      {
+        "bike_id": "GLW_B0066",
+        "lat": 55.848973,
+        "lon": -4.264788,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532611Z"
+      },
+      {
+        "bike_id": "GLW_B0067",
+        "lat": 55.864697,
+        "lon": -4.226931,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532647Z"
+      },
+      {
+        "bike_id": "GLW_B0068",
+        "lat": 55.856656,
+        "lon": -4.302869,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532659Z"
+      },
+      {
+        "bike_id": "GLW_B0069",
+        "lat": 55.864732,
+        "lon": -4.226618,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532668Z"
+      },
+      {
+        "bike_id": "GLW_B0070",
+        "lat": 55.864692,
+        "lon": -4.274936,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532675Z"
+      },
+      {
+        "bike_id": "GLW_B0071",
+        "lat": 55.869981,
+        "lon": -4.29442,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9657,
+        "last_reported": "2026-05-23T07:39:01.532683Z"
+      },
+      {
+        "bike_id": "GLW_B0072",
+        "lat": 55.888586,
+        "lon": -4.226035,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 33072,
+        "last_reported": "2026-05-23T07:39:01.532691Z"
+      },
+      {
+        "bike_id": "GLW_B0073",
+        "lat": 55.869434,
+        "lon": -4.308641,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12835,
+        "last_reported": "2026-05-23T07:39:01.532704Z"
+      },
+      {
+        "bike_id": "GLW_B0074",
+        "lat": 55.88885,
+        "lon": -4.226491,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12259,
+        "last_reported": "2026-05-23T07:39:01.532711Z"
+      },
+      {
+        "bike_id": "GLW_B0075",
+        "lat": 55.849253,
+        "lon": -4.264869,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 8486,
+        "last_reported": "2026-05-23T07:39:01.532743Z"
+      },
+      {
+        "bike_id": "GLW_B0076",
+        "lat": 55.860632,
+        "lon": -4.264036,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532757Z"
+      },
+      {
+        "bike_id": "GLW_B0077",
+        "lat": 55.865009,
+        "lon": -4.274803,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532767Z"
+      },
+      {
+        "bike_id": "GLW_B0078",
+        "lat": 55.871444,
+        "lon": -4.233399,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532776Z"
+      },
+      {
+        "bike_id": "GLW_B0079",
+        "lat": 55.828587,
+        "lon": -4.301336,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 23009,
+        "last_reported": "2026-05-23T07:39:01.532785Z"
+      },
+      {
+        "bike_id": "GLW_B0080",
+        "lat": 55.859001,
+        "lon": -4.264013,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532792Z"
+      },
+      {
+        "bike_id": "GLW_B0081",
+        "lat": 55.882894,
+        "lon": -4.250397,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532798Z"
+      },
+      {
+        "bike_id": "GLW_B0082",
+        "lat": 55.859884,
+        "lon": -4.288367,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532805Z"
+      },
+      {
+        "bike_id": "GLW_B0083",
+        "lat": 55.869328,
+        "lon": -4.309058,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24565,
+        "last_reported": "2026-05-23T07:39:01.532812Z"
+      },
+      {
+        "bike_id": "GLW_B0084",
+        "lat": 55.862794,
+        "lon": -4.271045,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532845Z"
+      },
+      {
+        "bike_id": "GLW_B0085",
+        "lat": 55.858391,
+        "lon": -4.249925,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532856Z"
+      },
+      {
+        "bike_id": "GLW_B0086",
+        "lat": 55.861436,
+        "lon": -4.25099,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532889Z"
+      },
+      {
+        "bike_id": "GLW_B0087",
+        "lat": 55.859717,
+        "lon": -4.288264,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532925Z"
+      },
+      {
+        "bike_id": "GLW_B0088",
+        "lat": 55.848632,
+        "lon": -4.271761,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532934Z"
+      },
+      {
+        "bike_id": "GLW_B0089",
+        "lat": 55.875552,
+        "lon": -4.237701,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26402,
+        "last_reported": "2026-05-23T07:39:01.532942Z"
+      },
+      {
+        "bike_id": "GLW_B0090",
+        "lat": 55.869351,
+        "lon": -4.308714,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532949Z"
+      },
+      {
+        "bike_id": "GLW_B0091",
+        "lat": 55.865765,
+        "lon": -4.259625,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532955Z"
+      },
+      {
+        "bike_id": "GLW_B0092",
+        "lat": 55.85056,
+        "lon": -4.256592,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.532962Z"
+      },
+      {
+        "bike_id": "GLW_B0093",
+        "lat": 55.861854,
+        "lon": -4.251318,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17128,
+        "last_reported": "2026-05-23T07:39:01.532969Z"
+      },
+      {
+        "bike_id": "GLW_B0094",
+        "lat": 55.86549,
+        "lon": -4.284426,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28372,
+        "last_reported": "2026-05-23T07:39:01.532977Z"
+      },
+      {
+        "bike_id": "GLW_B0095",
+        "lat": 55.827879,
+        "lon": -4.301833,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 30723,
+        "last_reported": "2026-05-23T07:39:01.532984Z"
+      },
+      {
+        "bike_id": "GLW_B0096",
+        "lat": 55.841917,
+        "lon": -4.265199,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19502,
+        "last_reported": "2026-05-23T07:39:01.533019Z"
+      },
+      {
+        "bike_id": "GLW_B0097",
+        "lat": 55.849045,
+        "lon": -4.28107,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32280,
+        "last_reported": "2026-05-23T07:39:01.533031Z"
+      },
+      {
+        "bike_id": "GLW_B0098",
+        "lat": 55.858302,
+        "lon": -4.20639,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533040Z"
+      },
+      {
+        "bike_id": "GLW_B0099",
+        "lat": 55.869831,
+        "lon": -4.294343,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26598,
+        "last_reported": "2026-05-23T07:39:01.533049Z"
+      },
+      {
+        "bike_id": "GLW_B0100",
+        "lat": 55.863289,
+        "lon": -4.271246,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533056Z"
+      },
+      {
+        "bike_id": "GLW_B0101",
+        "lat": 55.882812,
+        "lon": -4.250508,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533063Z"
+      },
+      {
+        "bike_id": "GLW_B0102",
+        "lat": 55.855284,
+        "lon": -4.260793,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533070Z"
+      },
+      {
+        "bike_id": "GLW_B0103",
+        "lat": 55.890436,
+        "lon": -4.330547,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533076Z"
+      },
+      {
+        "bike_id": "GLW_B0104",
+        "lat": 55.861544,
+        "lon": -4.251018,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533083Z"
+      },
+      {
+        "bike_id": "GLW_B0105",
+        "lat": 55.857996,
+        "lon": -4.256036,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533089Z"
+      },
+      {
+        "bike_id": "GLW_B0106",
+        "lat": 55.88402,
+        "lon": -4.318259,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533127Z"
+      },
+      {
+        "bike_id": "GLW_B0107",
+        "lat": 55.880721,
+        "lon": -4.235582,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533137Z"
+      },
+      {
+        "bike_id": "GLW_B0108",
+        "lat": 55.875605,
+        "lon": -4.237136,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533144Z"
+      },
+      {
+        "bike_id": "GLW_B0109",
+        "lat": 55.865367,
+        "lon": -4.284498,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21272,
+        "last_reported": "2026-05-23T07:39:01.533152Z"
+      },
+      {
+        "bike_id": "GLW_B0110",
+        "lat": 55.859262,
+        "lon": -4.261132,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533159Z"
+      },
+      {
+        "bike_id": "GLW_B0111",
+        "lat": 55.856859,
+        "lon": -4.303063,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27296,
+        "last_reported": "2026-05-23T07:39:01.533167Z"
+      },
+      {
+        "bike_id": "GLW_B0112",
+        "lat": 55.867146,
+        "lon": -4.300565,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533173Z"
+      },
+      {
+        "bike_id": "GLW_B0113",
+        "lat": 55.85504,
+        "lon": -4.251434,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 14353,
+        "last_reported": "2026-05-23T07:39:01.533181Z"
+      },
+      {
+        "bike_id": "GLW_B0114",
+        "lat": 55.877525,
+        "lon": -4.282868,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533187Z"
+      },
+      {
+        "bike_id": "GLW_B0115",
+        "lat": 55.854632,
+        "lon": -4.24555,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533194Z"
+      },
+      {
+        "bike_id": "GLW_B0116",
+        "lat": 55.866029,
+        "lon": -4.259787,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533226Z"
+      },
+      {
+        "bike_id": "GLW_B0117",
+        "lat": 55.869918,
+        "lon": -4.294767,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533239Z"
+      },
+      {
+        "bike_id": "GLW_B0118",
+        "lat": 55.865295,
+        "lon": -4.284771,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533248Z"
+      },
+      {
+        "bike_id": "GLW_B0119",
+        "lat": 55.859912,
+        "lon": -4.288337,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533257Z"
+      },
+      {
+        "bike_id": "GLW_B0120",
+        "lat": 55.841734,
+        "lon": -4.265277,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533264Z"
+      },
+      {
+        "bike_id": "GLW_B0121",
+        "lat": 55.862292,
+        "lon": -4.256718,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533271Z"
+      },
+      {
+        "bike_id": "GLW_B0122",
+        "lat": 55.86599,
+        "lon": -4.24218,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533279Z"
+      },
+      {
+        "bike_id": "GLW_B0123",
+        "lat": 55.888847,
+        "lon": -4.226512,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533285Z"
+      },
+      {
+        "bike_id": "GLW_B0124",
+        "lat": 55.861085,
+        "lon": -4.271948,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533292Z"
+      },
+      {
+        "bike_id": "GLW_B0125",
+        "lat": 55.864699,
+        "lon": -4.227087,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533298Z"
+      },
+      {
+        "bike_id": "GLW_B0126",
+        "lat": 55.859034,
+        "lon": -4.263879,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533334Z"
+      },
+      {
+        "bike_id": "GLW_B0127",
+        "lat": 55.859896,
+        "lon": -4.257567,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533346Z"
+      },
+      {
+        "bike_id": "GLW_B0128",
+        "lat": 55.86284,
+        "lon": -4.263212,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10159,
+        "last_reported": "2026-05-23T07:39:01.533357Z"
+      },
+      {
+        "bike_id": "GLW_B0129",
+        "lat": 55.855366,
+        "lon": -4.251163,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533365Z"
+      },
+      {
+        "bike_id": "GLW_B0130",
+        "lat": 55.873537,
+        "lon": -4.251325,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533372Z"
+      },
+      {
+        "bike_id": "GLW_B0131",
+        "lat": 55.873279,
+        "lon": -4.25104,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533379Z"
+      },
+      {
+        "bike_id": "GLW_B0132",
+        "lat": 55.867701,
+        "lon": -4.300204,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533410Z"
+      },
+      {
+        "bike_id": "GLW_B0133",
+        "lat": 55.859088,
+        "lon": -4.264458,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32208,
+        "last_reported": "2026-05-23T07:39:01.533424Z"
+      },
+      {
+        "bike_id": "GLW_B0134",
+        "lat": 55.882663,
+        "lon": -4.250638,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 8597,
+        "last_reported": "2026-05-23T07:39:01.533435Z"
+      },
+      {
+        "bike_id": "GLW_B0135",
+        "lat": 55.879066,
+        "lon": -4.251495,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533443Z"
+      },
+      {
+        "bike_id": "GLW_B0136",
+        "lat": 55.861179,
+        "lon": -4.27207,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533450Z"
+      },
+      {
+        "bike_id": "GLW_B0137",
+        "lat": 55.864154,
+        "lon": -4.226607,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 29690,
+        "last_reported": "2026-05-23T07:39:01.533457Z"
+      },
+      {
+        "bike_id": "GLW_B0138",
+        "lat": 55.855294,
+        "lon": -4.251647,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 13925,
+        "last_reported": "2026-05-23T07:39:01.533491Z"
+      },
+      {
+        "bike_id": "GLW_B0139",
+        "lat": 55.86399,
+        "lon": -4.239753,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533503Z"
+      },
+      {
+        "bike_id": "GLW_B0140",
+        "lat": 55.861634,
+        "lon": -4.256685,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533513Z"
+      },
+      {
+        "bike_id": "GLW_B0141",
+        "lat": 55.890533,
+        "lon": -4.330637,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533520Z"
+      },
+      {
+        "bike_id": "GLW_B0142",
+        "lat": 55.862825,
+        "lon": -4.271782,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533527Z"
+      },
+      {
+        "bike_id": "GLW_B0143",
+        "lat": 55.865604,
+        "lon": -4.284561,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533534Z"
+      },
+      {
+        "bike_id": "GLW_B0144",
+        "lat": 55.859958,
+        "lon": -4.257427,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533540Z"
+      },
+      {
+        "bike_id": "GLW_B0145",
+        "lat": 55.856144,
+        "lon": -4.303599,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11361,
+        "last_reported": "2026-05-23T07:39:01.533575Z"
+      },
+      {
+        "bike_id": "GLW_B0146",
+        "lat": 55.864868,
+        "lon": -4.329315,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533587Z"
+      },
+      {
+        "bike_id": "GLW_B0147",
+        "lat": 55.841672,
+        "lon": -4.265163,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 15275,
+        "last_reported": "2026-05-23T07:39:01.533597Z"
+      },
+      {
+        "bike_id": "GLW_B0148",
+        "lat": 55.870808,
+        "lon": -4.255735,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533630Z"
+      },
+      {
+        "bike_id": "GLW_B0149",
+        "lat": 55.880889,
+        "lon": -4.235336,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533641Z"
+      },
+      {
+        "bike_id": "GLW_B0150",
+        "lat": 55.860133,
+        "lon": -4.288462,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12508,
+        "last_reported": "2026-05-23T07:39:01.533651Z"
+      },
+      {
+        "bike_id": "GLW_B0151",
+        "lat": 55.86182,
+        "lon": -4.256467,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31119,
+        "last_reported": "2026-05-23T07:39:01.533659Z"
+      },
+      {
+        "bike_id": "GLW_B0152",
+        "lat": 55.848974,
+        "lon": -4.231912,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533666Z"
+      },
+      {
+        "bike_id": "GLW_B0153",
+        "lat": 55.864325,
+        "lon": -4.239172,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 33433,
+        "last_reported": "2026-05-23T07:39:01.533673Z"
+      },
+      {
+        "bike_id": "GLW_B0154",
+        "lat": 55.890532,
+        "lon": -4.330311,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533680Z"
+      },
+      {
+        "bike_id": "GLW_B0155",
+        "lat": 55.827982,
+        "lon": -4.301463,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533686Z"
+      },
+      {
+        "bike_id": "GLW_B0156",
+        "lat": 55.859007,
+        "lon": -4.26131,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 8051,
+        "last_reported": "2026-05-23T07:39:01.533698Z"
+      },
+      {
+        "bike_id": "GLW_B0157",
+        "lat": 55.827816,
+        "lon": -4.301164,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533705Z"
+      },
+      {
+        "bike_id": "GLW_B0158",
+        "lat": 55.860052,
+        "lon": -4.257468,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533712Z"
+      },
+      {
+        "bike_id": "GLW_B0159",
+        "lat": 55.880843,
+        "lon": -4.235529,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533718Z"
+      },
+      {
+        "bike_id": "GLW_B0160",
+        "lat": 55.879246,
+        "lon": -4.25195,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32017,
+        "last_reported": "2026-05-23T07:39:01.533726Z"
+      },
+      {
+        "bike_id": "GLW_B0161",
+        "lat": 55.872749,
+        "lon": -4.251622,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9452,
+        "last_reported": "2026-05-23T07:39:01.533733Z"
+      },
+      {
+        "bike_id": "GLW_B0162",
+        "lat": 55.860133,
+        "lon": -4.264037,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533739Z"
+      },
+      {
+        "bike_id": "GLW_B0163",
+        "lat": 55.870098,
+        "lon": -4.294489,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533746Z"
+      },
+      {
+        "bike_id": "GLW_B0164",
+        "lat": 55.86474,
+        "lon": -4.329236,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533752Z"
+      },
+      {
+        "bike_id": "GLW_B0165",
+        "lat": 55.86127,
+        "lon": -4.272212,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533787Z"
+      },
+      {
+        "bike_id": "GLW_B0166",
+        "lat": 55.870842,
+        "lon": -4.255801,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19697,
+        "last_reported": "2026-05-23T07:39:01.533799Z"
+      },
+      {
+        "bike_id": "GLW_B0167",
+        "lat": 55.856246,
+        "lon": -4.304512,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533806Z"
+      },
+      {
+        "bike_id": "GLW_B0168",
+        "lat": 55.879053,
+        "lon": -4.251877,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533813Z"
+      },
+      {
+        "bike_id": "GLW_B0169",
+        "lat": 55.855323,
+        "lon": -4.251437,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533819Z"
+      },
+      {
+        "bike_id": "GLW_B0170",
+        "lat": 55.860018,
+        "lon": -4.257426,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533825Z"
+      },
+      {
+        "bike_id": "GLW_B0171",
+        "lat": 55.870981,
+        "lon": -4.255674,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533832Z"
+      },
+      {
+        "bike_id": "GLW_B0172",
+        "lat": 55.890454,
+        "lon": -4.330151,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533838Z"
+      },
+      {
+        "bike_id": "GLW_B0173",
+        "lat": 55.860188,
+        "lon": -4.263758,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533845Z"
+      },
+      {
+        "bike_id": "GLW_B0174",
+        "lat": 55.872792,
+        "lon": -4.253989,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533852Z"
+      },
+      {
+        "bike_id": "GLW_B0175",
+        "lat": 55.858004,
+        "lon": -4.206217,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9020,
+        "last_reported": "2026-05-23T07:39:01.533859Z"
+      },
+      {
+        "bike_id": "GLW_B0176",
+        "lat": 55.854769,
+        "lon": -4.245802,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533865Z"
+      },
+      {
+        "bike_id": "GLW_B0177",
+        "lat": 55.861877,
+        "lon": -4.255417,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533872Z"
+      },
+      {
+        "bike_id": "GLW_B0178",
+        "lat": 55.863426,
+        "lon": -4.271023,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533878Z"
+      },
+      {
+        "bike_id": "GLW_B0179",
+        "lat": 55.871424,
+        "lon": -4.277794,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533885Z"
+      },
+      {
+        "bike_id": "GLW_B0180",
+        "lat": 55.861862,
+        "lon": -4.255283,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533919Z"
+      },
+      {
+        "bike_id": "GLW_B0181",
+        "lat": 55.835981,
+        "lon": -4.230786,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533931Z"
+      },
+      {
+        "bike_id": "GLW_B0182",
+        "lat": 55.827914,
+        "lon": -4.300856,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.533939Z"
+      },
+      {
+        "bike_id": "GLW_B0183",
+        "lat": 55.865846,
+        "lon": -4.24228,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 34558,
+        "last_reported": "2026-05-23T07:39:01.533947Z"
+      },
+      {
+        "bike_id": "GLW_B0184",
+        "lat": 55.883094,
+        "lon": -4.250711,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26022,
+        "last_reported": "2026-05-23T07:39:01.533983Z"
+      },
+      {
+        "bike_id": "GLW_B0185",
+        "lat": 55.84922,
+        "lon": -4.264818,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534015Z"
+      },
+      {
+        "bike_id": "GLW_B0186",
+        "lat": 55.856544,
+        "lon": -4.303361,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534024Z"
+      },
+      {
+        "bike_id": "GLW_B0187",
+        "lat": 55.861197,
+        "lon": -4.272221,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534031Z"
+      },
+      {
+        "bike_id": "GLW_B0188",
+        "lat": 55.865315,
+        "lon": -4.284378,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10825,
+        "last_reported": "2026-05-23T07:39:01.534089Z"
+      },
+      {
+        "bike_id": "GLW_B0189",
+        "lat": 55.871497,
+        "lon": -4.277015,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 33203,
+        "last_reported": "2026-05-23T07:39:01.534102Z"
+      },
+      {
+        "bike_id": "GLW_B0190",
+        "lat": 55.855328,
+        "lon": -4.261042,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534111Z"
+      },
+      {
+        "bike_id": "GLW_B0191",
+        "lat": 55.871031,
+        "lon": -4.232972,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534119Z"
+      },
+      {
+        "bike_id": "GLW_B0192",
+        "lat": 55.869309,
+        "lon": -4.308892,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534125Z"
+      },
+      {
+        "bike_id": "GLW_B0193",
+        "lat": 55.836546,
+        "lon": -4.231146,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534132Z"
+      },
+      {
+        "bike_id": "GLW_B0194",
+        "lat": 55.874897,
+        "lon": -4.264023,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534138Z"
+      },
+      {
+        "bike_id": "GLW_B0195",
+        "lat": 55.877485,
+        "lon": -4.282639,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534144Z"
+      },
+      {
+        "bike_id": "GLW_B0196",
+        "lat": 55.841899,
+        "lon": -4.265145,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534151Z"
+      },
+      {
+        "bike_id": "GLW_B0197",
+        "lat": 55.874831,
+        "lon": -4.264384,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534157Z"
+      },
+      {
+        "bike_id": "GLW_B0198",
+        "lat": 55.877134,
+        "lon": -4.28296,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 8929,
+        "last_reported": "2026-05-23T07:39:01.534165Z"
+      },
+      {
+        "bike_id": "GLW_B0199",
+        "lat": 55.873974,
+        "lon": -4.237765,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 33131,
+        "last_reported": "2026-05-23T07:39:01.534172Z"
+      },
+      {
+        "bike_id": "GLW_B0200",
+        "lat": 55.865313,
+        "lon": -4.284456,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534178Z"
+      },
+      {
+        "bike_id": "GLW_B0201",
+        "lat": 55.890461,
+        "lon": -4.33044,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534185Z"
+      },
+      {
+        "bike_id": "GLW_B0202",
+        "lat": 55.867379,
+        "lon": -4.300484,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534192Z"
+      },
+      {
+        "bike_id": "GLW_B0203",
+        "lat": 55.848765,
+        "lon": -4.231865,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534198Z"
+      },
+      {
+        "bike_id": "GLW_B0204",
+        "lat": 55.859874,
+        "lon": -4.288616,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534233Z"
+      },
+      {
+        "bike_id": "GLW_B0205",
+        "lat": 55.879191,
+        "lon": -4.251963,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534244Z"
+      },
+      {
+        "bike_id": "GLW_B0206",
+        "lat": 55.871383,
+        "lon": -4.232981,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534254Z"
+      },
+      {
+        "bike_id": "GLW_B0207",
+        "lat": 55.827468,
+        "lon": -4.301151,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534261Z"
+      },
+      {
+        "bike_id": "GLW_B0208",
+        "lat": 55.848522,
+        "lon": -4.271857,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24866,
+        "last_reported": "2026-05-23T07:39:01.534269Z"
+      },
+      {
+        "bike_id": "GLW_B0209",
+        "lat": 55.869788,
+        "lon": -4.294465,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534275Z"
+      },
+      {
+        "bike_id": "GLW_B0210",
+        "lat": 55.880908,
+        "lon": -4.235436,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17219,
+        "last_reported": "2026-05-23T07:39:01.534283Z"
+      },
+      {
+        "bike_id": "GLW_B0211",
+        "lat": 55.883699,
+        "lon": -4.318404,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 8267,
+        "last_reported": "2026-05-23T07:39:01.534317Z"
+      },
+      {
+        "bike_id": "GLW_B0212",
+        "lat": 55.865825,
+        "lon": -4.242277,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534330Z"
+      },
+      {
+        "bike_id": "GLW_B0213",
+        "lat": 55.867225,
+        "lon": -4.300339,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26128,
+        "last_reported": "2026-05-23T07:39:01.534341Z"
+      },
+      {
+        "bike_id": "GLW_B0214",
+        "lat": 55.890692,
+        "lon": -4.330274,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28422,
+        "last_reported": "2026-05-23T07:39:01.534349Z"
+      },
+      {
+        "bike_id": "GLW_B0215",
+        "lat": 55.882576,
+        "lon": -4.250654,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534356Z"
+      },
+      {
+        "bike_id": "GLW_B0216",
+        "lat": 55.854829,
+        "lon": -4.251466,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534363Z"
+      },
+      {
+        "bike_id": "GLW_B0217",
+        "lat": 55.867364,
+        "lon": -4.300528,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534369Z"
+      },
+      {
+        "bike_id": "GLW_B0218",
+        "lat": 55.848882,
+        "lon": -4.231925,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28089,
+        "last_reported": "2026-05-23T07:39:01.534377Z"
+      },
+      {
+        "bike_id": "GLW_B0219",
+        "lat": 55.860059,
+        "lon": -4.288095,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19022,
+        "last_reported": "2026-05-23T07:39:01.534384Z"
+      },
+      {
+        "bike_id": "GLW_B0220",
+        "lat": 55.881139,
+        "lon": -4.235691,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 34730,
+        "last_reported": "2026-05-23T07:39:01.534391Z"
+      },
+      {
+        "bike_id": "GLW_B0221",
+        "lat": 55.858975,
+        "lon": -4.260887,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534397Z"
+      },
+      {
+        "bike_id": "GLW_B0222",
+        "lat": 55.889222,
+        "lon": -4.226765,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 16700,
+        "last_reported": "2026-05-23T07:39:01.534405Z"
+      },
+      {
+        "bike_id": "GLW_B0223",
+        "lat": 55.859059,
+        "lon": -4.264443,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27120,
+        "last_reported": "2026-05-23T07:39:01.534441Z"
+      },
+      {
+        "bike_id": "GLW_B0224",
+        "lat": 55.84917,
+        "lon": -4.23156,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12842,
+        "last_reported": "2026-05-23T07:39:01.534453Z"
+      },
+      {
+        "bike_id": "GLW_B0225",
+        "lat": 55.870929,
+        "lon": -4.255786,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534460Z"
+      },
+      {
+        "bike_id": "GLW_B0226",
+        "lat": 55.859006,
+        "lon": -4.261045,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534467Z"
+      },
+      {
+        "bike_id": "GLW_B0227",
+        "lat": 55.881088,
+        "lon": -4.235901,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10040,
+        "last_reported": "2026-05-23T07:39:01.534474Z"
+      },
+      {
+        "bike_id": "GLW_B0228",
+        "lat": 55.864758,
+        "lon": -4.329044,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534481Z"
+      },
+      {
+        "bike_id": "GLW_B0229",
+        "lat": 55.859714,
+        "lon": -4.257162,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534488Z"
+      },
+      {
+        "bike_id": "GLW_B0230",
+        "lat": 55.84905,
+        "lon": -4.264679,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 30718,
+        "last_reported": "2026-05-23T07:39:01.534495Z"
+      },
+      {
+        "bike_id": "GLW_B0231",
+        "lat": 55.870125,
+        "lon": -4.238574,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534501Z"
+      },
+      {
+        "bike_id": "GLW_B0232",
+        "lat": 55.862183,
+        "lon": -4.251348,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 30617,
+        "last_reported": "2026-05-23T07:39:01.534508Z"
+      },
+      {
+        "bike_id": "GLW_B0233",
+        "lat": 55.864565,
+        "lon": -4.329084,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31647,
+        "last_reported": "2026-05-23T07:39:01.534516Z"
+      },
+      {
+        "bike_id": "GLW_B0234",
+        "lat": 55.841786,
+        "lon": -4.265034,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534523Z"
+      },
+      {
+        "bike_id": "GLW_B0235",
+        "lat": 55.867644,
+        "lon": -4.301075,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17425,
+        "last_reported": "2026-05-23T07:39:01.534530Z"
+      },
+      {
+        "bike_id": "GLW_B0236",
+        "lat": 55.864972,
+        "lon": -4.328955,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 15011,
+        "last_reported": "2026-05-23T07:39:01.534537Z"
+      },
+      {
+        "bike_id": "GLW_B0237",
+        "lat": 55.861224,
+        "lon": -4.272225,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11579,
+        "last_reported": "2026-05-23T07:39:01.534544Z"
+      },
+      {
+        "bike_id": "GLW_B0238",
+        "lat": 55.828047,
+        "lon": -4.301652,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534550Z"
+      },
+      {
+        "bike_id": "GLW_B0239",
+        "lat": 55.861746,
+        "lon": -4.251204,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534584Z"
+      },
+      {
+        "bike_id": "GLW_B0240",
+        "lat": 55.864462,
+        "lon": -4.22667,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534596Z"
+      },
+      {
+        "bike_id": "GLW_B0241",
+        "lat": 55.87472,
+        "lon": -4.264069,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 14535,
+        "last_reported": "2026-05-23T07:39:01.534631Z"
+      },
+      {
+        "bike_id": "GLW_B0242",
+        "lat": 55.866129,
+        "lon": -4.259786,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10931,
+        "last_reported": "2026-05-23T07:39:01.534644Z"
+      },
+      {
+        "bike_id": "GLW_B0243",
+        "lat": 55.858691,
+        "lon": -4.264144,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 13736,
+        "last_reported": "2026-05-23T07:39:01.534707Z"
+      },
+      {
+        "bike_id": "GLW_B0244",
+        "lat": 55.855358,
+        "lon": -4.261058,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534719Z"
+      },
+      {
+        "bike_id": "GLW_B0245",
+        "lat": 55.867421,
+        "lon": -4.300642,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17485,
+        "last_reported": "2026-05-23T07:39:01.534728Z"
+      },
+      {
+        "bike_id": "GLW_B0246",
+        "lat": 55.85852,
+        "lon": -4.24943,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 18978,
+        "last_reported": "2026-05-23T07:39:01.534735Z"
+      },
+      {
+        "bike_id": "GLW_B0247",
+        "lat": 55.890307,
+        "lon": -4.33029,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534742Z"
+      },
+      {
+        "bike_id": "GLW_B0248",
+        "lat": 55.862194,
+        "lon": -4.272387,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534749Z"
+      },
+      {
+        "bike_id": "GLW_B0249",
+        "lat": 55.874986,
+        "lon": -4.264508,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19046,
+        "last_reported": "2026-05-23T07:39:01.534756Z"
+      },
+      {
+        "bike_id": "GLW_B0250",
+        "lat": 55.888749,
+        "lon": -4.226146,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534762Z"
+      },
+      {
+        "bike_id": "GLW_B0251",
+        "lat": 55.85863,
+        "lon": -4.206668,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534769Z"
+      },
+      {
+        "bike_id": "GLW_B0252",
+        "lat": 55.873694,
+        "lon": -4.250842,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534775Z"
+      },
+      {
+        "bike_id": "GLW_B0253",
+        "lat": 55.849016,
+        "lon": -4.281029,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17894,
+        "last_reported": "2026-05-23T07:39:01.534783Z"
+      },
+      {
+        "bike_id": "GLW_B0254",
+        "lat": 55.884489,
+        "lon": -4.229559,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10035,
+        "last_reported": "2026-05-23T07:39:01.534790Z"
+      },
+      {
+        "bike_id": "GLW_B0255",
+        "lat": 55.873283,
+        "lon": -4.251085,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534797Z"
+      },
+      {
+        "bike_id": "GLW_B0256",
+        "lat": 55.877811,
+        "lon": -4.282951,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17667,
+        "last_reported": "2026-05-23T07:39:01.534804Z"
+      },
+      {
+        "bike_id": "GLW_B0257",
+        "lat": 55.87916,
+        "lon": -4.252034,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534811Z"
+      },
+      {
+        "bike_id": "GLW_B0258",
+        "lat": 55.875851,
+        "lon": -4.237157,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32816,
+        "last_reported": "2026-05-23T07:39:01.534818Z"
+      },
+      {
+        "bike_id": "GLW_B0259",
+        "lat": 55.849368,
+        "lon": -4.265282,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27523,
+        "last_reported": "2026-05-23T07:39:01.534825Z"
+      },
+      {
+        "bike_id": "GLW_B0260",
+        "lat": 55.856219,
+        "lon": -4.304305,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534832Z"
+      },
+      {
+        "bike_id": "GLW_B0261",
+        "lat": 55.836111,
+        "lon": -4.230733,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534838Z"
+      },
+      {
+        "bike_id": "GLW_B0262",
+        "lat": 55.865426,
+        "lon": -4.284559,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 30291,
+        "last_reported": "2026-05-23T07:39:01.534876Z"
+      },
+      {
+        "bike_id": "GLW_B0263",
+        "lat": 55.857892,
+        "lon": -4.255876,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9823,
+        "last_reported": "2026-05-23T07:39:01.534889Z"
+      },
+      {
+        "bike_id": "GLW_B0264",
+        "lat": 55.870021,
+        "lon": -4.294345,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 30045,
+        "last_reported": "2026-05-23T07:39:01.534898Z"
+      },
+      {
+        "bike_id": "GLW_B0265",
+        "lat": 55.862694,
+        "lon": -4.271196,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534907Z"
+      },
+      {
+        "bike_id": "GLW_B0266",
+        "lat": 55.857926,
+        "lon": -4.255617,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.534914Z"
+      },
+      {
+        "bike_id": "GLW_B0267",
+        "lat": 55.864845,
+        "lon": -4.275037,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.538974Z"
+      },
+      {
+        "bike_id": "GLW_B0268",
+        "lat": 55.855336,
+        "lon": -4.260984,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21774,
+        "last_reported": "2026-05-23T07:39:01.539012Z"
+      },
+      {
+        "bike_id": "GLW_B0269",
+        "lat": 55.879446,
+        "lon": -4.251967,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 20309,
+        "last_reported": "2026-05-23T07:39:01.539026Z"
+      },
+      {
+        "bike_id": "GLW_B0270",
+        "lat": 55.873622,
+        "lon": -4.238076,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539035Z"
+      },
+      {
+        "bike_id": "GLW_B0271",
+        "lat": 55.861031,
+        "lon": -4.263499,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539042Z"
+      },
+      {
+        "bike_id": "GLW_B0272",
+        "lat": 55.861939,
+        "lon": -4.251485,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539049Z"
+      },
+      {
+        "bike_id": "GLW_B0273",
+        "lat": 55.861024,
+        "lon": -4.345874,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19342,
+        "last_reported": "2026-05-23T07:39:01.539057Z"
+      },
+      {
+        "bike_id": "GLW_B0274",
+        "lat": 55.854573,
+        "lon": -4.24527,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 34524,
+        "last_reported": "2026-05-23T07:39:01.539064Z"
+      },
+      {
+        "bike_id": "GLW_B0275",
+        "lat": 55.872654,
+        "lon": -4.250969,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 14752,
+        "last_reported": "2026-05-23T07:39:01.539102Z"
+      },
+      {
+        "bike_id": "GLW_B0276",
+        "lat": 55.871758,
+        "lon": -4.277623,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 9595,
+        "last_reported": "2026-05-23T07:39:01.539115Z"
+      },
+      {
+        "bike_id": "GLW_B0277",
+        "lat": 55.861843,
+        "lon": -4.255433,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539125Z"
+      },
+      {
+        "bike_id": "GLW_B0278",
+        "lat": 55.856158,
+        "lon": -4.304077,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539133Z"
+      },
+      {
+        "bike_id": "GLW_B0279",
+        "lat": 55.836125,
+        "lon": -4.230939,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 18507,
+        "last_reported": "2026-05-23T07:39:01.539141Z"
+      },
+      {
+        "bike_id": "GLW_B0280",
+        "lat": 55.861835,
+        "lon": -4.25523,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17846,
+        "last_reported": "2026-05-23T07:39:01.539149Z"
+      },
+      {
+        "bike_id": "GLW_B0281",
+        "lat": 55.842115,
+        "lon": -4.2651,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 28512,
+        "last_reported": "2026-05-23T07:39:01.539157Z"
+      },
+      {
+        "bike_id": "GLW_B0282",
+        "lat": 55.882408,
+        "lon": -4.250508,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539191Z"
+      },
+      {
+        "bike_id": "GLW_B0283",
+        "lat": 55.872854,
+        "lon": -4.250981,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17826,
+        "last_reported": "2026-05-23T07:39:01.539203Z"
+      },
+      {
+        "bike_id": "GLW_B0284",
+        "lat": 55.872566,
+        "lon": -4.259595,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539213Z"
+      },
+      {
+        "bike_id": "GLW_B0285",
+        "lat": 55.865694,
+        "lon": -4.242634,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539220Z"
+      },
+      {
+        "bike_id": "GLW_B0286",
+        "lat": 55.85528,
+        "lon": -4.261036,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539227Z"
+      },
+      {
+        "bike_id": "GLW_B0287",
+        "lat": 55.859195,
+        "lon": -4.263881,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539234Z"
+      },
+      {
+        "bike_id": "GLW_B0288",
+        "lat": 55.864127,
+        "lon": -4.239392,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10384,
+        "last_reported": "2026-05-23T07:39:01.539242Z"
+      },
+      {
+        "bike_id": "GLW_B0289",
+        "lat": 55.861253,
+        "lon": -4.272355,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 14844,
+        "last_reported": "2026-05-23T07:39:01.539249Z"
+      },
+      {
+        "bike_id": "GLW_B0290",
+        "lat": 55.856299,
+        "lon": -4.304094,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539281Z"
+      },
+      {
+        "bike_id": "GLW_B0291",
+        "lat": 55.861218,
+        "lon": -4.272137,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539293Z"
+      },
+      {
+        "bike_id": "GLW_B0292",
+        "lat": 55.861763,
+        "lon": -4.255532,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539327Z"
+      },
+      {
+        "bike_id": "GLW_B0293",
+        "lat": 55.859919,
+        "lon": -4.288469,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539339Z"
+      },
+      {
+        "bike_id": "GLW_B0294",
+        "lat": 55.869957,
+        "lon": -4.238248,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539347Z"
+      },
+      {
+        "bike_id": "GLW_B0295",
+        "lat": 55.86083,
+        "lon": -4.345684,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539354Z"
+      },
+      {
+        "bike_id": "GLW_B0296",
+        "lat": 55.855572,
+        "lon": -4.260947,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26130,
+        "last_reported": "2026-05-23T07:39:01.539362Z"
+      },
+      {
+        "bike_id": "GLW_B0297",
+        "lat": 55.848316,
+        "lon": -4.271986,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539369Z"
+      },
+      {
+        "bike_id": "GLW_B0298",
+        "lat": 55.861483,
+        "lon": -4.250924,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539376Z"
+      },
+      {
+        "bike_id": "GLW_B0299",
+        "lat": 55.88243,
+        "lon": -4.250297,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539382Z"
+      },
+      {
+        "bike_id": "GLW_B0300",
+        "lat": 55.875476,
+        "lon": -4.237132,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31603,
+        "last_reported": "2026-05-23T07:39:01.539389Z"
+      },
+      {
+        "bike_id": "GLW_B0301",
+        "lat": 55.848858,
+        "lon": -4.264915,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539424Z"
+      },
+      {
+        "bike_id": "GLW_B0302",
+        "lat": 55.86421,
+        "lon": -4.275107,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539436Z"
+      },
+      {
+        "bike_id": "GLW_B0303",
+        "lat": 55.864826,
+        "lon": -4.275309,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31172,
+        "last_reported": "2026-05-23T07:39:01.539446Z"
+      },
+      {
+        "bike_id": "GLW_B0304",
+        "lat": 55.854809,
+        "lon": -4.245593,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539453Z"
+      },
+      {
+        "bike_id": "GLW_B0305",
+        "lat": 55.873711,
+        "lon": -4.25149,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 25439,
+        "last_reported": "2026-05-23T07:39:01.539461Z"
+      },
+      {
+        "bike_id": "GLW_B0306",
+        "lat": 55.869383,
+        "lon": -4.308785,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 17394,
+        "last_reported": "2026-05-23T07:39:01.539468Z"
+      },
+      {
+        "bike_id": "GLW_B0307",
+        "lat": 55.858864,
+        "lon": -4.261119,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539502Z"
+      },
+      {
+        "bike_id": "GLW_B0308",
+        "lat": 55.860653,
+        "lon": -4.237715,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539514Z"
+      },
+      {
+        "bike_id": "GLW_B0309",
+        "lat": 55.86002,
+        "lon": -4.257303,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21304,
+        "last_reported": "2026-05-23T07:39:01.539524Z"
+      },
+      {
+        "bike_id": "GLW_B0310",
+        "lat": 55.86955,
+        "lon": -4.294622,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539532Z"
+      },
+      {
+        "bike_id": "GLW_B0311",
+        "lat": 55.866141,
+        "lon": -4.242113,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21280,
+        "last_reported": "2026-05-23T07:39:01.539540Z"
+      },
+      {
+        "bike_id": "GLW_B0312",
+        "lat": 55.872178,
+        "lon": -4.259706,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 10709,
+        "last_reported": "2026-05-23T07:39:01.539547Z"
+      },
+      {
+        "bike_id": "GLW_B0313",
+        "lat": 55.884192,
+        "lon": -4.318427,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539554Z"
+      },
+      {
+        "bike_id": "GLW_B0314",
+        "lat": 55.864963,
+        "lon": -4.226951,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539561Z"
+      },
+      {
+        "bike_id": "GLW_B0315",
+        "lat": 55.85701,
+        "lon": -4.303204,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539567Z"
+      },
+      {
+        "bike_id": "GLW_B0316",
+        "lat": 55.848625,
+        "lon": -4.271453,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 18305,
+        "last_reported": "2026-05-23T07:39:01.539574Z"
+      },
+      {
+        "bike_id": "GLW_B0317",
+        "lat": 55.859447,
+        "lon": -4.26118,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21051,
+        "last_reported": "2026-05-23T07:39:01.539582Z"
+      },
+      {
+        "bike_id": "GLW_B0318",
+        "lat": 55.848772,
+        "lon": -4.271725,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539588Z"
+      },
+      {
+        "bike_id": "GLW_B0319",
+        "lat": 55.872249,
+        "lon": -4.260272,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539596Z"
+      },
+      {
+        "bike_id": "GLW_B0320",
+        "lat": 55.889233,
+        "lon": -4.226518,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539602Z"
+      },
+      {
+        "bike_id": "GLW_B0321",
+        "lat": 55.864935,
+        "lon": -4.274922,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539637Z"
+      },
+      {
+        "bike_id": "GLW_B0322",
+        "lat": 55.828325,
+        "lon": -4.301562,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 16956,
+        "last_reported": "2026-05-23T07:39:01.539649Z"
+      },
+      {
+        "bike_id": "GLW_B0323",
+        "lat": 55.889109,
+        "lon": -4.226502,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539657Z"
+      },
+      {
+        "bike_id": "GLW_B0324",
+        "lat": 55.872971,
+        "lon": -4.254191,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539663Z"
+      },
+      {
+        "bike_id": "GLW_B0325",
+        "lat": 55.890605,
+        "lon": -4.3306,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539670Z"
+      },
+      {
+        "bike_id": "GLW_B0326",
+        "lat": 55.864726,
+        "lon": -4.329142,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539677Z"
+      },
+      {
+        "bike_id": "GLW_B0327",
+        "lat": 55.873852,
+        "lon": -4.237833,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539683Z"
+      },
+      {
+        "bike_id": "GLW_B0328",
+        "lat": 55.862245,
+        "lon": -4.272045,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11384,
+        "last_reported": "2026-05-23T07:39:01.539691Z"
+      },
+      {
+        "bike_id": "GLW_B0329",
+        "lat": 55.8594,
+        "lon": -4.260979,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 20623,
+        "last_reported": "2026-05-23T07:39:01.539704Z"
+      },
+      {
+        "bike_id": "GLW_B0330",
+        "lat": 55.848983,
+        "lon": -4.280975,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539711Z"
+      },
+      {
+        "bike_id": "GLW_B0331",
+        "lat": 55.877625,
+        "lon": -4.282687,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539717Z"
+      },
+      {
+        "bike_id": "GLW_B0332",
+        "lat": 55.875088,
+        "lon": -4.264177,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539724Z"
+      },
+      {
+        "bike_id": "GLW_B0333",
+        "lat": 55.87284,
+        "lon": -4.254304,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 16080,
+        "last_reported": "2026-05-23T07:39:01.539731Z"
+      },
+      {
+        "bike_id": "GLW_B0334",
+        "lat": 55.861081,
+        "lon": -4.346044,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539738Z"
+      },
+      {
+        "bike_id": "GLW_B0335",
+        "lat": 55.850846,
+        "lon": -4.256765,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 18798,
+        "last_reported": "2026-05-23T07:39:01.539745Z"
+      },
+      {
+        "bike_id": "GLW_B0336",
+        "lat": 55.871095,
+        "lon": -4.232561,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12460,
+        "last_reported": "2026-05-23T07:39:01.539752Z"
+      },
+      {
+        "bike_id": "GLW_B0337",
+        "lat": 55.850535,
+        "lon": -4.256441,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539759Z"
+      },
+      {
+        "bike_id": "GLW_B0338",
+        "lat": 55.867573,
+        "lon": -4.300564,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 26870,
+        "last_reported": "2026-05-23T07:39:01.539766Z"
+      },
+      {
+        "bike_id": "GLW_B0339",
+        "lat": 55.888859,
+        "lon": -4.22629,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11731,
+        "last_reported": "2026-05-23T07:39:01.539800Z"
+      },
+      {
+        "bike_id": "GLW_B0340",
+        "lat": 55.848362,
+        "lon": -4.271908,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539835Z"
+      },
+      {
+        "bike_id": "GLW_B0341",
+        "lat": 55.86991,
+        "lon": -4.308703,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539846Z"
+      },
+      {
+        "bike_id": "GLW_B0342",
+        "lat": 55.862584,
+        "lon": -4.270775,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21406,
+        "last_reported": "2026-05-23T07:39:01.539881Z"
+      },
+      {
+        "bike_id": "GLW_B0343",
+        "lat": 55.882316,
+        "lon": -4.250613,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539892Z"
+      },
+      {
+        "bike_id": "GLW_B0344",
+        "lat": 55.864611,
+        "lon": -4.329039,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539900Z"
+      },
+      {
+        "bike_id": "GLW_B0345",
+        "lat": 55.884345,
+        "lon": -4.229451,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539931Z"
+      },
+      {
+        "bike_id": "GLW_B0346",
+        "lat": 55.849661,
+        "lon": -4.264848,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27458,
+        "last_reported": "2026-05-23T07:39:01.539945Z"
+      },
+      {
+        "bike_id": "GLW_B0347",
+        "lat": 55.858304,
+        "lon": -4.206413,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539954Z"
+      },
+      {
+        "bike_id": "GLW_B0348",
+        "lat": 55.875005,
+        "lon": -4.264277,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.539962Z"
+      },
+      {
+        "bike_id": "GLW_B0349",
+        "lat": 55.867598,
+        "lon": -4.300571,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11231,
+        "last_reported": "2026-05-23T07:39:01.539969Z"
+      },
+      {
+        "bike_id": "GLW_B0350",
+        "lat": 55.870238,
+        "lon": -4.238226,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 15242,
+        "last_reported": "2026-05-23T07:39:01.539977Z"
+      },
+      {
+        "bike_id": "GLW_B0351",
+        "lat": 55.871156,
+        "lon": -4.23282,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 12939,
+        "last_reported": "2026-05-23T07:39:01.539984Z"
+      },
+      {
+        "bike_id": "GLW_B0352",
+        "lat": 55.860884,
+        "lon": -4.263903,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540016Z"
+      },
+      {
+        "bike_id": "GLW_B0353",
+        "lat": 55.874008,
+        "lon": -4.237589,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540027Z"
+      },
+      {
+        "bike_id": "GLW_B0354",
+        "lat": 55.869954,
+        "lon": -4.294668,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540037Z"
+      },
+      {
+        "bike_id": "GLW_B0355",
+        "lat": 55.861277,
+        "lon": -4.34597,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540044Z"
+      },
+      {
+        "bike_id": "GLW_B0356",
+        "lat": 55.861483,
+        "lon": -4.251761,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540051Z"
+      },
+      {
+        "bike_id": "GLW_B0357",
+        "lat": 55.84883,
+        "lon": -4.271785,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540057Z"
+      },
+      {
+        "bike_id": "GLW_B0358",
+        "lat": 55.869095,
+        "lon": -4.308642,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 14107,
+        "last_reported": "2026-05-23T07:39:01.540065Z"
+      },
+      {
+        "bike_id": "GLW_B0359",
+        "lat": 55.858125,
+        "lon": -4.206571,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 22731,
+        "last_reported": "2026-05-23T07:39:01.540073Z"
+      },
+      {
+        "bike_id": "GLW_B0360",
+        "lat": 55.884489,
+        "lon": -4.229554,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540107Z"
+      },
+      {
+        "bike_id": "GLW_B0361",
+        "lat": 55.864723,
+        "lon": -4.329112,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540118Z"
+      },
+      {
+        "bike_id": "GLW_B0362",
+        "lat": 55.860562,
+        "lon": -4.237676,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540127Z"
+      },
+      {
+        "bike_id": "GLW_B0363",
+        "lat": 55.883727,
+        "lon": -4.318229,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 27234,
+        "last_reported": "2026-05-23T07:39:01.540136Z"
+      },
+      {
+        "bike_id": "GLW_B0364",
+        "lat": 55.86102,
+        "lon": -4.251402,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31133,
+        "last_reported": "2026-05-23T07:39:01.540144Z"
+      },
+      {
+        "bike_id": "GLW_B0365",
+        "lat": 55.862582,
+        "lon": -4.270828,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540151Z"
+      },
+      {
+        "bike_id": "GLW_B0366",
+        "lat": 55.861298,
+        "lon": -4.251723,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540158Z"
+      },
+      {
+        "bike_id": "GLW_B0367",
+        "lat": 55.872332,
+        "lon": -4.259889,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540164Z"
+      },
+      {
+        "bike_id": "GLW_B0368",
+        "lat": 55.857735,
+        "lon": -4.206504,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "cargo_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540171Z"
+      },
+      {
+        "bike_id": "GLW_B0369",
+        "lat": 55.874962,
+        "lon": -4.264261,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540177Z"
+      },
+      {
+        "bike_id": "GLW_B0370",
+        "lat": 55.86525,
+        "lon": -4.275524,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540184Z"
+      },
+      {
+        "bike_id": "GLW_B0371",
+        "lat": 55.872757,
+        "lon": -4.260015,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540217Z"
+      },
+      {
+        "bike_id": "GLW_B0372",
+        "lat": 55.855284,
+        "lon": -4.261154,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540229Z"
+      },
+      {
+        "bike_id": "GLW_B0373",
+        "lat": 55.88886,
+        "lon": -4.226645,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540238Z"
+      },
+      {
+        "bike_id": "GLW_B0374",
+        "lat": 55.875056,
+        "lon": -4.264474,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24738,
+        "last_reported": "2026-05-23T07:39:01.540247Z"
+      },
+      {
+        "bike_id": "GLW_B0375",
+        "lat": 55.861159,
+        "lon": -4.251854,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540254Z"
+      },
+      {
+        "bike_id": "GLW_B0376",
+        "lat": 55.849261,
+        "lon": -4.26496,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21931,
+        "last_reported": "2026-05-23T07:39:01.540261Z"
+      },
+      {
+        "bike_id": "GLW_B0377",
+        "lat": 55.864462,
+        "lon": -4.227006,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540268Z"
+      },
+      {
+        "bike_id": "GLW_B0378",
+        "lat": 55.861752,
+        "lon": -4.256807,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 11846,
+        "last_reported": "2026-05-23T07:39:01.540275Z"
+      },
+      {
+        "bike_id": "GLW_B0379",
+        "lat": 55.862947,
+        "lon": -4.263401,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 31289,
+        "last_reported": "2026-05-23T07:39:01.540312Z"
+      },
+      {
+        "bike_id": "GLW_B0380",
+        "lat": 55.827979,
+        "lon": -4.30157,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540323Z"
+      },
+      {
+        "bike_id": "GLW_B0381",
+        "lat": 55.858059,
+        "lon": -4.255909,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540331Z"
+      },
+      {
+        "bike_id": "GLW_B0382",
+        "lat": 55.874896,
+        "lon": -4.264026,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540337Z"
+      },
+      {
+        "bike_id": "GLW_B0383",
+        "lat": 55.86541,
+        "lon": -4.242346,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32579,
+        "last_reported": "2026-05-23T07:39:01.540345Z"
+      },
+      {
+        "bike_id": "GLW_B0384",
+        "lat": 55.888822,
+        "lon": -4.226473,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540351Z"
+      },
+      {
+        "bike_id": "GLW_B0385",
+        "lat": 55.856906,
+        "lon": -4.303139,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 32951,
+        "last_reported": "2026-05-23T07:39:01.540359Z"
+      },
+      {
+        "bike_id": "GLW_B0386",
+        "lat": 55.86399,
+        "lon": -4.239689,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 21573,
+        "last_reported": "2026-05-23T07:39:01.540367Z"
+      },
+      {
+        "bike_id": "GLW_B0387",
+        "lat": 55.871995,
+        "lon": -4.259805,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 24895,
+        "last_reported": "2026-05-23T07:39:01.540374Z"
+      },
+      {
+        "bike_id": "GLW_B0388",
+        "lat": 55.875477,
+        "lon": -4.2365,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540380Z"
+      },
+      {
+        "bike_id": "GLW_B0389",
+        "lat": 55.859668,
+        "lon": -4.288485,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 23022,
+        "last_reported": "2026-05-23T07:39:01.540388Z"
+      },
+      {
+        "bike_id": "GLW_B0390",
+        "lat": 55.858144,
+        "lon": -4.206558,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540394Z"
+      },
+      {
+        "bike_id": "GLW_B0391",
+        "lat": 55.858408,
+        "lon": -4.255698,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540401Z"
+      },
+      {
+        "bike_id": "GLW_B0392",
+        "lat": 55.89042,
+        "lon": -4.330178,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "ebike_v2",
+        "current_range_meters": 19263,
+        "last_reported": "2026-05-23T07:39:01.540434Z"
+      },
+      {
+        "bike_id": "GLW_B0393",
+        "lat": 55.877483,
+        "lon": -4.282705,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540447Z"
+      },
+      {
+        "bike_id": "GLW_B0394",
+        "lat": 55.870276,
+        "lon": -4.294428,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540457Z"
+      },
+      {
+        "bike_id": "GLW_B0395",
+        "lat": 55.872958,
+        "lon": -4.254135,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540465Z"
+      },
+      {
+        "bike_id": "GLW_B0396",
+        "lat": 55.875249,
+        "lon": -4.264499,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540471Z"
+      },
+      {
+        "bike_id": "GLW_B0397",
+        "lat": 55.873482,
+        "lon": -4.237579,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540478Z"
+      },
+      {
+        "bike_id": "GLW_B0398",
+        "lat": 55.850649,
+        "lon": -4.257061,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540485Z"
+      },
+      {
+        "bike_id": "GLW_B0399",
+        "lat": 55.864804,
+        "lon": -4.226588,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540519Z"
+      },
+      {
+        "bike_id": "GLW_B0400",
+        "lat": 55.88262,
+        "lon": -4.250613,
+        "is_reserved": false,
+        "is_disabled": false,
+        "vehicle_type_id": "standard_v1",
+        "current_range_meters": null,
+        "last_reported": "2026-05-23T07:39:01.540553Z"
+      }
+    ]
+  }
+}

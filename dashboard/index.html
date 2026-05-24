@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bike Parking Buddy — Developer Dashboard</title>
+  <meta name="description" content="Real-time zone occupancy monitoring, ML prediction testing, and HNSW vector search explorer for Bike Parking Buddy." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ──────────────────────────────── SIDEBAR ──────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon" aria-hidden="true">🚲</div>
+      <div>
+        <div class="brand-name">Parking Buddy</div>
+        <div class="brand-tag">Developer Dashboard</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+      <a href="#" class="nav-item active" id="nav-overview" data-panel="overview">
+        <span class="nav-icon">📊</span> Overview
+      </a>
+      <a href="#" class="nav-item" id="nav-predict" data-panel="predict">
+        <span class="nav-icon">🧠</span> Prediction Lab
+      </a>
+      <a href="#" class="nav-item" id="nav-zones" data-panel="zones">
+        <span class="nav-icon">🗺️</span> Zone Explorer
+      </a>
+      <a href="#" class="nav-item" id="nav-hnsw" data-panel="hnsw">
+        <span class="nav-icon">🔮</span> HNSW Search
+      </a>
+      <a href="#" class="nav-item" id="nav-slm" data-panel="slm">
+        <span class="nav-icon">💬</span> SLM Tools
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="api-status" id="api-status">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-label">Checking API…</span>
+      </div>
+      <div class="version-badge">v0.1.0 — stub mode</div>
+    </div>
+  </aside>
+
+  <!-- ──────────────────────────────── MAIN ─────────────────────────────── -->
+  <main class="main" id="main">
+
+    <!-- ── TOP BAR ──────────────────────────────────────────────────────── -->
+    <header class="topbar">
+      <h1 class="topbar-title" id="panel-title">Overview</h1>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary" id="btn-refresh" title="Refresh data">↺ Refresh</button>
+        <a class="btn btn-primary" href="http://localhost:8000/docs" target="_blank" rel="noopener">API Docs ↗</a>
+      </div>
+    </header>
+
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <!-- PANEL: Overview                                                      -->
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <section class="panel active" id="panel-overview">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card" id="kpi-zones">
+          <div class="kpi-icon">🏢</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpi-zones-val">—</div>
+            <div class="kpi-label">Active Zones</div>
+          </div>
+        </div>
+        <div class="kpi-card highlight" id="kpi-acc">
+          <div class="kpi-icon">🎯</div>
+          <div class="kpi-body">
+            <div class="kpi-value">78%<span class="kpi-target">target</span></div>
+            <div class="kpi-label">Prediction Accuracy</div>
+          </div>
+        </div>
+        <div class="kpi-card" id="kpi-latency">
+          <div class="kpi-icon">⚡</div>
+          <div class="kpi-body">
+            <div class="kpi-value" id="kpi-latency-val">—ms</div>
+            <div class="kpi-label">Avg API Latency</div>
+          </div>
+        </div>
+        <div class="kpi-card" id="kpi-saved">
+          <div class="kpi-icon">⏱️</div>
+          <div class="kpi-body">
+            <div class="kpi-value">30%<span class="kpi-target">target</span></div>
+            <div class="kpi-label">Wasted Mins Saved</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone occupancy list + mini map -->
+      <div class="overview-grid">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Live Zone Occupancy</h2>
+            <span class="badge badge-live">● LIVE</span>
+          </div>
+          <div class="zone-list" id="overview-zone-list">
+            <div class="zone-skeleton"></div>
+            <div class="zone-skeleton"></div>
+            <div class="zone-skeleton"></div>
+          </div>
+        </div>
+
+        <div class="card map-card">
+          <div class="card-header">
+            <h2 class="card-title">Zone Map</h2>
+          </div>
+          <div id="overview-map" class="map-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <!-- PANEL: Prediction Lab                                                -->
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <section class="panel" id="panel-predict">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">🧪 Test Prediction Endpoint</h2>
+          </div>
+          <form class="predict-form" id="predict-form">
+            <div class="form-group">
+              <label for="p-zone-id">Zone ID</label>
+              <select id="p-zone-id" class="form-control">
+                <option value="zone-001">zone-001 — City Centre Hub</option>
+                <option value="zone-002">zone-002 — Riverside Park</option>
+                <option value="zone-003">zone-003 — Tech Campus North</option>
+                <option value="zone-004">zone-004 — Market Street Station</option>
+                <option value="zone-005">zone-005 — Eastern Residential</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="p-lookahead">Lookahead (minutes)</label>
+              <div class="range-row">
+                <input type="range" id="p-lookahead" min="10" max="120" step="10" value="30" class="form-range" />
+                <span class="range-val" id="p-lookahead-val">30 min</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="p-timestamp">Timestamp</label>
+              <input type="datetime-local" id="p-timestamp" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="btn-predict">
+              Run Prediction →
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📈 Prediction Result</h2>
+          </div>
+          <div class="predict-result" id="predict-result">
+            <div class="result-empty">Run a prediction to see results</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <!-- PANEL: Zone Explorer                                                 -->
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <section class="panel" id="panel-zones">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Zone Directory</h2>
+          <input type="search" id="zone-search" class="form-control search-input" placeholder="Search zones…" />
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="zones-table">
+            <thead>
+              <tr>
+                <th>Zone ID</th>
+                <th>Name</th>
+                <th>Venue Type</th>
+                <th>Transit Score</th>
+                <th>Occupancy %</th>
+                <th>Lat / Lon</th>
+              </tr>
+            </thead>
+            <tbody id="zones-tbody">
+              <tr><td colspan="6" class="loading-cell">Loading zones…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <!-- PANEL: HNSW Search                                                   -->
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <section class="panel" id="panel-hnsw">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">🔮 Zone Semantic Search</h2>
+            <span class="badge">PRD §5.2</span>
+          </div>
+          <form class="predict-form" id="hnsw-form">
+            <div class="form-group">
+              <label for="h-zone-id">Source Zone</label>
+              <select id="h-zone-id" class="form-control">
+                <option value="zone-001">zone-001 — City Centre Hub</option>
+                <option value="zone-002">zone-002 — Riverside Park</option>
+                <option value="zone-003">zone-003 — Tech Campus North</option>
+                <option value="zone-004">zone-004 — Market Street Station</option>
+                <option value="zone-005">zone-005 — Eastern Residential</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="h-k">k neighbours</label>
+              <div class="range-row">
+                <input type="range" id="h-k" min="1" max="10" step="1" value="3" class="form-range" />
+                <span class="range-val" id="h-k-val">3</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="h-venue-type">Venue Type Filter</label>
+              <select id="h-venue-type" class="form-control">
+                <option value="">Any</option>
+                <option value="transit_hub">Transit Hub</option>
+                <option value="park">Park</option>
+                <option value="office">Office</option>
+                <option value="residential">Residential</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="btn-hnsw">
+              Search Similar Zones →
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Search Results</h2>
+            <span class="hint-text">Target: &lt;10ms per query</span>
+          </div>
+          <div id="hnsw-results">
+            <div class="result-empty">Run a search to see similar zones</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HNSW Index Status -->
+      <div class="card index-status-card">
+        <div class="card-header">
+          <h2 class="card-title">📦 HNSW Index Status</h2>
+        </div>
+        <div class="index-grid">
+          <div class="index-stat">
+            <div class="index-label">Zone Index (256-D)</div>
+            <div class="index-val stub-badge">STUB</div>
+            <div class="index-note">M=16, ef_construction=200 · ~50MB per city</div>
+          </div>
+          <div class="index-stat">
+            <div class="index-label">Context Index (128-D)</div>
+            <div class="index-val stub-badge">STUB</div>
+            <div class="index-note">Historical day-context + intent embeddings</div>
+          </div>
+          <div class="index-stat">
+            <div class="index-label">Last Nightly Sync</div>
+            <div class="index-val" id="last-sync">Never</div>
+            <div class="index-note">Pushed to S3 + staged mobile rollout</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <!-- PANEL: SLM Tools                                                     -->
+    <!-- ─────────────────────────────────────────────────────────────────── -->
+    <section class="panel" id="panel-slm">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">💬 SLM Tool Call Tester</h2>
+          <span class="badge">PRD §8</span>
+        </div>
+        <p class="card-desc">
+          Test the three SLM tool-call implementations. In production these are
+          invoked by the on-device <code>Qwen2.5-0.5B</code> / <code>Phi-3.5-mini</code> via function_calling.
+        </p>
+
+        <div class="tool-tabs">
+          <button class="tool-tab active" data-tool="zone_semantic_search" id="tab-search">zone_semantic_search</button>
+          <button class="tool-tab" data-tool="get_zone_forecast" id="tab-forecast">get_zone_forecast</button>
+          <button class="tool-tab" data-tool="log_outcome" id="tab-outcome">log_outcome</button>
+        </div>
+
+        <div class="tool-pane active" id="pane-zone_semantic_search">
+          <div class="two-col">
+            <div>
+              <div class="form-group">
+                <label for="slm-search-zone">current_zone_id</label>
+                <input type="text" id="slm-search-zone" class="form-control" value="zone-001" />
+              </div>
+              <div class="form-group">
+                <label for="slm-search-k">k</label>
+                <input type="number" id="slm-search-k" class="form-control" value="3" min="1" max="20" />
+              </div>
+              <button class="btn btn-primary" id="btn-slm-search">Call Tool →</button>
+            </div>
+            <div>
+              <div class="label-sm">Request payload</div>
+              <pre class="code-block" id="slm-search-req">{}</pre>
+            </div>
+          </div>
+          <div class="label-sm mt-1">Response</div>
+          <pre class="code-block" id="slm-search-resp">—</pre>
+        </div>
+
+        <div class="tool-pane" id="pane-get_zone_forecast">
+          <div class="two-col">
+            <div>
+              <div class="form-group">
+                <label for="slm-fc-zone">zone_id</label>
+                <input type="text" id="slm-fc-zone" class="form-control" value="zone-001" />
+              </div>
+              <div class="form-group">
+                <label for="slm-fc-horizon">time_horizon_mins</label>
+                <input type="number" id="slm-fc-horizon" class="form-control" value="30" min="10" max="120" />
+              </div>
+              <button class="btn btn-primary" id="btn-slm-forecast">Call Tool →</button>
+            </div>
+            <div>
+              <div class="label-sm">Request payload</div>
+              <pre class="code-block" id="slm-fc-req">{}</pre>
+            </div>
+          </div>
+          <div class="label-sm mt-1">Response</div>
+          <pre class="code-block" id="slm-fc-resp">—</pre>
+        </div>
+
+        <div class="tool-pane" id="pane-log_outcome">
+          <div class="two-col">
+            <div>
+              <div class="form-group">
+                <label for="slm-lo-zone">zone_id</label>
+                <input type="text" id="slm-lo-zone" class="form-control" value="zone-001" />
+              </div>
+              <div class="form-group">
+                <label for="slm-lo-avail">actual_availability (0–1)</label>
+                <input type="number" id="slm-lo-avail" class="form-control" value="0.3" min="0" max="1" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label for="slm-lo-sat">rider_satisfaction (1–5)</label>
+                <input type="number" id="slm-lo-sat" class="form-control" value="4" min="1" max="5" />
+              </div>
+              <button class="btn btn-primary" id="btn-slm-outcome">Call Tool →</button>
+            </div>
+            <div>
+              <div class="label-sm">Request payload</div>
+              <pre class="code-block" id="slm-lo-req">{}</pre>
+            </div>
+          </div>
+          <div class="label-sm mt-1">Response</div>
+          <pre class="code-block" id="slm-lo-resp">—</pre>
+        </div>
+      </div>
+
+      <!-- Tool schemas -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📋 OpenAI-Compatible Tool Schemas</h2>
+          <span class="hint-text">Pass TOOL_DEFINITIONS to your SLM runtime</span>
+        </div>
+        <pre class="code-block schema-block" id="tool-schemas">Loading…</pre>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

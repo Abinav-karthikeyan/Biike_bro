@@ -1,0 +1,61 @@
+zone_id,name,lat,lon,radius_m,zone_type,venue_type,capacity,transit_score,neighborhood,gbfs_region_id,created_at
+GLW_Z001,West End Zone 1,55.849022,-4.28112,43,recommended,transit,18,0.499,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z002,Govan Zone 2,55.859185,-4.261115,51,mandatory,park,24,0.917,Merchant City,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z003,West End Zone 3,55.861913,-4.25686,54,recommended,retail,13,0.977,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z004,Finnieston Zone 4,55.8648,-4.275017,79,mandatory,residential,6,0.725,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z005,Partick Zone 5,55.87174,-4.277636,74,recommended,retail,10,0.589,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z006,Dennistoun Zone 6,55.87373,-4.237837,44,mandatory,park,24,0.538,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z007,Govan Zone 7,55.864499,-4.22659,71,mandatory,retail,17,0.499,Merchant City,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z008,Merchant City Zone 8,55.861293,-4.251788,62,mandatory,transit,23,0.898,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z009,Shawlands Zone 9,55.862036,-4.272173,63,mandatory,transit,28,0.783,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z010,Govan Zone 10,55.854627,-4.245603,40,mandatory,transit,18,0.721,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z011,Byres Road Zone 11,55.875015,-4.264264,42,recommended,park,13,0.618,Hillhead,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z012,Hillhead Zone 12,55.86062,-4.237741,49,recommended,park,20,0.678,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z013,Merchant City Zone 13,55.861171,-4.272126,46,mandatory,residential,7,0.784,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z014,Shawlands Zone 14,55.857949,-4.255605,63,mandatory,residential,11,0.888,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z015,City Centre Zone 15,55.861762,-4.251186,51,recommended,park,12,0.889,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z016,Govan Zone 16,55.861852,-4.255281,42,recommended,residential,12,0.953,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z017,West End Zone 17,55.870185,-4.238524,45,recommended,university,32,0.612,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z018,Dennistoun Zone 18,55.84183,-4.265215,36,recommended,transit,20,0.437,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z019,City Centre Zone 19,55.890529,-4.330355,40,mandatory,university,26,0.0,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z020,Partick Zone 20,55.850693,-4.256772,43,recommended,retail,12,0.693,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z021,Merchant City Zone 21,55.8599,-4.288354,34,recommended,transit,30,0.528,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z022,Byres Road Zone 22,55.855032,-4.251389,66,mandatory,mixed,20,0.786,Partick,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z023,Byres Road Zone 23,55.860597,-4.263899,66,recommended,retail,15,0.907,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z024,Merchant City Zone 24,55.879246,-4.251958,58,mandatory,park,12,0.502,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z025,West End Zone 25,55.872415,-4.259936,77,recommended,residential,7,0.701,Partick,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z026,West End Zone 26,55.867393,-4.300528,70,mandatory,transit,25,0.323,Partick,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z027,West End Zone 27,55.855318,-4.261022,34,recommended,mixed,10,0.818,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z028,City Centre Zone 28,55.872863,-4.254443,52,recommended,retail,14,0.684,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z029,Merchant City Zone 29,55.871382,-4.233048,77,mandatory,university,33,0.523,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z030,Shawlands Zone 30,55.86991,-4.294466,44,recommended,university,32,0.391,Shawlands,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z031,Hillhead Zone 31,55.848977,-4.231913,71,mandatory,transit,21,0.457,Dennistoun,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z032,Govan Zone 32,55.884022,-4.318177,52,mandatory,transit,23,0.0,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z033,Finnieston Zone 33,55.881019,-4.235467,53,mandatory,park,23,0.356,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z034,Govan Zone 34,55.860022,-4.257463,50,mandatory,mixed,14,0.952,Partick,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z035,Partick Zone 35,55.849253,-4.264944,48,recommended,retail,17,0.639,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z036,Shawlands Zone 36,55.869393,-4.308791,80,recommended,residential,12,0.184,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z037,City Centre Zone 37,55.865472,-4.284548,32,recommended,transit,22,0.577,Shawlands,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z038,Finnieston Zone 38,55.88449,-4.229555,39,recommended,residential,11,0.224,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z039,Shawlands Zone 39,55.86326,-4.271263,72,mandatory,residential,6,0.793,Shawlands,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z040,Partick Zone 40,55.828057,-4.301484,78,recommended,residential,7,0.0,Partick,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z041,Hillhead Zone 41,55.85825,-4.206381,64,recommended,retail,19,0.184,Merchant City,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z042,Hillhead Zone 42,55.858967,-4.264005,64,mandatory,retail,19,0.883,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z043,Partick Zone 43,55.873124,-4.251231,78,mandatory,residential,12,0.664,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z044,City Centre Zone 44,55.882624,-4.250614,54,mandatory,residential,9,0.406,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z045,Merchant City Zone 45,55.856818,-4.30304,59,recommended,mixed,16,0.289,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z046,Partick Zone 46,55.864716,-4.329094,35,mandatory,retail,13,0.0,City Centre,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z047,City Centre Zone 47,55.861342,-4.345783,69,recommended,transit,17,0.0,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z048,Byres Road Zone 48,55.875592,-4.237139,77,recommended,residential,10,0.492,Merchant City,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z049,Finnieston Zone 49,55.866028,-4.259763,36,mandatory,retail,14,0.878,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z050,Hillhead Zone 50,55.862925,-4.263349,30,mandatory,residential,10,0.914,Shawlands,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z051,Shawlands Zone 51,55.888849,-4.22649,59,mandatory,university,39,0.097,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z052,Byres Road Zone 52,55.862699,-4.271209,72,mandatory,university,34,0.797,Hillhead,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z053,Dennistoun Zone 53,55.870934,-4.255775,42,recommended,transit,23,0.74,Finnieston,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z054,West End Zone 54,55.864085,-4.2395,48,recommended,retail,19,0.699,Govan,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z055,Partick Zone 55,55.865782,-4.242312,46,recommended,retail,14,0.726,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z056,Dennistoun Zone 56,55.856144,-4.303992,68,mandatory,retail,11,0.271,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z057,Merchant City Zone 57,55.858337,-4.249474,70,mandatory,retail,12,0.834,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z058,Partick Zone 58,55.877494,-4.282681,60,recommended,park,24,0.419,West End,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z059,Dennistoun Zone 59,55.836151,-4.230716,78,mandatory,transit,19,0.169,Byres Road,GLW_R01,2024-01-01T00:00:00Z
+GLW_Z060,Partick Zone 60,55.848686,-4.27177,66,recommended,residential,9,0.582,Byres Road,GLW_R01,2024-01-01T00:00:00Z
