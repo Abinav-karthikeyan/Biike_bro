@@ -70,6 +70,49 @@ class JWTTokenValidator:
         except Exception:
             return None
 
+    def validate_token_with_scope(self, token: str, required_scope: str) -> Optional[Dict[str, Any]]:
+        """
+        Validate a JWT token and check for required scope.
+
+        Args:
+            token: JWT token string to validate
+            required_scope: Required scope to validate against
+
+        Returns:
+            Token payload if valid and has required scope, None otherwise
+        """
+        payload = self.validate_token(token)
+        if payload is None:
+            return None
+
+        # Check if token has required scope
+        token_scope = payload.get("scope", "")
+        if required_scope and required_scope not in token_scope.split():
+            return None
+
+        return payload
+
+    def refresh_token(self, token: str, expires_delta: Optional[timedelta] = None) -> Optional[str]:
+        """
+        Refresh an existing token by creating a new one with the same payload.
+
+        Args:
+            token: Existing JWT token to refresh
+            expires_delta: Optional new expiration time delta
+
+        Returns:
+            New JWT token if refresh successful, None otherwise
+        """
+        payload = self.validate_token(token)
+        if payload is None:
+            return None
+
+        # Remove expiration from old payload to avoid conflicts
+        payload.pop("exp", None)
+
+        # Create new token with same data
+        return self.create_token(payload, expires_delta)
+
 
 def get_token_validator(settings: Settings) -> JWTTokenValidator:
     """Factory function to create JWT token validator."""

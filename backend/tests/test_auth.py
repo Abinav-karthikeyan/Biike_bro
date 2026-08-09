@@ -114,3 +114,52 @@ class TestJWTTokenValidator:
         assert payload is not None
         assert "exp" in payload
         assert isinstance(payload["exp"], int)
+
+    def test_validate_token_with_scope_valid(self, validator):
+        """Test validating token with required scope."""
+        data = {"user_id": 333, "scope": "read write admin"}
+        token = validator.create_token(data)
+        payload = validator.validate_token_with_scope(token, "admin")
+
+        assert payload is not None
+        assert payload["user_id"] == 333
+
+    def test_validate_token_with_scope_missing(self, validator):
+        """Test validating token with missing required scope."""
+        data = {"user_id": 444, "scope": "read write"}
+        token = validator.create_token(data)
+        payload = validator.validate_token_with_scope(token, "admin")
+
+        assert payload is None
+
+    def test_validate_token_with_scope_invalid_token(self, validator):
+        """Test scope validation on invalid token."""
+        payload = validator.validate_token_with_scope("invalid.token", "admin")
+        assert payload is None
+
+    def test_refresh_token_success(self, validator):
+        """Test successfully refreshing a valid token."""
+        data = {"user_id": 555, "email": "user@example.com"}
+        original_token = validator.create_token(data)
+        refreshed_token = validator.refresh_token(original_token)
+
+        assert refreshed_token is not None
+        assert refreshed_token != original_token
+        payload = validator.validate_token(refreshed_token)
+        assert payload is not None
+        assert payload["user_id"] == 555
+        assert payload["email"] == "user@example.com"
+
+    def test_refresh_token_expired(self, validator):
+        """Test refreshing an expired token."""
+        data = {"user_id": 666}
+        expires_delta = timedelta(seconds=-1)
+        expired_token = validator.create_token(data, expires_delta)
+        refreshed = validator.refresh_token(expired_token)
+
+        assert refreshed is None
+
+    def test_refresh_token_invalid(self, validator):
+        """Test refreshing an invalid token."""
+        refreshed = validator.refresh_token("not.a.valid.token")
+        assert refreshed is None
