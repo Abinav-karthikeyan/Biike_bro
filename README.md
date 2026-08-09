@@ -274,10 +274,155 @@ V2 pivots from fine-tuning to **agentic RAG + tool-calling**, with deployment on
 
 ---
 
+## Contributing
+
+We welcome contributions to Bike Parking Buddy! Whether you're fixing bugs, adding features, or improving documentation, here's how to get started.
+
+### Setting Up Your Development Environment
+
+1. **Fork & clone** the repository:
+   ```bash
+   git clone https://github.com/your-username/Cycle_Buddy.git
+   cd Cycle_Buddy
+   ```
+
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/my-feature
+   # or
+   git checkout -b fix/my-bug-fix
+   ```
+
+3. **Install dependencies in a virtual environment**:
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate      # Windows
+   # source venv/bin/activate  # Linux/macOS
+   pip install -r backend/requirements.txt
+   ```
+
+4. **Set up your environment variables**:
+   ```bash
+   cp .env.example .env
+   ```
+
+### Development Workflow
+
+- **Run tests** before committing:
+  ```bash
+  pytest tests/ -v
+  ```
+
+- **Run the API locally**:
+  ```bash
+  python run.py
+  ```
+
+- **Check your code style** (PEP 8):
+  ```bash
+  pip install flake8
+  flake8 backend/ --max-line-length=100
+  ```
+
+### What to Work On
+
+Check our [GitHub Issues](https://github.com/anomalyco/opencode/issues) and [ROADMAP.md](ROADMAP.md) for:
+- **Good first issues** (labeled `good-first-issue`)
+- **Help wanted** (labeled `help-wanted`)
+- **V2 features** (see `plan_v2/V2_IMPLEMENTATION_PLAN.md`)
+
+### Code Structure
+
+- **`backend/`** — FastAPI application, routers, services, data layer
+  - `services/` — Core business logic (prediction.py, slm_service.py, hnsw_search.py)
+  - `routers/` — API endpoints
+  - `data/` — Database & GBFS ingest logic
+  - `models/` — Pydantic schemas & SQLAlchemy ORM
+
+- **`docs/`** — Architecture & design documentation
+- **`tests/`** — Unit & integration tests
+- **`synthetic_seed/`** — Data generation for training & dev
+- **`dashboard/`** — Developer web UI (HTML/JS)
+
+### Making a Pull Request
+
+1. **Commit with clear messages**:
+   ```bash
+   git commit -m "Add feature X for better prediction accuracy"
+   ```
+
+2. **Push to your fork**:
+   ```bash
+   git push origin feature/my-feature
+   ```
+
+3. **Open a Pull Request** on GitHub with:
+   - Clear title (e.g., "Add HNSW index persistence")
+   - Description of changes and why
+   - Link to related issue (if any)
+   - Test results (run `pytest tests/ -v` and share output)
+
+### Commit Message Guidelines
+
+- Use imperative mood: "Add feature" not "Added feature"
+- Keep the first line under 70 characters
+- Reference issues: "Fixes #123" or "Closes #45"
+- Separate subject from body with a blank line
+
+**Example:**
+```
+Add HNSW index rebuild scheduler
+
+- Rebuilds zone embeddings nightly to reflect latest zone_metadata
+- Maintains M=16, ef_search=50 for <10ms query latency
+- Logs rebuild time and index size to telemetry
+
+Fixes #89
+```
+
+### Code Review Process
+
+1. Maintainer reviews your PR for:
+   - Correctness & architecture alignment
+   - Test coverage & passing CI
+   - Code style & documentation
+
+2. Address feedback in follow-up commits (no force-push)
+
+3. Once approved, maintainer merges and closes associated issues
+
+### Testing Requirements
+
+- **All new features must include tests** in `tests/test_all.py`
+- **Minimum coverage**: 80% line coverage for modified modules
+- **Run tests locally before submitting PR**:
+  ```bash
+  pytest tests/ -v --cov=backend
+  ```
+
+### Reporting Bugs
+
+1. **Check existing issues** (might already be reported)
+2. **Create a new issue** with:
+   - Clear title
+   - Steps to reproduce
+   - Expected vs. actual behavior
+   - Environment (Python version, OS, DuckDB/PostgreSQL)
+   - Error trace (if applicable)
+
+### Architecture & Design Questions
+
+- Read `docs/ARCHITECTURE.md` for system design rationale
+- Read `AGENTS.md` for context passing to Claude on architectural decisions
+- Ask in issues or PRs — the team is happy to explain design trade-offs
+
+---
+
 ## Getting Help
 
 - **Issues**: Report at [opencode issue tracker](https://github.com/anomalyco/opencode/issues)
 - **V2 Plan**: See `plan_v2/V2_IMPLEMENTATION_PLAN.md` for detailed step-by-step
+- **Architecture**: Read `docs/ARCHITECTURE.md` for design rationale and data flows
 
 ---
 
