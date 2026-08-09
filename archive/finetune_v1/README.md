@@ -1,0 +1,44 @@
+# Fine-tuning Pipeline — Archived (V1)
+
+**Status: Archived.** V2 uses prompt engineering + RAG context injection instead.
+Fine-tuning is expensive and rarely the right lever when the SLM's job is narrative
+generation, not structured prediction. XGBoost handles numbers; Qwen2.5 handles language.
+Re-activate only if RAG demonstrably fails at tool-calling accuracy.
+
+---
+
+*Original README preserved below for reference.*
+
+## Workflow
+
+```
+1. Build training data
+   python qwen/finetune/build_training_data.py [--limit 3000]
+   → data/finetune/train.jsonl
+
+2. Fine-tune (GPU required — 8GB+ VRAM)
+   pip install unsloth trl datasets accelerate bitsandbytes
+   python qwen/finetune/finetune_unsloth.py [--max-steps 200]
+   → models/parking_buddy_qwen/lora_adapter/
+
+3. Export to GGUF + create Ollama model
+   python qwen/finetune/finetune_unsloth.py --export-gguf
+   ollama create parking-buddy -f Modelfile
+   # Then set OLLAMA_MODEL_NAME=parking-buddy in .env
+
+4. Hook live ingestor (once real GBFS is live)
+   python qwen/finetune/ingestor_hook.py --watch 300
+```
+
+## Ingestor Integration
+
+```python
+from qwen.finetune.ingestor_hook import IngestorHook
+hook = IngestorHook()
+
+# Call after each GBFS snapshot poll:
+hook.on_new_snapshot(zone_id, zone_name, occupancy_pct, timestamp, weather_code)
+
+# Call after each ride completes:
+hook.on_ride_outcome(ride_id, zone_id, zone_name, was_redirected, minutes_wasted, predicted_fill)
+```

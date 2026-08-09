@@ -390,3 +390,90 @@ class TestSLMTools:
         from backend.services.slm_tools import dispatch_tool_call
         with pytest.raises(ValueError, match="Unknown tool"):
             await dispatch_tool_call("nonexistent_tool", {})
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 5. HNSW Search Tests
+# ═════════════════════════════════════════════════════════════════════════════
+
+
+@pytest.fixture(scope="module")
+def hnsw_service(db_store):
+    """Build a fresh HNSW index from the synthetic zone data."""
+    from backend.services.hnsw_search import HNSWSearchService
+    svc = HNSWSearchService()
+    # If index wasn't already built/loaded, build it now
+    if svc._zone_index is None or svc._zone_index.get_current_count() == 0:
+        zones = db_store.get_zones()
+        svc.build_from_zones(zones)
+    return svc
+
+
+class TestHNSWSearch:
+    def test_index_has_all_zones(self, hnsw_service):
+        count = hnsw_service._zone_index.get_current_count()
+        assert count == 60, f"Expected 60 zones in index, got {count}"
+
+    def test_embeddings_populated(self, hnsw_service):
+        assert len(hnsw_service._zone_embeddings) == 60
+
+    def test_get_zone_embedding_known_zone(self, hnsw_service):
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        assert emb is not None
+        assert emb.shape == (256,)
+
+    def test_get_zone_embedding_unknown_zone(self, hnsw_service):
+        emb = hnsw_service.get_zone_embedding("FAKE_ZONE")
+        assert emb is None
+
+    def test_zone_semantic_search_returns_real_zone_ids(self, hnsw_service):
+        emb = hnsw_service.get_zone_embedding("GLW_Z008")
+        results = hnsw_service.zone_semantic_search(emb, k=3)
+        assert len(results) >= 1
+        for r in results:
+            assert r.zone_id.startswith("GLW_Z"), f"Non-Glasgow zone: {r.zone_id}"
+
+    def test_zone_semantic_search_topk_stable(self, hnsw_service):
+        """Same query twice must return the same top-k."""
+        emb = hnsw_service.get_zone_embedding("GLW_Z015")
+        r1 = [r.zone_id for r in hnsw_service.zone_semantic_search(emb, k=4)]
+        r2 = [r.zone_id for r in hnsw_service.zone_semantic_search(emb, k=4)]
+        assert r1 == r2
+
+    def test_zone_semantic_search_similarity_ordered(self, hnsw_service):
+        """Results must be returned in descending similarity order."""
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        results = hnsw_service.zone_semantic_search(emb, k=5)
+        sims = [r.similarity for r in results]
+        assert sims == sorted(sims, reverse=True), "Results not in similarity order"
+
+    def test_venue_type_filter(self, hnsw_service, db_store):
+        """venue_type filter should return only matching zones (or empty)."""
+        from backend.data.duckdb_store import DuckDBStore
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        results = hnsw_service.zone_semantic_search(emb, k=10, venue_type="transit")
+        for r in results:
+            meta = hnsw_service._zone_meta.get(r.zone_id, {})
+            assert meta.get("venue_type") == "transit", (
+                f"zone {r.zone_id} has venue_type {meta.get('venue_type')}"
+            )
+
+    def test_distance_filter_excludes_far_zones(self, hnsw_service):
+        """Tight distance filter should return fewer results than without."""
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        all_results = hnsw_service.zone_semantic_search(emb, k=10)
+        tight_results = hnsw_service.zone_semantic_search(emb, k=10, max_distance_m=100)
+        assert len(tight_results) <= len(all_results)
+
+    def test_occupancy_profile_populated(self, hnsw_service, db_store):
+        """Occupancy profiles are fetched as 24 ZoneOccupancyProfile entries when db_store is provided."""
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        results = hnsw_service.zone_semantic_search(emb, k=2, db_store=db_store)
+        for r in results:
+            assert len(r.occupancy_profile) == 24, (
+                f"Expected 24-hour profile, got {len(r.occupancy_profile)}"
+            )
+            # Each entry should be a ZoneOccupancyProfile with hour and avg_occupancy_pct
+            for i, entry in enumerate(r.occupancy_profile):
+                assert entry.hour == i
+                assert 0.0 <= entry.avg_occupancy_pct <= 100.0

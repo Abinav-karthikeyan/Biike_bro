@@ -68,12 +68,14 @@ class SLMService:
         model: str = "",
         prediction_service=None,
         db_store=None,
+        hnsw_service=None,
     ) -> None:
         self.model = model or settings.OLLAMA_MODEL_NAME
         self.ollama_base_url = settings.OLLAMA_BASE_URL
         self._client = ollama.Client(host=self.ollama_base_url)
         self.prediction_service = prediction_service
         self.db = db_store
+        self.hnsw_service = hnsw_service
         self._ollama_ok: Optional[bool] = None
         self._check_ollama()
 
@@ -240,6 +242,25 @@ class SLMService:
 
     async def _dispatch(self, tool_name: str, tool_args: Dict[str, Any]) -> Any:
         """Route tool call — first tries real services, falls back to stub."""
+
+        if tool_name == "zone_semantic_search" and self.hnsw_service:
+            current_zone_id = tool_args.get("current_zone_id", "")
+            k = int(tool_args.get("k", 3))
+            max_dist = tool_args.get("max_distance_m")
+            venue_filter = tool_args.get("venue_type")
+
+            query_emb = self.hnsw_service.get_zone_embedding(current_zone_id)
+            if query_emb is not None:
+                # Search for k+1 so we can exclude the query zone itself
+                raw = self.hnsw_service.zone_semantic_search(
+                    query_emb, k=k + 1, max_distance_m=max_dist,
+                    venue_type=venue_filter, db_store=self.db,
+                    query_zone_id=current_zone_id,
+                )
+                results = [r for r in raw if r.zone_id != current_zone_id][:k]
+                return [r.model_dump() for r in results]
+            # Zone not in index yet — fall through to stub
+
         if tool_name == "get_zone_forecast" and self.prediction_service:
             zone_id = tool_args.get("zone_id", "GLW_Z001")
             horizon = tool_args.get("time_horizon_mins", 30)
@@ -252,6 +273,20 @@ class SLMService:
                 "reason": resp.reason,
                 "alternatives": [a.model_dump() for a in resp.alternative_zones],
             }
+
+        if tool_name == "log_outcome" and self.db:
+            try:
+                self.db.log_rider_outcome(
+                    zone_id=tool_args.get("zone_id", ""),
+                    timestamp=tool_args.get("timestamp", ""),
+                    actual_availability=float(tool_args.get("actual_availability", 0.0)),
+                    rider_satisfaction=tool_args.get("rider_satisfaction"),
+                )
+                return {"status": "ok", "message": "Outcome logged"}
+            except Exception as exc:
+                logger.warning(f"log_outcome DB write failed: {exc}")
+                return {"status": "error", "message": str(exc)}
+
         # Falls back to the stub dispatcher in slm_tools.py
         result = await dispatch_tool_call(tool_name, tool_args)
         # Serialise pydantic models so they JSON-encode cleanly

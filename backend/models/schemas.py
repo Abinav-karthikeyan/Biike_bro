@@ -2,7 +2,7 @@
 Pydantic schemas — request/response models mirroring the API contracts in PRD §8.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -31,7 +31,7 @@ class PredictRequest(BaseModel):
     """POST /predict — request body (PRD §8)."""
 
     zone_id: str = Field(..., description="Target parking zone identifier")
-    current_timestamp: datetime = Field(default_factory=datetime.utcnow)
+    current_timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     intent_embedding: Optional[List[float]] = Field(
         default=None,
         description="128-D SLM intent embedding; omit for unauthenticated calls",

@@ -36,6 +36,14 @@ async def list_zones(
     return results
 
 
+@router.get("/latest_occupancy", summary="All zones with current occupancy")
+async def latest_occupancy(request: Request):
+    """Return all 60 zones with their latest snapshot occupancy — used by the 3D dashboard."""
+    db = request.app.state.db
+    rows = db.get_latest_occupancy()
+    return rows
+
+
 @router.get("/{zone_id}", response_model=ZoneDetail, summary="Get zone detail")
 async def get_zone(request: Request, zone_id: str) -> ZoneDetail:
     """Return detailed zone info with latest occupancy from DuckDB."""

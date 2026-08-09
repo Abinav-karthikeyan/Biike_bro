@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     # ── ML / Prediction ───────────────────────────────────────────────────
     MODEL_ARTIFACTS_S3_BUCKET: str = ""
     MODEL_ARTIFACTS_PATH: str = "models/"
+    XGB_MODEL_PATH: str = "models/xgb_model.joblib"
     PREDICTION_LOOKAHEAD_30_MIN_THRESHOLD: float = 0.78  # ≥78% accuracy target
 
     # ── HNSW ─────────────────────────────────────────────────────────────

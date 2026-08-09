@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import duckdb
+import pandas as pd
 
 from backend.data.loaders import initialize_outcome_table, load_csv_seeds
 

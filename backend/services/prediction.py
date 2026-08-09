@@ -10,17 +10,21 @@ Features: hour, day_of_week, weather, temperature, events, venue type,
 import logging
 import math
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import List, Optional
 
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from xgboost import XGBClassifier
 
+from backend.config import get_settings
 from backend.models.schemas import AlternativeZone, PredictRequest, PredictResponse
 
 logger = logging.getLogger(__name__)
+settings = get_settings()
 
 # ── Venue type encoding ───────────────────────────────────────────────────
 VENUE_ENCODE = {
@@ -67,7 +71,23 @@ class PredictionService:
     # ── Training ──────────────────────────────────────────────────────────
 
     def _train_model(self) -> None:
-        """Train XGBoost on zone_snapshots data."""
+        """Train XGBoost on zone_snapshots data, or load a cached model if available."""
+        model_path = Path(settings.XGB_MODEL_PATH)
+
+        if model_path.exists():
+            try:
+                saved = joblib.load(model_path)
+                self.model = saved["model"]
+                self.accuracy = saved["accuracy"]
+                self.model_version = saved.get("model_version", self.model_version)
+                logger.info(
+                    f"Loaded cached XGBoost model from {model_path} "
+                    f"(accuracy={self.accuracy:.3f})"
+                )
+                return
+            except Exception as exc:
+                logger.warning(f"Could not load cached model ({exc}) — retraining")
+
         logger.info("Training XGBoost model on synthetic data...")
         df = self.db.get_snapshots_for_training()
         logger.info(f"Training data: {len(df):,} rows")
@@ -122,6 +142,17 @@ class PredictionService:
         )
         full_pct = 100 * y.mean()
         logger.info(f"Class balance: {full_pct:.1f}% zone-full samples")
+
+        # Persist model so subsequent restarts skip retraining
+        try:
+            model_path.parent.mkdir(parents=True, exist_ok=True)
+            joblib.dump(
+                {"model": self.model, "accuracy": self.accuracy, "model_version": self.model_version},
+                model_path,
+            )
+            logger.info(f"XGBoost model saved to {model_path}")
+        except Exception as exc:
+            logger.warning(f"Could not persist model: {exc}")
 
     # ── Feature Building ──────────────────────────────────────────────────
 

@@ -1,15 +1,18 @@
 # Bike Parking Buddy
 
-> On-device SLM-powered predictive parking intelligence for dockless bike-sharing in Glasgow.
+> Hybrid ML + SLM predictive parking intelligence for dockless bike-sharing in Glasgow.
+> **Synthetic data prototype** — all zone/ride/weather data is generated; no live GBFS feed yet.
 
-**Version**: v1.0-prototype — synthetic data, DuckDB-backed, Ollama/Qwen2.5, fine-tuning pipeline archived for V2.
+**Version**: v1.0-prototype — XGBoost + HNSW + Qwen2.5 (Ollama), DuckDB-backed, 41 tests passing.
+
+[![CI](https://github.com/Abinav-karthikeyan/Biike_bro/actions/workflows/ci.yml/badge.svg)](https://github.com/Abinav-karthikeyan/Biike_bro/actions/workflows/ci.yml)
 
 ---
 
 ## Project Structure
 
 ```
-Cycle_Buddy/
+Biike_bro/
 │
 ├── backend/                     # FastAPI application
 │   ├── main.py                  # App factory, CORS, lifespan
@@ -43,28 +46,34 @@ Cycle_Buddy/
 │   ├── css/style.css
 │   └── js/app.js
 │
+├���─ archive/
+│   └── finetune_v1/             # Fine-tuning pipeline (archived — V2 uses RAG instead)
+│
 ├── qwen/                        # Qwen2.5 model integration
 │   ├── ollama_qwen.py           # Minimal Ollama chat test
-│   ├── qwen_demo.py             # Transformers inference demo
-│   └── finetune/                # Fine-tuning pipeline (archived for V2)
+│   └── qwen_demo.py             # Transformers inference demo
 │
 ├── synthetic_seed/              # Synthetic Glasgow dataset (60 zones, 725k+ snapshots, 8k rides)
 │   ├── generate_synthetic_data.py
 │   ├── zones.csv, bikes.csv, rides.csv, weather.csv, etc.
 │   └── geofencing_zones.json, free_bike_status.json
 │
-├── tests/
-│   └── test_all.py             # 31 tests — DuckDB, XGBoost, API, SLM tools
+├── scripts/
+│   └── build_hnsw_index.py     # One-shot: build HNSW index from DuckDB zones
 │
-├── data/                        # Runtime data (git-kept, populated at runtime)
-│   ├── hnsw_indices/            # HNSW index binaries
+├── tests/
+│   └── test_all.py             # 51 tests — DuckDB, XGBoost, API, SLM tools, HNSW
+│
+├── data/
+│   ├── hnsw_indices/            # HNSW index binaries (built by scripts/build_hnsw_index.py)
 │   └── finetune/                # Training data JSONL
 │
-├── models/                      # Model artifacts (git-kept)
-│   └── parking_buddy_qwen/      # LoRA adapter / GGUF exports
+├── models/
+│   └── xgb_model.joblib         # Persisted XGBoost model (loaded on startup)
 │
-├── plan_v2/                     # V2 implementation plan (agentic RAG, GKE, Airflow)
-├── docker-compose.yml           # PostgreSQL 15 + Redis 7 + API
+├── plan_v2/                     # V2 implementation plan
+├── docker-compose.yml           # PostgreSQL 15 + Redis 7 + API [stub — V2]
+├── GOVERNANCE.md                # Honest gap list — what's missing and why
 ├── .env.example                 # Configuration template
 ├── .gitignore
 └── run.py                       # Dev server launcher
@@ -85,7 +94,7 @@ Cycle_Buddy/
 ### 1. Clone and set up environment
 
 ```bash
-git clone <repo-url> && cd Cycle_Buddy
+git clone https://github.com/Abinav-karthikeyan/Biike_bro && cd Biike_bro
 python -m venv venv
 venv\Scripts\activate      # Windows
 # source venv/bin/activate  # Linux/macOS
@@ -204,10 +213,11 @@ Qwen2.5 second pass:
 - **Alternatives**: Returns top 3 nearby zones (within 3km) with lower predicted fill
 
 ### HNSW Vector Search (`backend/services/hnsw_search.py`)
-- **Zone index**: 256-D embeddings `[lat, lon, venue_type, transit_score, turnover]`
-- **Context index**: 128-D day-context embeddings for historical pattern matching
+- **Zone index**: 256-D embeddings `[lat, lon (sinusoidal), venue_type (one-hot), transit_score, capacity]`
+- **Context index**: 128-D day-context embeddings [stub — V2]
 - **Search cost**: <10ms per query (M=16, ef=50)
-- **Persistence**: Save/load from `data/hnsw_indices/`; nightly rebuild in production
+- **Build**: `python scripts/build_hnsw_index.py` — deterministic from DuckDB seed data
+- **Persistence**: Save/load from `data/hnsw_indices/`
 
 ### SLM + Tool-Calling (`backend/services/slm_service.py` + `slm_tools.py`)
 - **Model**: Qwen2.5 (7B, Q4_K_M via Ollama)
@@ -218,10 +228,10 @@ Qwen2.5 second pass:
 - **Fallback**: If Ollama unreachable, returns XGBoost-only stub response
 - **Latency SLO** (V2 target): <200ms for structured prediction, <2s for SLM narrative
 
-### Data Connectors (`backend/data/gbfs_ingest.py`)
+### Data Connectors (`backend/data/gbfs_ingest.py`) [stub — V2]
 - **GBFS v2.3 client**: Auto-discovery manifest parsing, station_status feed
-- **Ingest**: Async polling designed for 5-min intervals (APScheduler / Airflow)
-- **Enrichment** (V2 target): Weather + local events cross-reference
+- **Ingest**: Upsert path stubbed — no operator feed URL wired yet
+- **Enrichment** (V2): Weather + local events cross-reference
 - **Operators**: Target Lime, Voi, Tier (any GBFS-compatible operator)
 
 ---
@@ -230,38 +240,30 @@ Qwen2.5 second pass:
 
 | Table | Purpose | Status |
 |-------|---------|--------|
-| `zone_metadata` | Semi-static zone reference data | SQLAlchemy model defined |
-| `zone_snapshots` | 5-min occupancy time-series | SQLAlchemy model defined |
-| `model_artifacts` | Versioned ML model registry | SQLAlchemy model defined |
-| `rider_outcomes` | Opt-in telemetry for retraining | SQLAlchemy model defined |
-| `zone_embeddings_hnsw` | Pre-computed 256-D zone embeddings | SQLAlchemy model defined |
+| `zone_metadata` | Semi-static zone reference data | DuckDB in-memory (seed CSV) |
+| `zone_snapshots` | 5-min occupancy time-series | DuckDB in-memory (725k rows) |
+| `model_artifacts` | Versioned ML model registry | SQLAlchemy model defined, unused [stub — V2] |
+| `rider_outcomes` | Opt-in telemetry for retraining | Written to DuckDB in-memory; lost on restart [stub — V2] |
+| `zone_embeddings_hnsw` | Pre-computed 256-D zone embeddings | SQLAlchemy model defined, unused [stub — V2] |
 
-**Current**: V1 uses DuckDB in-memory. PostgreSQL migration is V2 target.
-**Migration**: Run `alembic upgrade head` once PostgreSQL is configured.
+**Current**: DuckDB in-memory; PostgreSQL migration is Phase 2 (see `roadmap_new.md`).
+**Migration**: `alembic upgrade head` once Postgres is configured [stub — V2].
 
 ---
 
-## V2 — What's Next
+## What's Next
 
-V2 pivots from fine-tuning to **agentic RAG + tool-calling**, with deployment on **GKE + Airflow**. See [`plan_v2/V2_IMPLEMENTATION_PLAN.md`](plan_v2/V2_IMPLEMENTATION_PLAN.md) for full detail.
+See [`roadmap_new.md`](roadmap_new.md) for the full sequenced plan. Summary:
 
-### Key V2 Changes
-- **Drop fine-tuning**: Archived in `archive/finetune_v1/`. The SLM's job is narrative, not prediction.
-- **Add RAG context**: Historical patterns from HNSW injected into every SLM prompt.
-- **Wire HNSW**: Zone semantic search connected to real HNSW indices.
-- **PostgreSQL production**: Migrate from DuckDB to Cloud SQL.
-- **GKE deployment**: Autopilot cluster + GPU pods for Ollama.
-- **Airflow DAGs**: 6 orchestrated pipelines (GBFS ingest, embeddings, HNSW rebuild, model retrain, quality checks).
-
-### V2 Phase Timeline
-
-| Phase | Duration | Deliverable |
-|-------|----------|-------------|
-| 1. Foundation | Week 1-2 | Terraform, CI/CD, PostgreSQL migration |
-| 2. Data Pipeline | Week 2-3 | GBFS upsert, Airflow DAGs, embedding generation |
-| 3. Core Services | Week 3-4 | HNSW wiring, RAG context, tool-call hardening |
-| 4. Deployment | Week 4-5 | GKE deployment, Cloud Composer, monitoring |
-| 5. Polish | Week 5-6 | Load testing, prompt tuning, archive fine-tuning |
+| Phase | Status | Goal |
+|-------|--------|------|
+| 0 — Display-ready pass | **Done** | Reconcile docs with code, CI badge, governance file |
+| 1 — Wire HNSW | **Done** | Real zone similarity search, no stubs |
+| 2 — Persistence | Planned | SQLAlchemy ORM writes → Alembic → Postgres |
+| 3 — GBFS live ingest | Planned | Real operator feed, drop "synthetic-only" |
+| 4 — RAG context | Planned | Historical context injected into SLM prompts |
+| 5 — Observability | Planned | Prometheus metrics, SLM eval harness |
+| 6 — Deployment | Planned | Single VPS + Docker Compose + public URL |
 
 ---
 
@@ -274,155 +276,49 @@ V2 pivots from fine-tuning to **agentic RAG + tool-calling**, with deployment on
 
 ---
 
-## Contributing
+## API Example
 
-We welcome contributions to Bike Parking Buddy! Whether you're fixing bugs, adding features, or improving documentation, here's how to get started.
-
-### Setting Up Your Development Environment
-
-1. **Fork & clone** the repository:
-   ```bash
-   git clone https://github.com/your-username/Cycle_Buddy.git
-   cd Cycle_Buddy
-   ```
-
-2. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/my-feature
-   # or
-   git checkout -b fix/my-bug-fix
-   ```
-
-3. **Install dependencies in a virtual environment**:
-   ```bash
-   python -m venv venv
-   venv\Scripts\activate      # Windows
-   # source venv/bin/activate  # Linux/macOS
-   pip install -r backend/requirements.txt
-   ```
-
-4. **Set up your environment variables**:
-   ```bash
-   cp .env.example .env
-   ```
-
-### Development Workflow
-
-- **Run tests** before committing:
-  ```bash
-  pytest tests/ -v
-  ```
-
-- **Run the API locally**:
-  ```bash
-  python run.py
-  ```
-
-- **Check your code style** (PEP 8):
-  ```bash
-  pip install flake8
-  flake8 backend/ --max-line-length=100
-  ```
-
-### What to Work On
-
-Check our [GitHub Issues](https://github.com/anomalyco/opencode/issues) and [ROADMAP.md](ROADMAP.md) for:
-- **Good first issues** (labeled `good-first-issue`)
-- **Help wanted** (labeled `help-wanted`)
-- **V2 features** (see `plan_v2/V2_IMPLEMENTATION_PLAN.md`)
-
-### Code Structure
-
-- **`backend/`** — FastAPI application, routers, services, data layer
-  - `services/` — Core business logic (prediction.py, slm_service.py, hnsw_search.py)
-  - `routers/` — API endpoints
-  - `data/` — Database & GBFS ingest logic
-  - `models/` — Pydantic schemas & SQLAlchemy ORM
-
-- **`docs/`** — Architecture & design documentation
-- **`tests/`** — Unit & integration tests
-- **`synthetic_seed/`** — Data generation for training & dev
-- **`dashboard/`** — Developer web UI (HTML/JS)
-
-### Making a Pull Request
-
-1. **Commit with clear messages**:
-   ```bash
-   git commit -m "Add feature X for better prediction accuracy"
-   ```
-
-2. **Push to your fork**:
-   ```bash
-   git push origin feature/my-feature
-   ```
-
-3. **Open a Pull Request** on GitHub with:
-   - Clear title (e.g., "Add HNSW index persistence")
-   - Description of changes and why
-   - Link to related issue (if any)
-   - Test results (run `pytest tests/ -v` and share output)
-
-### Commit Message Guidelines
-
-- Use imperative mood: "Add feature" not "Added feature"
-- Keep the first line under 70 characters
-- Reference issues: "Fixes #123" or "Closes #45"
-- Separate subject from body with a blank line
-
-**Example:**
-```
-Add HNSW index rebuild scheduler
-
-- Rebuilds zone embeddings nightly to reflect latest zone_metadata
-- Maintains M=16, ef_search=50 for <10ms query latency
-- Logs rebuild time and index size to telemetry
-
-Fixes #89
+**Request:**
+```bash
+curl -X POST http://localhost:8000/slm/query \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Will GLW_Z008 be full in 20 minutes?", "zone_context": "GLW_Z008"}'
 ```
 
-### Code Review Process
+**Response (Ollama available):**
+```json
+{
+  "content": "GLW_Z008 is predicted 72% full in 20 minutes — it could be tight. GLW_Z015 and GLW_Z016 are nearby with similar transit connectivity and lower predicted fill.",
+  "tool_calls": ["get_zone_forecast", "zone_semantic_search"],
+  "tool_results": [
+    {"tool": "get_zone_forecast", "result": {"fill_probability": 0.72, "confidence": 0.85}},
+    {"tool": "zone_semantic_search", "result": [{"zone_id": "GLW_Z015", "similarity": 0.29}]}
+  ],
+  "latency_ms": 1840.2,
+  "model": "qwen2.5",
+  "ollama_used": true
+}
+```
 
-1. Maintainer reviews your PR for:
-   - Correctness & architecture alignment
-   - Test coverage & passing CI
-   - Code style & documentation
-
-2. Address feedback in follow-up commits (no force-push)
-
-3. Once approved, maintainer merges and closes associated issues
-
-### Testing Requirements
-
-- **All new features must include tests** in `tests/test_all.py`
-- **Minimum coverage**: 80% line coverage for modified modules
-- **Run tests locally before submitting PR**:
-  ```bash
-  pytest tests/ -v --cov=backend
-  ```
-
-### Reporting Bugs
-
-1. **Check existing issues** (might already be reported)
-2. **Create a new issue** with:
-   - Clear title
-   - Steps to reproduce
-   - Expected vs. actual behavior
-   - Environment (Python version, OS, DuckDB/PostgreSQL)
-   - Error trace (if applicable)
-
-### Architecture & Design Questions
-
-- Read `docs/ARCHITECTURE.md` for system design rationale
-- Read `AGENTS.md` for context passing to Claude on architectural decisions
-- Ask in issues or PRs — the team is happy to explain design trade-offs
+**Response (Ollama offline — graceful fallback):**
+```json
+{
+  "content": "Parking Buddy is running in offline mode. (Ollama unavailable — stub response)",
+  "tool_calls": [],
+  "tool_results": [],
+  "latency_ms": 0.3,
+  "model": "qwen2.5",
+  "ollama_used": false
+}
+```
 
 ---
 
 ## Getting Help
 
-- **Issues**: Report at [opencode issue tracker](https://github.com/anomalyco/opencode/issues)
-- **V2 Plan**: See `plan_v2/V2_IMPLEMENTATION_PLAN.md` for detailed step-by-step
-- **Architecture**: Read `docs/ARCHITECTURE.md` for design rationale and data flows
+- **Issues**: [github.com/Abinav-karthikeyan/Biike_bro/issues](https://github.com/Abinav-karthikeyan/Biike_bro/issues)
+- **Roadmap**: See `roadmap_new.md` for full phase plan with exit criteria
+- **Governance**: See `GOVERNANCE.md` for a transparent gap list
 
 ---
 
