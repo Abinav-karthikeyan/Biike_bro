@@ -1,0 +1,23 @@
+{
+  "skill_name": "auto-commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I just made some changes to the authentication module in backend/auth.py and also updated the related test file backend/tests/test_auth.py. Can you commit these changes for me?",
+      "expected_output": "A commit is created with a relevant message (e.g., 'feat: update authentication module' or 'refactor: improve auth logic'), showing the files staged and commit hash",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Please refactor the data loading pipeline. Simplify the file structure in backend/data/ — split the large data_loader.py into smaller focused modules. Update the imports in backend/main.py accordingly.",
+      "expected_output": "After refactoring multiple files across backend/data/ and backend/, Claude detects the major changes and either auto-commits or prompts to commit with a message like 'refactor: split data loading pipeline'",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Update the README.md to add a 'Contributing' section, and add a .env.example file showing required environment variables (don't include actual secrets). Then commit the changes.",
+      "expected_output": "Commits are created with appropriate messages. The .env.example should be included (as it's not a secret), but any real .env files would be excluded. One or two commits depending on whether docs and config are grouped",
+      "files": []
+    }
+  ]
+}
