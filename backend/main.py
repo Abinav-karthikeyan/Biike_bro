@@ -17,23 +17,41 @@ logger = structlog.get_logger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle hooks."""
-    from backend.data.duckdb_store import DuckDBStore
-    from backend.services.prediction import PredictionService
-
     logger.info("Starting Bike Parking Buddy backend", version="0.1.0")
 
     # ── Startup ─────────────────────────────────────────────────────────
+    from backend.data import DuckDBStore
+    from backend.services.hnsw_search import HNSWSearchService
+    from backend.services.prediction import PredictionService
     from backend.services.slm_service import SLMService
 
+    # Initialize data layer: load seed CSVs, validate schemas, prepare indices
     app.state.db = DuckDBStore()
     app.state.prediction_service = PredictionService(app.state.db)
-    app.state.hnsw_service = None  # TODO: wire up with real embeddings
+
+    # Build HNSW zone index from DuckDB zone metadata.
+    # First run: generates embeddings and saves to HNSW_INDEX_PATH (~fast, 60 zones).
+    # Subsequent restarts: loads saved index and reconstructs embedding lookup dict.
+    hnsw = HNSWSearchService()
+    if hnsw._zone_index is not None and hnsw._zone_index.get_current_count() == 0:
+        zones = app.state.db.get_zones()
+        hnsw.build_from_zones(zones)
+    else:
+        zone_count = hnsw._zone_index.get_current_count() if hnsw._zone_index else 0
+        logger.info(f"HNSW zone index loaded from disk ({zone_count} zones)")
+    app.state.hnsw_service = hnsw
+
     app.state.slm_service = SLMService(
         prediction_service=app.state.prediction_service,
         db_store=app.state.db,
+        hnsw_service=app.state.hnsw_service,
     )
 
-    logger.info("Services initialised — DuckDB loaded, XGBoost trained, SLM ready")
+    logger.info(
+        "Services initialised — DuckDB loaded, XGBoost ready, "
+        f"HNSW index has {hnsw._zone_index.get_current_count() if hnsw._zone_index else 0} zones, "
+        "SLM ready"
+    )
     yield
 
     # ── Shutdown ─────────────────────────────────────────────────────────

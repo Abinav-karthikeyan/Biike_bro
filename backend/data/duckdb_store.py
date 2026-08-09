@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import duckdb
-import pandas as pd
+
+from backend.data.loaders import initialize_outcome_table, load_csv_seeds
 
 logger = logging.getLogger(__name__)
 
@@ -27,32 +28,14 @@ class DuckDBStore:
     def __init__(self, seed_dir: Optional[str] = None):
         self._seed = Path(seed_dir) if seed_dir else SEED_DIR
         self.con = duckdb.connect(":memory:")
-        self._load_csvs()
+        self._initialize()
 
-    # ── CSV Loading ───────────────────────────────────────────────────────
+    # ── Initialization ───────────────────────────────────────────────────
 
-    def _load_csvs(self) -> None:
-        """Load all seed CSVs into DuckDB tables."""
-        tables = {
-            "zones":          "zones.csv",
-            "bikes":          "bikes.csv",
-            "rides":          "rides.csv",
-            "zone_snapshots": "zone_snapshots.csv",
-            "weather":        "weather.csv",
-            "local_events":   "local_events.csv",
-        }
-        for table, filename in tables.items():
-            path = self._seed / filename
-            if not path.exists():
-                logger.warning(f"Seed file not found: {path}")
-                continue
-            csv_path = str(path).replace("\\", "/")
-            self.con.execute(
-                f"CREATE TABLE {table} AS SELECT * FROM read_csv_auto('{csv_path}')"
-            )
-            count = self.con.execute(f"SELECT count(*) FROM {table}").fetchone()[0]
-            logger.info(f"Loaded {table}: {count:,} rows")
-
+    def _initialize(self) -> None:
+        """Initialize DuckDB store with seed CSVs and schema."""
+        load_csv_seeds(self.con, self._seed)
+        initialize_outcome_table(self.con)
         logger.info("DuckDB store initialised with all seed data")
 
     # ── Zone Queries ──────────────────────────────────────────────────────
@@ -84,7 +67,8 @@ class DuckDBStore:
     def get_latest_occupancy(self) -> List[Dict[str, Any]]:
         """All zones with their most recent occupancy snapshot."""
         return self.con.execute("""
-            SELECT z.zone_id, z.name, z.venue_type, z.capacity, z.transit_score,
+            SELECT z.zone_id, z.name, z.lat, z.lon, z.venue_type, z.capacity,
+                   z.transit_score, z.neighborhood,
                    s.occupancy_pct, s.bikes_available, s.weather_code, s.is_event_nearby,
                    s.timestamp
             FROM zones z
@@ -235,3 +219,53 @@ class DuckDBStore:
         if row.empty or row.iloc[0]["avg_occ"] is None:
             return None
         return float(row.iloc[0]["avg_occ"])
+
+    # ── Outcome Telemetry ─────────────────────────────────────────────────
+
+    def log_rider_outcome(
+        self,
+        zone_id: str,
+        timestamp: str,
+        actual_availability: float,
+        rider_satisfaction: Optional[int] = None,
+    ) -> None:
+        """
+        Persist a rider outcome to the rider_outcomes table.
+
+        This is the feedback loop: riders report whether a zone was actually
+        available when they arrived.  Over time, these rows let us compare
+        predicted_fill vs actual_fill and retrain on real discrepancies.
+
+        The table is created lazily on first write so DuckDB stays schema-free
+        for seed-only runs.
+        """
+        from backend.data.loaders import initialize_outcome_table
+
+        # Ensure outcome table is initialized (idempotent)
+        initialize_outcome_table(self.con)
+
+        # actual_availability: 0.0=full, 1.0=empty — invert to fill semantics
+        actual_fill = 1.0 - float(actual_availability)
+        self.con.execute(
+            """
+            INSERT INTO rider_outcomes (zone_id, arrival_time, actual_fill, satisfaction)
+            VALUES (?, CAST(? AS TIMESTAMP), ?, ?)
+            """,
+            [zone_id, timestamp, actual_fill, rider_satisfaction],
+        )
+        logger.info(
+            f"Rider outcome logged: zone={zone_id}, fill={actual_fill:.2f}, "
+            f"satisfaction={rider_satisfaction}"
+        )
+
+    def get_rider_outcomes(self, limit: int = 100) -> List[Dict[str, Any]]:
+        """Return recent rider outcomes for analytics / model validation."""
+        try:
+            return self.con.execute("""
+                SELECT id, zone_id, arrival_time, actual_fill, satisfaction, created_at
+                FROM rider_outcomes
+                ORDER BY created_at DESC
+                LIMIT ?
+            """, [limit]).df().to_dict("records")
+        except Exception:
+            return []  # table doesn't exist yet (no outcomes logged this session)
