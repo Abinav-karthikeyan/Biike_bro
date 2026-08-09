@@ -142,6 +142,22 @@ class TestDuckDBStore:
         for col in required_cols:
             assert col in df.columns, f"Missing column: {col}"
 
+    def test_log_rider_outcome_persists_row(self, db_store):
+        """Phase 2 exit criterion: rider outcomes must land in the DB, not be discarded."""
+        before = db_store.get_rider_outcomes(limit=200)
+        db_store.log_rider_outcome(
+            zone_id="GLW_Z001",
+            timestamp="2026-05-20T09:00:00Z",
+            actual_availability=0.2,
+            rider_satisfaction=4,
+        )
+        after = db_store.get_rider_outcomes(limit=200)
+        assert len(after) == len(before) + 1, "Row count did not increase after log_rider_outcome"
+        row = after[0]  # most recent first
+        assert row["zone_id"] == "GLW_Z001"
+        assert abs(row["actual_fill"] - 0.8) < 0.01  # 1.0 - 0.2
+        assert row["satisfaction_score"] == 4
+
 
 # ═════════════════════════════════════════════════════════════════════════════
 # 2. Prediction Service Tests

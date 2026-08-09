@@ -1,6 +1,6 @@
 """
 Bike Parking Buddy — Backend Entry Point
-FastAPI app factory with DuckDB data layer and XGBoost model.
+FastAPI app factory with SQLAlchemy data layer and XGBoost model.
 """
 
 from contextlib import asynccontextmanager
@@ -20,26 +20,33 @@ async def lifespan(app: FastAPI):
     logger.info("Starting Bike Parking Buddy backend", version="0.1.0")
 
     # ── Startup ─────────────────────────────────────────────────────────
+    from backend.config import get_settings
     from backend.data import DuckDBStore
     from backend.services.hnsw_search import HNSWSearchService
     from backend.services.prediction import PredictionService
     from backend.services.slm_service import SLMService
 
-    # Initialize data layer: load seed CSVs, validate schemas, prepare indices
-    app.state.db = DuckDBStore()
-    app.state.prediction_service = PredictionService(app.state.db)
+    settings = get_settings()
 
-    # Build HNSW zone index from DuckDB zone metadata.
-    # First run: generates embeddings and saves to HNSW_INDEX_PATH (~fast, 60 zones).
-    # Subsequent restarts: loads saved index and reconstructs embedding lookup dict.
-    hnsw = HNSWSearchService()
-    if hnsw._zone_index is not None and hnsw._zone_index.get_current_count() == 0:
-        zones = app.state.db.get_zones()
-        hnsw.build_from_zones(zones)
-    else:
-        zone_count = hnsw._zone_index.get_current_count() if hnsw._zone_index else 0
-        logger.info(f"HNSW zone index loaded from disk ({zone_count} zones)")
-    app.state.hnsw_service = hnsw
+    # If tests pre-injected app.state.db/prediction_service, skip full init
+    # so we don't overwrite the in-memory fixture with a Postgres connection.
+    if not hasattr(app.state, "db") or app.state.db is None:
+        app.state.db = DuckDBStore(db_url=settings.DATABASE_URL)
+
+    if not hasattr(app.state, "prediction_service") or app.state.prediction_service is None:
+        app.state.prediction_service = PredictionService(app.state.db)
+
+    if not hasattr(app.state, "hnsw_service") or app.state.hnsw_service is None:
+        hnsw = HNSWSearchService()
+        if hnsw._zone_index is not None and hnsw._zone_index.get_current_count() == 0:
+            zone_list = app.state.db.get_zones()
+            hnsw.build_from_zones(zone_list)
+        else:
+            zone_count = hnsw._zone_index.get_current_count() if hnsw._zone_index else 0
+            logger.info(f"HNSW zone index loaded from disk ({zone_count} zones)")
+        app.state.hnsw_service = hnsw
+
+    hnsw = app.state.hnsw_service
 
     app.state.slm_service = SLMService(
         prediction_service=app.state.prediction_service,
@@ -47,15 +54,17 @@ async def lifespan(app: FastAPI):
         hnsw_service=app.state.hnsw_service,
     )
 
+    zone_count = hnsw._zone_index.get_current_count() if (hnsw and hnsw._zone_index) else 0
     logger.info(
-        "Services initialised — DuckDB loaded, XGBoost ready, "
-        f"HNSW index has {hnsw._zone_index.get_current_count() if hnsw._zone_index else 0} zones, "
-        "SLM ready"
+        "Services initialised — DB ready, XGBoost ready, "
+        f"HNSW index has {zone_count} zones, SLM ready"
     )
     yield
 
     # ── Shutdown ─────────────────────────────────────────────────────────
     logger.info("Shutting down Bike Parking Buddy backend")
+    if hasattr(app.state, "db") and app.state.db is not None:
+        app.state.db.engine.dispose()
 
 
 def create_app() -> FastAPI:

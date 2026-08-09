@@ -11,9 +11,7 @@ Public API:
 from backend.data.duckdb_store import DuckDBStore
 from backend.data.gbfs_ingest import GBFSClient, GBFSIngestJob
 from backend.data.loaders import (
-    initialize_outcome_table,
     load_csv_seeds,
-    load_mock_data,
     normalize_zone_snapshot,
     parse_gbfs_feed_urls,
 )
@@ -34,8 +32,6 @@ __all__ = [
     "GBFSIngestJob",
     # Loaders
     "load_csv_seeds",
-    "load_mock_data",
-    "initialize_outcome_table",
     "normalize_zone_snapshot",
     "parse_gbfs_feed_urls",
     # Validators
