@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bike Parking Buddy — 3D Zone Explorer</title>
+
+  <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0b0c14;
+      --surface:  #13141f;
+      --surface2: #1a1c2e;
+      --border:   #2a2d44;
+      --accent:   #6c63ff;
+      --accent2:  #00d9c0;
+      --text:     #e2e4f0;
+      --muted:    #6b6e8a;
+      --green:    #22c55e;
+      --yellow:   #f59e0b;
+      --red:      #ef4444;
+    }
+
+    html, body, #root {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    #root { display: flex; }
+
+    /* Canvas pane */
+    .canvas-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .canvas-wrap canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .scene-label {
+      position: absolute; top: 14px; left: 16px;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: .12em; text-transform: uppercase;
+      pointer-events: none; z-index: 2;
+    }
+    .tooltip3d {
+      position: fixed;
+      background: rgba(11,12,20,.92);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      display: none;
+      z-index: 10;
+    }
+
+    /* Side panel */
+    .panel {
+      width: 360px; flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-head h1 { font-size: 15px; font-weight: 600; }
+    .panel-head small { font-size: 11px; color: var(--muted); display: block; }
+    .panel-body {
+      flex: 1; overflow-y: auto;
+      padding: 14px; display: flex;
+      flex-direction: column; gap: 12px;
+    }
+    .panel-body::-webkit-scrollbar { width: 4px; }
+    .panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* Cards */
+    .card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 13px;
+    }
+    .ctitle {
+      font-size: 10.5px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 9px;
+    }
+
+    /* Meters */
+    .meter { margin-bottom: 11px; }
+    .meter-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+    .track { height: 5px; background: #1e2038; border-radius: 3px; overflow: hidden; }
+    .fill { height: 100%; border-radius: 3px; transition: width .5s, background .5s; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%; padding: 9px; border: none; border-radius: 7px;
+      background: var(--accent); color: #fff; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-primary:disabled { opacity: .35; cursor: default; }
+
+    .btn-teal {
+      width: 100%; padding: 8px; border: none; border-radius: 7px;
+      background: var(--accent2); color: #0b0c14; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn-teal:hover { opacity: .85; }
+    .btn-teal:disabled { opacity: .35; cursor: default; }
+
+    /* Zone info */
+    .zone-name { font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+    .zone-id { font-family: monospace; font-size: 11px; color: var(--accent2); margin-bottom: 9px; }
+    .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 11px; }
+    .tag {
+      padding: 2px 8px; border-radius: 20px; font-size: 11px;
+      border: 1px solid var(--border); color: var(--muted); background: var(--surface);
+    }
+    .tag.hi { border-color: var(--accent); color: var(--accent); }
+
+    /* Big number */
+    .bignum { font-size: 44px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+    .bignum-sub { font-size: 11px; color: var(--muted); }
+    .reason {
+      font-size: 12px; color: var(--muted); line-height: 1.6;
+      margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border);
+    }
+    .alt-list { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+    .alt-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 5px 9px; background: var(--surface); border-radius: 6px; font-size: 12px;
+    }
+    .alt-id { font-family: monospace; color: var(--accent2); }
+
+    /* SLM */
+    .slm-textarea {
+      width: 100%; padding: 9px 10px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 7px;
+      color: var(--text); font-size: 13px; font-family: inherit;
+      resize: none; outline: none; margin-bottom: 7px;
+      transition: border-color .15s;
+    }
+    .slm-textarea:focus { border-color: var(--accent); }
+    .quick-q {
+      display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px;
+    }
+    .qbtn {
+      padding: 3px 8px; font-size: 11px; cursor: pointer;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; color: var(--muted); font-family: inherit;
+    }
+    .qbtn:hover { border-color: var(--accent); color: var(--text); }
+    .slm-out {
+      font-size: 12px; line-height: 1.7;
+      background: var(--surface); border-left: 3px solid var(--accent2);
+      padding: 9px 12px; border-radius: 0 6px 6px 0;
+      margin-top: 7px; white-space: pre-wrap;
+    }
+    .slm-meta { font-size: 11px; color: var(--muted); font-family: monospace; margin-top: 5px; }
+    .warn { color: var(--yellow); }
+
+    /* Legend */
+    .legend { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .ldot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+    /* Spinner */
+    .spin {
+      width: 18px; height: 18px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: rot .7s linear infinite; display: inline-block; vertical-align: middle;
+    }
+    @keyframes rot { to { transform: rotate(360deg); } }
+
+    .empty { text-align: center; color: var(--muted); font-size: 13px; padding: 14px 0; }
+    .empty-icon { font-size: 26px; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="tt" class="tooltip3d"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+const API = 'http://localhost:8000';
+
+// ─── Colour helpers ───────────────────────────────────────────────────────────
+function pctHex(p) {
+  if (p < 40) return '#22c55e';
+  if (p < 70) return '#f59e0b';
+  return '#ef4444';
+}
+function pctColor3(p) {
+  const t = Math.min(p / 100, 1);
+  return new THREE.Color(t < .5 ? t * 2 : 1, t < .5 ? 1 : 1 - (t - .5) * 2, 0.08);
+}
+
+// ─── Three.js hook ────────────────────────────────────────────────────────────
+function useScene(containerRef, zones, onClickZone, onHoverZone) {
+  const meshes = useRef({});
+  const cleanup = useRef(null);
+
+  // Stable wrapper so stale closures don't capture old zone arrays
+  const clickCb = useRef(onClickZone);
+  const hoverCb = useRef(onHoverZone);
+  clickCb.current = onClickZone;
+  hoverCb.current = onHoverZone;
+
+  useEffect(() => {
+    if (!containerRef.current || zones.length === 0) return;
+    const el = containerRef.current;
+
+    // Setup renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(el.clientWidth, el.clientHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    el.appendChild(renderer.domElement);
+
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0c14);
+    scene.fog = new THREE.Fog(0x0b0c14, 20, 38);
+
+    // Camera
+    const cam = new THREE.PerspectiveCamera(48, el.clientWidth / el.clientHeight, .1, 100);
+    cam.position.set(0, 13, 17);
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0x1a1a3a, 4));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+    sun.position.set(8, 14, 8); sun.castShadow = true;
+    scene.add(sun);
+    const fill = new THREE.PointLight(0x6c63ff, 2.5, 22);
+    fill.position.set(-7, 9, -7); scene.add(fill);
+    const rim = new THREE.PointLight(0x00d9c0, 1.2, 18);
+    rim.position.set(10, 5, -5); scene.add(rim);
+
+    // Floor grid
+    scene.add(new THREE.GridHelper(24, 24, 0x1a1c30, 0x13141f));
+
+    // Coordinate normalisation
+    const lats = zones.map(z => z.lat), lons = zones.map(z => z.lon);
+    const la0 = Math.min(...lats), la1 = Math.max(...lats);
+    const lo0 = Math.min(...lons), lo1 = Math.max(...lons);
+    const SPAN = 10;
+
+    // Zone cylinders
+    const allMeshes = [];
+    zones.forEach(z => {
+      const occ = z.occupancy_pct ?? 35;
+      const h = Math.max(0.12, (occ / 100) * 4.5);
+      const col = pctColor3(occ);
+
+      const geo = new THREE.CylinderGeometry(.21, .25, h, 14);
+      const mat = new THREE.MeshStandardMaterial({
+        color: col, emissive: col, emissiveIntensity: .3,
+        roughness: .3, metalness: .55,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.castShadow = true;
+
+      const x = ((z.lon - lo0) / (lo1 - lo0) - .5) * SPAN * 2;
+      const zz = -((z.lat - la0) / (la1 - la0) - .5) * SPAN * 2;
+      mesh.position.set(x, h / 2, zz);
+      mesh.userData = { id: z.zone_id, name: z.name, occ };
+
+      scene.add(mesh);
+      meshes.current[z.zone_id] = mesh;
+      allMeshes.push(mesh);
+    });
+
+    // Orbit controls
+    const ctrl = new THREE.OrbitControls(cam, renderer.domElement);
+    ctrl.enableDamping = true; ctrl.dampingFactor = .06;
+    ctrl.minDistance = 4; ctrl.maxDistance = 32;
+    ctrl.maxPolarAngle = Math.PI / 2.05;
+    ctrl.autoRotate = true; ctrl.autoRotateSpeed = .5;
+
+    // Raycaster
+    const rc = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const tt = document.getElementById('tt');
+    let lastHover = null;
+
+    function toNDC(e) {
+      const r = renderer.domElement.getBoundingClientRect();
+      mouse.x =  ((e.clientX - r.left) / r.width)  * 2 - 1;
+      mouse.y = -((e.clientY - r.top)  / r.height) * 2 + 1;
+    }
+
+    function onMove(e) {
+      toNDC(e);
+      rc.setFromCamera(mouse, cam);
+      const hits = rc.intersectObjects(allMeshes);
+      if (hits.length) {
+        const d = hits[0].object.userData;
+        tt.style.display = 'block';
+        tt.style.left = (e.clientX + 14) + 'px';
+        tt.style.top  = (e.clientY - 30) + 'px';
+        tt.innerHTML = `<b>${d.name}</b> <span style="color:${pctHex(d.occ)}">${d.occ.toFixed(0)}%</span>`;
+        renderer.domElement.style.cursor = 'pointer';
+        if (lastHover !== d.id) { hoverCb.current(d.id); lastHover = d.id; }
+      } else {
+        tt.style.display = 'none';
+        renderer.domElement.style.cursor = 'default';
+        if (lastHover) { hoverCb.current(null); lastHover = null; }
+      }
+    }
+
+    function onClick(e) {
+      toNDC(e);
+      rc.setFromCamera(mouse, cam);
+      const hits = rc.intersectObjects(allMeshes);
+      if (hits.length) {
+        clickCb.current(hits[0].object.userData.id);
+        ctrl.autoRotate = false;
+      }
+    }
+
+    renderer.domElement.addEventListener('mousemove', onMove);
+    renderer.domElement.addEventListener('click', onClick);
+
+    // Resize
+    function onResize() {
+      cam.aspect = el.clientWidth / el.clientHeight;
+      cam.updateProjectionMatrix();
+      renderer.setSize(el.clientWidth, el.clientHeight);
+    }
+    window.addEventListener('resize', onResize);
+
+    // Animation loop
+    let raf, t = 0;
+    function animate() {
+      raf = requestAnimationFrame(animate);
+      t += .009;
+      allMeshes.forEach(m => {
+        if (m.userData.occ > 68)
+          m.material.emissiveIntensity = .28 + .16 * Math.sin(t * 2.8 + m.position.x * .7);
+      });
+      ctrl.update();
+      renderer.render(scene, cam);
+    }
+    animate();
+
+    // Expose highlight fn
+    meshes._highlight = (id) => {
+      allMeshes.forEach(m => {
+        const sel = m.userData.id === id;
+        m.material.emissiveIntensity = sel ? 1.1 : (m.userData.occ > 68 ? .3 : .3);
+        m.scale.setScalar(sel ? 1.18 : 1);
+      });
+    };
+
+    cleanup.current = () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', onResize);
+      renderer.domElement.removeEventListener('mousemove', onMove);
+      renderer.domElement.removeEventListener('click', onClick);
+      renderer.dispose();
+      if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
+      tt.style.display = 'none';
+    };
+
+    return cleanup.current;
+  }, [zones.length > 0 ? 'loaded' : 'empty']);  // re-run once zones arrive
+
+  const highlight = useCallback((id) => {
+    if (meshes._highlight) meshes._highlight(id);
+  }, []);
+
+  return highlight;
+}
+
+// ─── FillBar ──────────────────────────────────────────────────────────────────
+function FillBar({ label, pct }) {
+  return (
+    <div className="meter">
+      <div className="meter-row">
+        <span>{label}</span>
+        <span style={{ fontWeight: 600 }}>{pct.toFixed(1)}%</span>
+      </div>
+      <div className="track">
+        <div className="fill" style={{ width: pct + '%', background: pctHex(pct) }} />
+      </div>
+    </div>
+  );
+}
+
+// ─── ZoneCard ─────────────────────────────────────────────────────────────────
+function ZoneCard({ zone, onPredict }) {
+  if (!zone) return (
+    <div className="card">
+      <div className="empty">
+        <div className="empty-icon">🗼</div>
+        <div>Click any tower to select a zone</div>
+        <div style={{ fontSize: 11, marginTop: 5 }}>Drag to orbit · Scroll to zoom</div>
+      </div>
+    </div>
+  );
+  return (
+    <div className="card">
+      <div className="ctitle">Selected Zone</div>
+      <div className="zone-name">{zone.name}</div>
+      <div className="zone-id">{zone.zone_id}</div>
+      <div className="tags">
+        <span className="tag hi">{zone.venue_type}</span>
+        {zone.neighborhood && <span className="tag">{zone.neighborhood}</span>}
+        <span className="tag">cap {zone.capacity}</span>
+        <span className="tag">transit {((zone.transit_score ?? 0) * 100).toFixed(0)}%</span>
+      </div>
+      <FillBar label="Current occupancy" pct={zone.occupancy_pct ?? 0} />
+      <button className="btn-primary" onClick={() => onPredict(zone.zone_id)}>
+        Predict fill in 30 min →
+      </button>
+    </div>
+  );
+}
+
+// ─── PredCard ─────────────────────────────────────────────────────────────────
+function PredCard({ pred, loading }) {
+  if (loading) return (
+    <div className="card" style={{ textAlign: 'center', padding: 22 }}>
+      <span className="spin" /> <span style={{ marginLeft: 8, fontSize: 12, color: 'var(--muted)' }}>Running XGBoost…</span>
+    </div>
+  );
+  if (!pred) return null;
+  const pct = pred.fill_probability * 100;
+  return (
+    <div className="card">
+      <div className="ctitle">XGBoost Prediction · 30 min</div>
+      <div className="bignum" style={{ color: pctHex(pct) }}>{pct.toFixed(1)}%</div>
+      <div className="bignum-sub">fill probability · confidence {(pred.confidence * 100).toFixed(0)}%</div>
+      <div style={{ marginTop: 10 }}>
+        <FillBar label="" pct={pct} />
+      </div>
+      {pred.reason && <div className="reason">{pred.reason}</div>}
+      {pred.alternative_zones?.length > 0 && <>
+        <div className="ctitle" style={{ marginTop: 11 }}>Lower-risk alternatives</div>
+        <div className="alt-list">
+          {pred.alternative_zones.slice(0, 3).map(a => (
+            <div key={a.zone_id} className="alt-item">
+              <span className="alt-id">{a.zone_id}</span>
+              <span style={{ color: 'var(--muted)' }}>{(a.distance_m / 1000).toFixed(2)} km</span>
+              <span style={{ fontWeight: 600, color: pctHex(a.fill_probability * 100) }}>
+                {(a.fill_probability * 100).toFixed(0)}%
+              </span>
+            </div>
+          ))}
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─── SLMCard ──────────────────────────────────────────────────────────────────
+const QUICK = [
+  'Will this zone be full at rush hour?',
+  'Find me similar alternatives nearby',
+  'Should I park here or keep cycling?',
+];
+
+function SLMCard({ zoneId }) {
+  const [q, setQ] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [res, setRes] = useState(null);
+
+  const ask = async () => {
+    if (!q.trim()) return;
+    setLoading(true); setRes(null);
+    try {
+      const r = await fetch(`${API}/slm/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: q, zone_context: zoneId ?? undefined }),
+      });
+      setRes(await r.json());
+    } catch (e) {
+      setRes({ content: '⚠️ ' + e.message, tool_calls: [] });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="card">
+      <div className="ctitle">Ask Parking Buddy (Qwen2.5)</div>
+      <div className="quick-q">
+        {QUICK.map(ex => (
+          <button key={ex} className="qbtn" onClick={() => setQ(ex)}>{ex}</button>
+        ))}
+      </div>
+      <textarea
+        className="slm-textarea"
+        rows={3}
+        value={q}
+        onChange={e => setQ(e.target.value)}
+        placeholder="Ask anything about parking in Glasgow…"
+        onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) ask(); }}
+      />
+      <button className="btn-teal" onClick={ask} disabled={loading || !q.trim()}>
+        {loading ? '⏳ Thinking…' : '⚡ Ask (⌘↵)'}
+      </button>
+      {res && <>
+        <div className="slm-out">{res.content || '(no response)'}</div>
+        {res.tool_calls?.length > 0 && (
+          <div className="slm-meta">🔧 {res.tool_calls.join(', ')} · {res.latency_ms?.toFixed(0)}ms</div>
+        )}
+        {!res.ollama_used && (
+          <div className="slm-meta warn">⚠️ Ollama offline — run: ollama serve</div>
+        )}
+      </>}
+    </div>
+  );
+}
+
+// ─── Legend strip ─────────────────────────────────────────────────────────────
+function LegendBar() {
+  return (
+    <div className="card" style={{ padding: '9px 13px' }}>
+      <div className="legend">
+        <span style={{ fontSize: 11, color: 'var(--muted)' }}>Occupancy:</span>
+        {[['<40%', '#22c55e'], ['40–70%', '#f59e0b'], ['>70%', '#ef4444']].map(([l, c]) => (
+          <span key={l} style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span className="ldot" style={{ background: c }} />{l}
+          </span>
+        ))}
+        <span style={{ fontSize: 11, color: 'var(--muted)', marginLeft: 'auto' }}>Tower height = fill</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Root App ─────────────────────────────────────────────────────────────────
+function App() {
+  const canvasRef = useRef(null);
+  const [zones, setZones] = useState([]);
+  const [status, setStatus] = useState('connecting');
+  const [selected, setSelected] = useState(null);
+  const [pred, setPred] = useState(null);
+  const [predLoading, setPredLoading] = useState(false);
+
+  // Use refs to break circular dependency: highlight ↔ selectRef
+  const highlightRef = useRef(() => {});
+  const selectRef = useRef(null);
+  selectRef.current = (id) => {
+    const z = zones.find(z => z.zone_id === id);
+    setSelected(z ?? null);
+    setPred(null);
+    highlightRef.current(id);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await fetch(`${API}/health`);
+        const r = await fetch(`${API}/zones/latest_occupancy`);
+        const d = await r.json();
+        setZones(d.zones ?? d ?? []);
+        setStatus('ok');
+      } catch { setStatus('error'); }
+    })();
+  }, []);
+
+  const highlight = useScene(
+    canvasRef,
+    zones,
+    (id) => selectRef.current(id),
+    (id) => { if (id) highlightRef.current(id); },
+  );
+
+  // Sync highlight fn into ref after it's defined
+  useEffect(() => { highlightRef.current = highlight; }, [highlight]);
+
+  const runPredict = async (zoneId) => {
+    setPredLoading(true); setPred(null);
+    try {
+      const r = await fetch(`${API}/predict/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ zone_id: zoneId, lookahead_mins: 30, current_timestamp: new Date().toISOString() }),
+      });
+      setPred(await r.json());
+    } catch (e) {
+      setPred({ fill_probability: 0, confidence: 0, reason: 'API error: ' + e.message, alternative_zones: [] });
+    }
+    setPredLoading(false);
+  };
+
+  const statusLabel = status === 'ok'
+    ? `Glasgow · ${zones.length} zones · Three.js`
+    : status === 'error'
+    ? '⚠️  API offline — run: python run.py'
+    : 'Connecting to API…';
+
+  return (
+    <>
+      {/* 3D canvas pane */}
+      <div className="canvas-wrap" ref={canvasRef}>
+        <div className="scene-label">{statusLabel}</div>
+      </div>
+
+      {/* Side panel */}
+      <div className="panel">
+        <div className="panel-head">
+          <span style={{ fontSize: 22 }}>🚲</span>
+          <div>
+            <h1>Parking Buddy</h1>
+            <small>3D Zone Explorer · Glasgow</small>
+          </div>
+        </div>
+        <div className="panel-body">
+          <LegendBar />
+          <ZoneCard zone={selected} onPredict={runPredict} />
+          <PredCard pred={pred} loading={predLoading} />
+          <SLMCard zoneId={selected?.zone_id} />
+        </div>
+      </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
