@@ -493,3 +493,165 @@ class TestHNSWSearch:
             for i, entry in enumerate(r.occupancy_profile):
                 assert entry.hour == i
                 assert 0.0 <= entry.avg_occupancy_pct <= 100.0
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 6. GBFS Ingest Tests
+# ═════════════════════════════════════════════════════════════════════════════
+
+
+class TestGBFSIngest:
+    """Tests use fixture payloads only — no real network calls during CI."""
+
+    # ── Payload normalisation ─────────────────────────────────────────────
+
+    def test_normalize_zone_snapshot_fields(self):
+        """normalize_zone_snapshot maps GBFS station_status fields to ZoneSnapshot names."""
+        from datetime import datetime, timezone
+        from backend.data.loaders import normalize_zone_snapshot
+
+        ts = datetime(2026, 8, 14, 12, 0, tzinfo=timezone.utc)
+        station = {
+            "station_id": "6432324",
+            "num_bikes_available": 4,
+            "num_docks_available": 8,
+            "is_installed": True,
+            "is_renting": True,
+            "is_returning": True,
+            "last_reported": 1786730036,
+        }
+        snap = normalize_zone_snapshot(station, ts)
+        assert snap["zone_id"] == "6432324"
+        assert snap["bikes_available"] == 4
+        assert "capacity" in snap
+        assert "occupancy_pct" in snap
+        assert 0.0 <= snap["occupancy_pct"] <= 1.0
+        assert snap["timestamp"] == ts
+        assert "weather_code" in snap
+        assert "is_event_nearby" in snap
+
+    def test_normalize_zero_capacity_station(self):
+        """Zero-capacity station (dockless, no dock info) yields occupancy 0.0."""
+        from datetime import datetime, timezone
+        from backend.data.loaders import normalize_zone_snapshot
+
+        ts = datetime(2026, 8, 14, 12, 0, tzinfo=timezone.utc)
+        station = {"station_id": "99", "num_bikes_available": 0, "num_docks_available": 0}
+        snap = normalize_zone_snapshot(station, ts)
+        assert snap["occupancy_pct"] == 0.0
+
+    def test_normalize_full_station(self):
+        """Full station (0 bikes available, some capacity) yields occupancy 1.0."""
+        from datetime import datetime, timezone
+        from backend.data.loaders import normalize_zone_snapshot
+
+        ts = datetime(2026, 8, 14, 12, 0, tzinfo=timezone.utc)
+        station = {"station_id": "42", "num_bikes_available": 0, "num_docks_available": 10}
+        snap = normalize_zone_snapshot(station, ts)
+        assert snap["occupancy_pct"] == 1.0
+
+    # ── DB layer ──────────────────────────────────────────────────────────
+
+    def test_synthetic_zone_count_unchanged_after_real_upsert(self, db_store):
+        """Inserting a real zone must not change the synthetic zone count."""
+        before = len(db_store.get_zones())  # default source='synthetic'
+        db_store.upsert_real_zone(
+            zone_id="TEST_REAL_001",
+            name="Test Real Station",
+            lat=44.77,
+            lon=17.19,
+            capacity=10,
+        )
+        after = len(db_store.get_zones())
+        assert after == before, "Synthetic zone count changed after inserting a real zone"
+
+    def test_real_zone_visible_via_source_filter(self, db_store):
+        """Real zone inserted in previous test is queryable with source='real'."""
+        db_store.upsert_real_zone(
+            zone_id="TEST_REAL_002",
+            name="Test Real Station 2",
+            lat=44.78,
+            lon=17.20,
+            capacity=8,
+        )
+        real_zones = db_store.get_zones(source="real")
+        real_ids = {z["zone_id"] for z in real_zones}
+        assert "TEST_REAL_002" in real_ids
+
+    def test_insert_zone_snapshots_persists_rows(self, db_store):
+        """insert_zone_snapshots must write rows into the DB for known zone_ids."""
+        from datetime import datetime, timezone
+
+        # Ensure the zone exists first
+        db_store.upsert_real_zone(
+            zone_id="TEST_REAL_003",
+            name="Test Real Station 3",
+            lat=44.79,
+            lon=17.21,
+            capacity=6,
+        )
+        ts = datetime(2026, 8, 14, 10, 0, tzinfo=timezone.utc)
+        snapshots = [
+            {
+                "zone_id": "TEST_REAL_003",
+                "timestamp": ts,
+                "bikes_available": 3,
+                "capacity": 6,
+                "occupancy_pct": 0.5,
+                "weather_code": None,
+                "is_event_nearby": None,
+            }
+        ]
+        written = db_store.insert_zone_snapshots(snapshots)
+        assert written == 1
+
+    def test_insert_snapshots_skips_unknown_zone(self, db_store):
+        """Snapshots for unknown zone_ids must be skipped (FK guard)."""
+        from datetime import datetime, timezone
+
+        snapshots = [
+            {
+                "zone_id": "NONEXISTENT_ZONE_XYZ",
+                "timestamp": datetime(2026, 8, 14, 11, 0, tzinfo=timezone.utc),
+                "bikes_available": 1,
+                "capacity": 5,
+                "occupancy_pct": 0.2,
+                "weather_code": None,
+                "is_event_nearby": None,
+            }
+        ]
+        written = db_store.insert_zone_snapshots(snapshots)
+        assert written == 0
+
+    # ── GBFSIngestJob unit tests (no network) ────────────────────────────
+
+    @pytest.mark.asyncio
+    async def test_ingest_job_run_once_no_feeds(self):
+        """run_once with empty feed list logs a warning and writes nothing."""
+        from backend.data.gbfs_ingest import GBFSIngestJob
+
+        job = GBFSIngestJob(feed_urls=[], db_store=None)
+        await job.run_once()
+        assert job.snapshots_total == 0
+        assert job.error_count == 0
+
+    def test_ingest_job_status_dict_never_polled(self):
+        """status_dict on a fresh job returns status='never_polled'."""
+        from backend.data.gbfs_ingest import GBFSIngestJob
+
+        job = GBFSIngestJob(feed_urls=["https://example.com/gbfs.json"], db_store=None)
+        status = job.status_dict()
+        assert status["status"] == "never_polled"
+        assert status["last_success_at"] is None
+        assert status["error_count"] == 0
+
+    # ── /health/ingest endpoint ───────────────────────────────────────────
+
+    def test_health_ingest_disabled(self, test_client):
+        """When no ingest job is wired (GBFS_INGEST_ENABLED=false), endpoint returns 'disabled'."""
+        r = test_client.get("/health/ingest")
+        assert r.status_code == 200
+        data = r.json()
+        assert data["status"] == "disabled"
+        assert data["last_success_at"] is None
+        assert data["error_count"] == 0

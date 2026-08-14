@@ -54,6 +54,9 @@ class ZoneMetadata(Base):
     neighborhood: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     gbfs_region_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
     avg_daily_turnover: Mapped[Optional[float]] = mapped_column(Double, nullable=True)
+    zone_source: Mapped[Optional[str]] = mapped_column(
+        String(16), nullable=True, server_default="synthetic"
+    )
     created_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
     )

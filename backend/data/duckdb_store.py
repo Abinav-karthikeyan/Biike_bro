@@ -140,11 +140,18 @@ class DuckDBStore:
 
     # ── Zone Queries ──────────────────────────────────────────────────────
 
-    def get_zones(self) -> List[Dict[str, Any]]:
-        """Return all zones."""
+    def get_zones(self, source: str = "synthetic") -> List[Dict[str, Any]]:
+        """Return zones filtered by source ('synthetic', 'real', or None for all)."""
+        if source:
+            return self._query_df(
+                "SELECT zone_id, name, lat, lon, radius_m, zone_type, venue_type, "
+                "capacity, transit_score, neighborhood, zone_source FROM zones "
+                "WHERE zone_source = :source ORDER BY zone_id",
+                {"source": source},
+            ).to_dict("records")
         return self._query_df(
             "SELECT zone_id, name, lat, lon, radius_m, zone_type, venue_type, "
-            "capacity, transit_score, neighborhood FROM zones ORDER BY zone_id"
+            "capacity, transit_score, neighborhood, zone_source FROM zones ORDER BY zone_id"
         ).to_dict("records")
 
     def get_zone(self, zone_id: str) -> Optional[Dict[str, Any]]:
@@ -164,12 +171,14 @@ class DuckDBStore:
             {"zone_id": zone_id},
         )
 
-    def get_latest_occupancy(self) -> List[Dict[str, Any]]:
-        """All zones with their most recent occupancy snapshot."""
+    def get_latest_occupancy(self, source: str = "synthetic") -> List[Dict[str, Any]]:
+        """All zones with their most recent occupancy snapshot, filtered by source."""
+        source_clause = "WHERE z.zone_source = :source" if source else ""
+        params = {"source": source} if source else None
         return self._query_df(
-            """
+            f"""
             SELECT z.zone_id, z.name, z.lat, z.lon, z.venue_type, z.capacity,
-                   z.transit_score, z.neighborhood,
+                   z.transit_score, z.neighborhood, z.zone_source,
                    s.occupancy_pct, s.bikes_available, s.weather_code,
                    s.is_event_nearby, s.timestamp
             FROM zones z
@@ -177,8 +186,10 @@ class DuckDBStore:
                 SELECT *, ROW_NUMBER() OVER (PARTITION BY zone_id ORDER BY timestamp DESC) AS rn
                 FROM zone_snapshots
             ) s ON z.zone_id = s.zone_id AND s.rn = 1
+            {source_clause}
             ORDER BY s.occupancy_pct DESC NULLS LAST
-            """
+            """,
+            params,
         ).to_dict("records")
 
     def get_zone_snapshots(self, zone_id: str, hours: int = 24) -> List[Dict[str, Any]]:
@@ -265,7 +276,7 @@ class DuckDBStore:
         summary = self._query_one(
             """
             SELECT
-                (SELECT COUNT(*) FROM zones)      AS total_zones,
+                (SELECT COUNT(*) FROM zones WHERE zone_source = 'synthetic')  AS total_zones,
                 (SELECT COUNT(*) FROM rides)       AS total_rides,
                 (SELECT ROUND(CAST(100.0 * SUM(CASE WHEN was_redirected THEN 1 ELSE 0 END)
                               / COUNT(*) AS NUMERIC), 1) FROM rides) AS redirect_rate,
@@ -350,6 +361,95 @@ class DuckDBStore:
         if not row or row.get("avg_occ") is None:
             return None
         return float(row["avg_occ"])
+
+    # ── GBFS Real-Zone Upsert ─────────────────────────────────────────────
+
+    def upsert_real_zone(
+        self,
+        zone_id: str,
+        name: str,
+        lat: float,
+        lon: float,
+        capacity: Optional[int] = None,
+        gbfs_region_id: Optional[str] = None,
+    ) -> None:
+        """Insert or update a real GBFS zone (zone_source='real').
+
+        DuckDB's CSV-loaded zones table has no PK index, so ON CONFLICT isn't
+        available there.  We use a delete-then-insert pattern on DuckDB and
+        the standard ON CONFLICT on Postgres (where zone_id is a true PK).
+        """
+        is_duckdb = "duckdb" in self.engine.dialect.name
+        params = {
+            "zone_id": zone_id, "name": name, "lat": lat, "lon": lon,
+            "capacity": capacity, "region": gbfs_region_id,
+        }
+        with self.engine.connect() as conn:
+            if is_duckdb:
+                conn.execute(
+                    text("DELETE FROM zones WHERE zone_id = :zone_id AND zone_source = 'real'"),
+                    {"zone_id": zone_id},
+                )
+                conn.execute(text("""
+                    INSERT INTO zones (zone_id, name, lat, lon, capacity, gbfs_region_id, zone_source)
+                    VALUES (:zone_id, :name, :lat, :lon, :capacity, :region, 'real')
+                """), params)
+            else:
+                conn.execute(text("""
+                    INSERT INTO zones (zone_id, name, lat, lon, capacity, gbfs_region_id, zone_source)
+                    VALUES (:zone_id, :name, :lat, :lon, :capacity, :region, 'real')
+                    ON CONFLICT (zone_id) DO UPDATE SET
+                        name = EXCLUDED.name, lat = EXCLUDED.lat, lon = EXCLUDED.lon,
+                        capacity = EXCLUDED.capacity, gbfs_region_id = EXCLUDED.gbfs_region_id
+                """), params)
+            conn.commit()
+
+    def insert_zone_snapshots(self, snapshots: List[Dict[str, Any]]) -> int:
+        """
+        Bulk-insert zone snapshots.  Returns the number of rows written.
+
+        Caller is responsible for deduplication (e.g. checking last_updated
+        hasn't advanced before calling).  Rows with unknown zone_id are skipped
+        silently to avoid FK violations when the zones table isn't seeded yet.
+        """
+        if not snapshots:
+            return 0
+
+        # Resolve which zone_ids actually exist (FK guard)
+        known_ids = {
+            r["zone_id"]
+            for r in self._query_df("SELECT zone_id FROM zones").to_dict("records")
+        }
+        valid = [s for s in snapshots if s["zone_id"] in known_ids]
+        if not valid:
+            return 0
+
+        now = datetime.now(timezone.utc)
+        with self.engine.connect() as conn:
+            for snap in valid:
+                ts = snap.get("timestamp") or now
+                conn.execute(text("""
+                    INSERT INTO zone_snapshots
+                        (zone_id, timestamp, bikes_available, capacity, occupancy_pct,
+                         weather_code, is_event_nearby)
+                    VALUES
+                        (:zone_id, :ts, :bikes, :cap, :occ, :wx, :ev)
+                """), {
+                    "zone_id": snap["zone_id"],
+                    "ts": ts,
+                    "bikes": snap.get("bikes_available", 0),
+                    "cap": snap.get("capacity"),
+                    "occ": snap.get("occupancy_pct", 0.0),
+                    "wx": snap.get("weather_code"),
+                    "ev": snap.get("is_event_nearby"),
+                })
+            conn.commit()
+        logger.info("Inserted %d zone snapshots", len(valid))
+        return len(valid)
+
+    def get_real_zone_latest_occupancy(self) -> List[Dict[str, Any]]:
+        """Latest snapshots for all real GBFS zones."""
+        return self.get_latest_occupancy(source="real")
 
     # ── Outcome Telemetry ─────────────────────────────────────────────────
 

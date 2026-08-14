@@ -3,6 +3,7 @@ Bike Parking Buddy — Backend Entry Point
 FastAPI app factory with SQLAlchemy data layer and XGBoost model.
 """
 
+import asyncio
 from contextlib import asynccontextmanager
 
 import structlog
@@ -55,6 +56,24 @@ async def lifespan(app: FastAPI):
     )
 
     zone_count = hnsw._zone_index.get_current_count() if (hnsw and hnsw._zone_index) else 0
+
+    # ── GBFS ingest poller (gated on GBFS_INGEST_ENABLED) ────────────────
+    ingest_task = None
+    if settings.GBFS_INGEST_ENABLED and settings.GBFS_FEED_URLS:
+        from backend.data.gbfs_ingest import GBFSIngestJob
+        ingest_job = GBFSIngestJob(
+            feed_urls=settings.GBFS_FEED_URLS,
+            db_store=app.state.db,
+        )
+        app.state.ingest_job = ingest_job
+        ingest_task = asyncio.create_task(
+            ingest_job.start_polling(settings.GBFS_POLL_INTERVAL_SECONDS)
+        )
+        logger.info("GBFS ingest poller started with %d feed(s)", len(settings.GBFS_FEED_URLS))
+    else:
+        app.state.ingest_job = None
+        logger.info("GBFS ingest disabled (GBFS_INGEST_ENABLED=false or no feed URLs)")
+
     logger.info(
         "Services initialised — DB ready, XGBoost ready, "
         f"HNSW index has {zone_count} zones, SLM ready"
@@ -63,6 +82,14 @@ async def lifespan(app: FastAPI):
 
     # ── Shutdown ─────────────────────────────────────────────────────────
     logger.info("Shutting down Bike Parking Buddy backend")
+    if ingest_task is not None:
+        if hasattr(app.state, "ingest_job") and app.state.ingest_job:
+            app.state.ingest_job.stop()
+        ingest_task.cancel()
+        try:
+            await ingest_task
+        except asyncio.CancelledError:
+            pass
     if hasattr(app.state, "db") and app.state.db is not None:
         app.state.db.engine.dispose()
 

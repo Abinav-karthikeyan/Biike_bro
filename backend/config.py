@@ -26,9 +26,16 @@ class Settings(BaseSettings):
     ZONE_CACHE_TTL_SECONDS: int = 300  # 5 min occupancy cache
 
     # ── GBFS ─────────────────────────────────────────────────────────────
-    # TODO: Add operator-specific GBFS feed URLs here
-    GBFS_POLL_INTERVAL_SECONDS: int = 300  # 5 min as per PRD
-    GBFS_FEED_URLS: List[str] = []        # e.g. ["https://data.lime.bike/api/partners/v1/gbfs/..."]
+    # Glasgow OVO Bikes / Nextbike Glasgow does not expose a public GBFS endpoint
+    # (absent from MobilityData systems.csv registry as of 2026-08-14).
+    # Proof-of-concept: Nextbike Banja Luka (nextbike_bj) — public, no auth,
+    # docked stations with station_status and station_information feeds.
+    # Replace with a Glasgow operator feed when one becomes available.
+    GBFS_INGEST_ENABLED: bool = False     # set true in .env to start the poller
+    GBFS_POLL_INTERVAL_SECONDS: int = 300  # 5 min
+    GBFS_FEED_URLS: List[str] = [
+        "https://gbfs.nextbike.net/maps/gbfs/v2/nextbike_bj/gbfs.json",
+    ]
 
     # ── ML / Prediction ───────────────────────────────────────────────────
     MODEL_ARTIFACTS_S3_BUCKET: str = ""

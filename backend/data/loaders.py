@@ -59,6 +59,13 @@ def _load_duckdb(engine: Engine, seed_dir: Path) -> None:
             result = conn.execute(text(f"SELECT COUNT(*) FROM {table}"))
             count = result.scalar()
             logger.info("DuckDB: loaded %s — %s rows", table, f"{count:,}")
+        # Stamp zone_source so synthetic rows are distinguishable from real GBFS rows
+        conn.execute(text(
+            "ALTER TABLE zones ADD COLUMN IF NOT EXISTS zone_source VARCHAR DEFAULT 'synthetic'"
+        ))
+        conn.execute(text(
+            "UPDATE zones SET zone_source = 'synthetic' WHERE zone_source IS NULL"
+        ))
         conn.commit()
 
 
@@ -72,6 +79,8 @@ def _load_pandas(engine: Engine, seed_dir: Path) -> None:
         df = pd.read_csv(path)
         # Replace nulls that pandas reads as NaN with None so SQL NULLs are correct
         df = df.where(pd.notna(df), None)
+        if table == "zones":
+            df["zone_source"] = "synthetic"
         df.to_sql(table, engine, if_exists="append", index=False, method="multi", chunksize=500)
         logger.info("Pandas: loaded %s — %s rows", table, f"{len(df):,}")
 
