@@ -50,14 +50,22 @@ class Settings(BaseSettings):
     HNSW_EF_SEARCH: int = 50
 
     # ── SLM / On-device ───────────────────────────────────────────────────
-    # Model: Qwen2.5-0.5B or Phi-3.5-mini (on-device; no cloud calls)
-    SLM_MODEL_NAME: str = "Qwen/Qwen2.5-0.5B-Instruct"
+    # SLM_MODEL_NAME was previously used for a Transformers/HuggingFace path
+    # that was dropped in V2 (Ollama serves both tiers instead).
+    # Kept here to avoid breaking .env files that reference it.
+    SLM_MODEL_NAME: str = "Qwen/Qwen2.5-0.5B-Instruct"  # unused in V2 — see OLLAMA_EDGE_MODEL_NAME
     SLM_MAX_LATENCY_MS: int = 200  # <200ms requirement per PRD
 
     # ── Ollama (local inference daemon) ───────────────────────────────────
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL_NAME: str = "qwen2.5"  # tag in `ollama list`; override after fine-tuning
-    OLLAMA_TIMEOUT_SECONDS: int = 60    # generous for 7B on CPU
+    OLLAMA_MODEL_NAME: str = "qwen2.5"          # cloud tier — 7B, ~60s timeout on CPU
+    OLLAMA_EDGE_MODEL_NAME: str = "qwen2.5:0.5b"  # edge/mobile tier — 0.5B, faster
+    OLLAMA_TIMEOUT_SECONDS: int = 60
+
+    # ── RAG context token budgets (per inference tier) ────────────────────
+    # ~4 chars/token rule-of-thumb for Qwen2.5's BPE vocabulary.
+    RAG_CLOUD_TOKEN_BUDGET: int = 500   # full context: occupancy + history + similar zones + weather + events
+    RAG_EDGE_TOKEN_BUDGET: int = 200    # compressed: occupancy + history + weather only
 
 
 @lru_cache

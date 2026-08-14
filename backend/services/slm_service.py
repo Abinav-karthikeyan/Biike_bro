@@ -1,46 +1,59 @@
 """
-SLM Service — Ollama/Qwen2.5 inference with tool-calling.
+SLM Service — Ollama/Qwen2.5 inference with tool-calling and RAG context.
 
 Architecture
 ────────────
-• Uses the local Ollama daemon (http://localhost:11434) via the
-  `ollama` Python SDK — same pattern as qwen/ollama_qwen.py.
-• Model: qwen2.5 (7.6B Q4_K_M, already pulled) — swappable via config.
-• Exposes 3 PRD tool functions as Ollama-native tool_calls so the SLM
-  can decide which tool to invoke based on the rider's natural language query.
-• Falls back to XGBoost PredictionService if Ollama is unreachable.
+• Two inference tiers, both served by the local Ollama daemon:
+    cloud  — qwen2.5 (7B Q4_K_M); full RAG context; ~500-token budget.
+    edge   — qwen2.5:0.5b; compressed RAG context; ~200-token budget.
+             Pull with: ollama pull qwen2.5:0.5b
+  Tier is selected per-request via the `inference_tier` field in the
+  query body.  If the requested model is not pulled, the service falls
+  back to whichever tier IS available (cloud → edge → stub).
+
+• RAG context (Phase 4) is injected into the system prompt before the
+  rider's query.  The assembler fetches: (a) current occupancy,
+  (b) 7-day same-hour history, (c) similar zones via HNSW (cloud only),
+  (d) current weather, (e) nearby events (cloud only).
+  Pass `include_context=False` to compare tool-calling-only answers.
 
 Tool-calling flow
 ──────────────────
  Rider query (NL)
        │
        ▼
- OllamaClient.chat(tools=TOOL_DEFINITIONS)
+ [RAG assembler → context block injected into system prompt]
        │
-       ├─ tool_call → zone_semantic_search   → HNSWSearchService (or fallback)
+       ▼
+ OllamaClient.chat(model=<tier>, tools=TOOL_DEFINITIONS)
+       │
+       ├─ tool_call → zone_semantic_search   → HNSWSearchService
        ├─ tool_call → get_zone_forecast      → PredictionService.predict()
-       └─ tool_call → log_outcome            → DB write (stub → real when DuckDB→prod)
+       └─ tool_call → log_outcome            → DuckDBStore
        │
        ▼
  Final response assembled → SLMQueryResponse
 
-Fine-tuning hook
-────────────────
-  See qwen/finetune/ for the training data schema and Unsloth/PEFT scripts.
-  The trained adapter is loaded by setting OLLAMA_MODEL_NAME to the modelfile
-  tag, or by pointing SLM_ADAPTER_PATH to the GGUF export.
+On-device migration path
+────────────────────────
+  In a true on-device deployment the phone runs a GGUF / CoreML quantised
+  model and consumes context from a /context endpoint (same RAGContextAssembler,
+  no inference server-side).  The two-tier implementation here is the
+  server-side precedent for that split — same code, different model weights
+  and token budgets.
 """
 
 import json
 import logging
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import ollama  # ollama-python SDK
 
 from backend.config import get_settings
 from backend.models.schemas import PredictRequest, PredictResponse
+from backend.services.rag_context import RAGContextAssembler
 from backend.services.slm_tools import TOOL_DEFINITIONS, dispatch_tool_call
 
 logger = logging.getLogger(__name__)
@@ -71,35 +84,51 @@ class SLMService:
         hnsw_service=None,
     ) -> None:
         self.model = model or settings.OLLAMA_MODEL_NAME
+        self.edge_model = settings.OLLAMA_EDGE_MODEL_NAME
         self.ollama_base_url = settings.OLLAMA_BASE_URL
         self._client = ollama.Client(host=self.ollama_base_url)
         self.prediction_service = prediction_service
         self.db = db_store
         self.hnsw_service = hnsw_service
         self._ollama_ok: Optional[bool] = None
+        self._edge_ok: Optional[bool] = None
+        self._rag = RAGContextAssembler(db_store=db_store, hnsw_service=hnsw_service)
         self._check_ollama()
 
     def _check_ollama(self) -> None:
-        """Ping Ollama to confirm it's reachable and the model is pulled."""
+        """Ping Ollama; record which tiers (cloud, edge) are available."""
         try:
             tags = self._client.list()
             names = [m.model for m in tags.models]
-            if not any(self.model in n for n in names):
-                logger.warning(
-                    f"Ollama model '{self.model}' not found in pulled models: {names}. "
-                    "Falling back to XGBoost stub."
-                )
-                self._ollama_ok = False
+            self._ollama_ok = any(self.model in n for n in names)
+            self._edge_ok = any(self.edge_model in n for n in names)
+            if self._ollama_ok:
+                logger.info("Ollama ready — cloud model '%s' confirmed", self.model)
             else:
-                logger.info(f"Ollama ready — model '{self.model}' confirmed")
-                self._ollama_ok = True
+                logger.warning(
+                    "Cloud model '%s' not pulled. Available: %s", self.model, names
+                )
+            if self._edge_ok:
+                logger.info("Ollama edge tier — model '%s' confirmed", self.edge_model)
+            else:
+                logger.info(
+                    "Edge model '%s' not pulled; edge tier will fall back to cloud. "
+                    "Run: ollama pull %s", self.edge_model, self.edge_model
+                )
         except Exception as exc:
-            logger.warning(f"Ollama not reachable ({exc}); SLM will stub responses")
+            logger.warning("Ollama not reachable (%s); SLM will stub responses", exc)
             self._ollama_ok = False
+            self._edge_ok = False
 
     # ── Public API ────────────────────────────────────────────────────────
 
-    async def query(self, user_message: str, zone_context: Optional[str] = None) -> Dict[str, Any]:
+    async def query(
+        self,
+        user_message: str,
+        zone_context: Optional[str] = None,
+        include_context: bool = True,
+        inference_tier: str = "cloud",
+    ) -> Dict[str, Any]:
         """
         Send a natural-language query to Qwen2.5 with parking tools available.
 
@@ -108,24 +137,51 @@ class SLMService:
         user_message : str
             Rider's natural language question.
         zone_context : str, optional
-            The zone_id the rider is currently viewing (injected into system prompt).
+            The zone_id the rider is currently viewing.
+        include_context : bool
+            When True (default), RAG context is assembled and injected into the
+            system prompt before the query.  Set False to run tool-calling only
+            (useful for A/B comparison of RAG vs no-RAG answers).
+        inference_tier : str
+            "cloud" (default) — qwen2.5 7B, full RAG context (~500 tokens).
+            "edge"            — qwen2.5:0.5b, compressed context (~200 tokens).
+            Falls back to the available tier if the requested model is not pulled.
 
         Returns
         -------
         dict with keys:
-            content       : str  — final assistant reply
-            tool_calls    : list — raw tool_calls from model (may be empty)
-            tool_results  : list — results of each dispatched tool call
-            latency_ms    : float
-            model         : str
-            ollama_used   : bool
+            content          : str
+            tool_calls       : list[str]
+            tool_results     : list[dict]
+            latency_ms       : float
+            model            : str
+            ollama_used      : bool
+            rag_context_used : bool
+            inference_tier   : str
         """
         t0 = time.perf_counter()
 
-        if not self._ollama_ok:
-            return self._fallback_response(user_message, zone_context, t0)
+        # ── Tier selection ────────────────────────────────────────────────
+        model, effective_tier = self._resolve_tier(inference_tier)
 
-        system_prompt = self._build_system_prompt(zone_context)
+        if not (self._ollama_ok or self._edge_ok):
+            return self._fallback_response(user_message, zone_context, t0, tier=effective_tier)
+
+        # ── RAG context assembly ──────────────────────────────────────────
+        rag_context = ""
+        if include_context and zone_context and self.db:
+            try:
+                rag_context = self._rag.assemble(
+                    zone_id=zone_context,
+                    query_time=datetime.now(timezone.utc),
+                    tier=effective_tier,
+                    cloud_token_budget=settings.RAG_CLOUD_TOKEN_BUDGET,
+                    edge_token_budget=settings.RAG_EDGE_TOKEN_BUDGET,
+                )
+            except Exception as exc:
+                logger.warning("RAG assembly failed, continuing without context: %s", exc)
+
+        system_prompt = self._build_system_prompt(zone_context, rag_context)
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
@@ -133,13 +189,15 @@ class SLMService:
 
         try:
             response = self._client.chat(
-                model=self.model,
+                model=model,
                 messages=messages,
                 tools=TOOL_DEFINITIONS,
             )
         except Exception as exc:
-            logger.error(f"Ollama chat error: {exc}")
-            return self._fallback_response(user_message, zone_context, t0, error=str(exc))
+            logger.error("Ollama chat error (tier=%s): %s", effective_tier, exc)
+            return self._fallback_response(
+                user_message, zone_context, t0, error=str(exc), tier=effective_tier
+            )
 
         # ── Handle tool calls ─────────────────────────────────────────────
         tool_results = []
@@ -172,21 +230,26 @@ class SLMService:
                 messages.append({"role": "tool", "content": tool_content})
 
                 try:
-                    final_resp = self._client.chat(model=self.model, messages=messages)
+                    final_resp = self._client.chat(model=model, messages=messages)
                     final_content = final_resp.message.content or final_content
                 except Exception as exc:
-                    logger.warning(f"Second Ollama pass failed: {exc}")
+                    logger.warning("Second Ollama pass failed (tier=%s): %s", effective_tier, exc)
 
         latency_ms = (time.perf_counter() - t0) * 1000
-        logger.info(f"SLM query completed in {latency_ms:.1f}ms, tools={len(tool_results)}")
+        logger.info(
+            "SLM query done in %.1fms tier=%s tools=%d rag=%s",
+            latency_ms, effective_tier, len(tool_results), bool(rag_context),
+        )
 
         return {
             "content": final_content,
             "tool_calls": [tc.function.name for tc in (response.message.tool_calls or [])],
             "tool_results": tool_results,
             "latency_ms": round(latency_ms, 1),
-            "model": self.model,
+            "model": model,
             "ollama_used": True,
+            "rag_context_used": bool(rag_context),
+            "inference_tier": effective_tier,
         }
 
     async def predict_with_slm(self, zone_id: str, lookahead_mins: int = 30) -> Dict[str, Any]:
@@ -230,12 +293,43 @@ class SLMService:
 
     # ── Internals ─────────────────────────────────────────────────────────
 
-    def _build_system_prompt(self, zone_context: Optional[str]) -> str:
+    def _resolve_tier(self, requested_tier: str):
+        """
+        Return (model_name, effective_tier) for the request.
+
+        Falls back gracefully:
+          requested=cloud, cloud ok  → (cloud_model, "cloud")
+          requested=cloud, cloud down, edge ok → (edge_model, "edge")
+          requested=edge, edge ok    → (edge_model, "edge")
+          requested=edge, edge down  → (cloud_model, "cloud")  if cloud ok
+        """
+        if requested_tier == "edge":
+            if self._edge_ok:
+                return self.edge_model, "edge"
+            if self._ollama_ok:
+                logger.info(
+                    "Edge model not available; falling back to cloud tier. "
+                    "Pull with: ollama pull %s", self.edge_model
+                )
+                return self.model, "cloud"
+        else:
+            if self._ollama_ok:
+                return self.model, "cloud"
+            if self._edge_ok:
+                logger.info("Cloud model unavailable; falling back to edge tier")
+                return self.edge_model, "edge"
+        return self.model, "cloud"  # stub fallback — _ollama_ok will gate the call
+
+    def _build_system_prompt(
+        self, zone_context: Optional[str], rag_context: str = ""
+    ) -> str:
         now = datetime.now(timezone.utc).strftime("%A %H:%M UTC")
-        zone_hint = f" The rider is currently looking at zone {zone_context}." if zone_context else ""
+        zone_hint = f" The rider is at zone {zone_context}." if zone_context else ""
+        ctx_block = f"\n\nZone context:\n{rag_context}" if rag_context else ""
         return (
             f"You are Parking Buddy, an AI assistant for dockless bike-share parking in Glasgow. "
-            f"Current time: {now}.{zone_hint} "
+            f"Current time: {now}.{zone_hint}"
+            f"{ctx_block}\n\n"
             "Use the provided tools to get live zone forecasts and alternatives. "
             "Be concise — riders are on the move. Max 3 sentences in your final reply."
         )
@@ -297,7 +391,12 @@ class SLMService:
         return result
 
     def _fallback_response(
-        self, user_message: str, zone_context: Optional[str], t0: float, error: str = ""
+        self,
+        user_message: str,
+        zone_context: Optional[str],
+        t0: float,
+        error: str = "",
+        tier: str = "cloud",
     ) -> Dict[str, Any]:
         """Return a structured stub when Ollama is unavailable."""
         latency_ms = (time.perf_counter() - t0) * 1000
@@ -309,6 +408,8 @@ class SLMService:
             "latency_ms": round(latency_ms, 1),
             "model": self.model,
             "ollama_used": False,
+            "rag_context_used": False,
+            "inference_tier": tier,
         }
 
     def get_status(self) -> Dict[str, Any]:
@@ -316,6 +417,15 @@ class SLMService:
         return {
             "ollama_reachable": self._ollama_ok,
             "model": self.model,
+            "edge_model": self.edge_model,
+            "edge_model_available": self._edge_ok,
             "base_url": self.ollama_base_url,
             "tool_count": len(TOOL_DEFINITIONS),
+            "rag_enabled": True,
+            "tiers_available": (
+                ["cloud", "edge"] if (self._ollama_ok and self._edge_ok)
+                else ["cloud"] if self._ollama_ok
+                else ["edge"] if self._edge_ok
+                else []
+            ),
         }

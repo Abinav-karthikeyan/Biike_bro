@@ -3,13 +3,13 @@ SLM Router — natural language + tool-calling endpoints.
 
 Endpoints
 ---------
-POST /slm/query          NL query → Ollama/Qwen2.5 with tool dispatch
+POST /slm/query          NL query → Ollama/Qwen2.5 with RAG context + tool dispatch
 POST /slm/predict        XGBoost + SLM narrative hybrid
-GET  /slm/status         Ollama connectivity & model info
+GET  /slm/status         Ollama connectivity, model info, tier availability
 GET  /slm/tools          OpenAI-compatible tool definitions
 """
 
-from typing import Optional
+from typing import Literal, Optional
 
 from fastapi import APIRouter, Request
 from pydantic import BaseModel, Field
@@ -24,6 +24,23 @@ class SLMQueryRequest(BaseModel):
     zone_context: Optional[str] = Field(
         default=None, description="Current zone_id the rider is viewing"
     )
+    include_context: bool = Field(
+        default=True,
+        description=(
+            "Inject RAG context (occupancy, history, weather, similar zones) into the "
+            "system prompt before the query. Set False for tool-calling-only mode — "
+            "useful for A/B comparison."
+        ),
+    )
+    inference_tier: Literal["cloud", "edge"] = Field(
+        default="cloud",
+        description=(
+            "Inference tier: 'cloud' uses qwen2.5 (7B) with a ~500-token RAG budget; "
+            "'edge' uses qwen2.5:0.5b with a ~200-token compressed budget, "
+            "suitable for mobile / low-latency scenarios. "
+            "Falls back to the available tier if the requested model is not pulled."
+        ),
+    )
 
 
 class SLMPredictRequest(BaseModel):
@@ -33,20 +50,30 @@ class SLMPredictRequest(BaseModel):
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
-@router.post("/query", summary="Natural-language query via Qwen2.5 + tool-calling")
+@router.post("/query", summary="Natural-language query via Qwen2.5 + RAG context + tool-calling")
 async def slm_query(request: Request, payload: SLMQueryRequest):
     """
     Send a natural-language question to Qwen2.5 running in Ollama.
 
-    The SLM may invoke any of the three PRD tool functions:
-    - `zone_semantic_search` — find similar zones
-    - `get_zone_forecast`    — get fill probability from XGBoost
+    Phase 4 behaviour: RAG context (current occupancy, 7-day same-hour history,
+    similar zones, weather, nearby events) is assembled from the DB and injected
+    into the system prompt before the query.  Use `include_context=false` to
+    compare tool-calling-only answers.
+
+    The SLM may also invoke any of the three PRD tool functions:
+    - `zone_semantic_search` — find similar zones via HNSW
+    - `get_zone_forecast`    — get XGBoost fill probability
     - `log_outcome`          — record telemetry
 
-    Returns the assistant reply, list of tool calls made, and latency.
+    Returns the assistant reply, tool calls made, latency, and which tier was used.
     """
     slm = request.app.state.slm_service
-    result = await slm.query(payload.message, zone_context=payload.zone_context)
+    result = await slm.query(
+        payload.message,
+        zone_context=payload.zone_context,
+        include_context=payload.include_context,
+        inference_tier=payload.inference_tier,
+    )
     return result
 
 

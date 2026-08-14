@@ -655,3 +655,136 @@ class TestGBFSIngest:
         assert data["status"] == "disabled"
         assert data["last_success_at"] is None
         assert data["error_count"] == 0
+
+
+# =============================================================================
+# 7. Phase 4 — RAG Context Assembler Tests
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def rag_assembler(db_store, hnsw_service):
+    from backend.services.rag_context import RAGContextAssembler
+    return RAGContextAssembler(db_store=db_store, hnsw_service=hnsw_service)
+
+
+class TestRAGContextAssembler:
+    def test_cloud_context_is_string(self, rag_assembler):
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="cloud")
+        assert isinstance(ctx, str)
+        assert len(ctx) > 0
+
+    def test_edge_context_is_string(self, rag_assembler):
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="edge")
+        assert isinstance(ctx, str)
+        assert len(ctx) > 0
+
+    def test_edge_context_shorter_than_cloud(self, rag_assembler):
+        """Edge context must respect its tighter token budget."""
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        cloud = rag_assembler.assemble("GLW_Z001", now, tier="cloud", cloud_token_budget=500)
+        edge = rag_assembler.assemble("GLW_Z001", now, tier="edge", edge_token_budget=200)
+        assert len(edge) <= len(cloud), "Edge context must be no longer than cloud context"
+
+    def test_cloud_context_within_budget(self, rag_assembler):
+        """Cloud context char count must not exceed 500 tokens * 4 chars/token."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble(
+            "GLW_Z001", datetime.now(timezone.utc), tier="cloud", cloud_token_budget=500
+        )
+        assert len(ctx) <= 500 * 4
+
+    def test_edge_context_within_budget(self, rag_assembler):
+        """Edge context char count must not exceed 200 tokens * 4 chars/token."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble(
+            "GLW_Z001", datetime.now(timezone.utc), tier="edge", edge_token_budget=200
+        )
+        assert len(ctx) <= 200 * 4
+
+    def test_context_contains_occupancy(self, rag_assembler):
+        """Context should mention current occupancy for a known zone."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="cloud")
+        assert "%" in ctx, "Context should include occupancy percentage"
+
+    def test_context_contains_weather(self, rag_assembler):
+        """Context should contain a weather line when weather records exist."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="cloud")
+        assert "Weather" in ctx or "°C" in ctx
+
+    def test_unknown_zone_graceful(self, rag_assembler):
+        """Assembler must not raise for an unknown zone — returns a short placeholder."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_FAKE_999", datetime.now(timezone.utc), tier="cloud")
+        assert isinstance(ctx, str)
+
+    def test_cloud_context_mentions_similar_zones(self, rag_assembler):
+        """Cloud tier should include HNSW similar-zone info."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="cloud")
+        assert "Similar zones" in ctx or "GLW_Z" in ctx
+
+    def test_edge_context_no_similar_zones(self, rag_assembler):
+        """Edge tier drops the HNSW search to save tokens; 'Similar zones' must be absent."""
+        from datetime import datetime, timezone
+        ctx = rag_assembler.assemble("GLW_Z001", datetime.now(timezone.utc), tier="edge")
+        assert "Similar zones" not in ctx
+
+
+# =============================================================================
+# 8. Phase 4 — SLM Query API (include_context / inference_tier fields)
+# =============================================================================
+
+
+class TestSLMQueryPhase4:
+    def test_query_schema_has_include_context(self):
+        from backend.routers.slm import SLMQueryRequest
+        req = SLMQueryRequest(message="Will GLW_Z001 be full?")
+        assert req.include_context is True  # default on
+
+    def test_query_schema_has_inference_tier(self):
+        from backend.routers.slm import SLMQueryRequest
+        req = SLMQueryRequest(message="test", inference_tier="edge")
+        assert req.inference_tier == "edge"
+
+    def test_query_schema_tier_validates(self):
+        from backend.routers.slm import SLMQueryRequest
+        from pydantic import ValidationError
+        with pytest.raises(ValidationError):
+            SLMQueryRequest(message="test", inference_tier="giant")
+
+    def test_slm_status_includes_tier_info(self, test_client):
+        r = test_client.get("/slm/status")
+        assert r.status_code == 200
+        data = r.json()
+        assert "edge_model" in data
+        assert "edge_model_available" in data
+        assert "tiers_available" in data
+        assert "rag_enabled" in data
+
+    def test_slm_query_returns_rag_fields(self, test_client):
+        r = test_client.post("/slm/query", json={
+            "message": "Is GLW_Z001 available?",
+            "zone_context": "GLW_Z001",
+            "include_context": True,
+            "inference_tier": "cloud",
+        })
+        assert r.status_code == 200
+        data = r.json()
+        assert "rag_context_used" in data
+        assert "inference_tier" in data
+
+    def test_slm_query_no_context_flag(self, test_client):
+        r = test_client.post("/slm/query", json={
+            "message": "Is GLW_Z001 available?",
+            "zone_context": "GLW_Z001",
+            "include_context": False,
+        })
+        assert r.status_code == 200
+        data = r.json()
+        assert "rag_context_used" in data
