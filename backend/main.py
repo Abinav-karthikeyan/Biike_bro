@@ -10,7 +10,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.routers import analytics, health, predict, rides, slm, weather, zones
+from backend.routers import analytics, health, predict, recommend, rides, slm, weather, zones
 
 logger = structlog.get_logger(__name__)
 
@@ -23,6 +23,7 @@ async def lifespan(app: FastAPI):
     # ── Startup ─────────────────────────────────────────────────────────
     from backend.config import get_settings
     from backend.data import DuckDBStore
+    from backend.services.geofence import GeofenceRuleEngine
     from backend.services.hnsw_search import HNSWSearchService
     from backend.services.prediction import PredictionService
     from backend.services.slm_service import SLMService
@@ -49,10 +50,14 @@ async def lifespan(app: FastAPI):
 
     hnsw = app.state.hnsw_service
 
+    if not hasattr(app.state, "geofence_engine") or app.state.geofence_engine is None:
+        app.state.geofence_engine = GeofenceRuleEngine()
+
     app.state.slm_service = SLMService(
         prediction_service=app.state.prediction_service,
         db_store=app.state.db,
         hnsw_service=app.state.hnsw_service,
+        geofence_engine=app.state.geofence_engine,
     )
 
     zone_count = hnsw._zone_index.get_current_count() if (hnsw and hnsw._zone_index) else 0
@@ -74,9 +79,11 @@ async def lifespan(app: FastAPI):
         app.state.ingest_job = None
         logger.info("GBFS ingest disabled (GBFS_INGEST_ENABLED=false or no feed URLs)")
 
+    geofence_count = app.state.geofence_engine.zone_count()
     logger.info(
         "Services initialised — DB ready, XGBoost ready, "
-        f"HNSW index has {zone_count} zones, SLM ready"
+        f"HNSW index has {zone_count} zones, "
+        f"GeofenceRuleEngine has {geofence_count} zones, SLM ready"
     )
     yield
 
@@ -123,6 +130,7 @@ def create_app() -> FastAPI:
     app.include_router(rides.router, prefix="/rides", tags=["rides"])
     app.include_router(weather.router, prefix="/weather", tags=["weather"])
     app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
+    app.include_router(recommend.router, prefix="/recommend", tags=["recommend"])
     app.include_router(slm.router, prefix="/slm", tags=["slm"])
 
     return app

@@ -41,12 +41,14 @@ def test_client(db_store, prediction_service):
     """Create a FastAPI TestClient with real data."""
     from fastapi.testclient import TestClient
     from backend.main import create_app
+    from backend.services.geofence import GeofenceRuleEngine
 
     app = create_app()
     # Pre-inject state so we don't re-train the model
     app.state.db = db_store
     app.state.prediction_service = prediction_service
     app.state.hnsw_service = None
+    app.state.geofence_engine = GeofenceRuleEngine()
 
     # Override the lifespan to avoid re-initialization
     with TestClient(app, raise_server_exceptions=True) as client:
@@ -788,3 +790,233 @@ class TestSLMQueryPhase4:
         assert r.status_code == 200
         data = r.json()
         assert "rag_context_used" in data
+
+
+# =============================================================================
+# 9. Phase 5 — GeofenceRuleEngine Tests
+# =============================================================================
+
+
+class TestGeofenceRuleEngine:
+    @pytest.fixture(scope="class")
+    def engine(self):
+        from backend.services.geofence import GeofenceRuleEngine
+        return GeofenceRuleEngine()
+
+    def test_loads_all_60_zones(self, engine):
+        assert engine.zone_count() == 60
+
+    def test_get_rule_summary_known_zone(self, engine):
+        rule = engine.get_rule_summary("GLW_Z001")
+        assert rule is not None
+        assert "station_parking" in rule
+        assert "max_speed_kph" in rule
+        assert "ride_through_allowed" in rule
+
+    def test_get_rule_summary_unknown_zone(self, engine):
+        assert engine.get_rule_summary("FAKE_ZONE") is None
+
+    def test_evaluate_returns_list(self, engine):
+        violations = engine.evaluate("GLW_Z001")
+        assert isinstance(violations, list)
+
+    def test_station_parking_false_causes_violation(self, engine):
+        """At least one zone has station_parking=False in the seed data."""
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        zones_with_violations = [z for z in all_zones if engine.evaluate(z)]
+        assert len(zones_with_violations) > 0, (
+            "Expected some zones with station_parking=False"
+        )
+
+    def test_evaluate_no_violation_returns_empty(self, engine):
+        """Zones with station_parking=True should return no violations."""
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        clean_zones = [z for z in all_zones if engine.get_rule_summary(z) and
+                       engine.get_rule_summary(z)["station_parking"]]
+        assert len(clean_zones) > 0
+        # Spot-check first clean zone
+        assert engine.evaluate(clean_zones[0]) == []
+
+    def test_get_context_line_violation(self, engine):
+        """get_context_line returns a string for zones with violations."""
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        violating = [z for z in all_zones if engine.evaluate(z)]
+        if violating:
+            line = engine.get_context_line(violating[0])
+            assert line is not None
+            assert "Geofence" in line
+
+    def test_get_context_line_no_violation(self, engine):
+        """get_context_line returns None when no violations."""
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        clean_zones = [z for z in all_zones if not engine.evaluate(z)]
+        if clean_zones:
+            assert engine.get_context_line(clean_zones[0]) is None
+
+    def test_evaluate_unknown_zone_no_violation(self, engine):
+        assert engine.evaluate("NONEXISTENT_ZONE") == []
+
+
+# =============================================================================
+# 10. Phase 5 — HNSW Dedup Fix Tests
+# =============================================================================
+
+
+class TestHNSWDedup:
+    def test_zone_id_map_all_unique(self, hnsw_service):
+        """After build_from_zones, every entry in zone_id_map must be unique."""
+        ids = hnsw_service._zone_id_map
+        assert len(ids) == len(set(ids)), (
+            f"zone_id_map has {len(ids) - len(set(ids))} duplicate entries"
+        )
+
+    def test_zone_id_map_exactly_60(self, hnsw_service, db_store):
+        """zone_id_map must have exactly as many entries as zones in the DB."""
+        expected = len(db_store.get_zones())
+        assert len(hnsw_service._zone_id_map) == expected
+
+    def test_search_returns_distinct_zone_ids(self, hnsw_service, db_store):
+        """zone_semantic_search with k=5 must return 5 distinct zone IDs."""
+        emb = hnsw_service.get_zone_embedding("GLW_Z001")
+        assert emb is not None
+        results = hnsw_service.zone_semantic_search(emb, k=5, query_zone_id="GLW_Z001")
+        ids = [r.zone_id for r in results]
+        assert len(ids) == len(set(ids)), "Search returned duplicate zone IDs"
+
+    def test_repeated_build_stays_idempotent(self, db_store):
+        """Calling build_from_zones twice must not double the map."""
+        from backend.services.hnsw_search import HNSWSearchService
+        svc = HNSWSearchService()
+        zones = db_store.get_zones()
+        svc.build_from_zones(zones)
+        svc.build_from_zones(zones)   # second call — must reset, not append
+        assert len(svc._zone_id_map) == len(zones), (
+            "Repeated build_from_zones doubled the zone_id_map"
+        )
+
+
+# =============================================================================
+# 11. Phase 5 — /recommend Endpoint Tests
+# =============================================================================
+
+
+class TestRecommendEndpoint:
+    def test_recommend_returns_200(self, test_client):
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001"})
+        assert r.status_code == 200
+
+    def test_recommend_response_schema(self, test_client):
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001", "k": 3})
+        data = r.json()
+        assert "queried_zone_id" in data
+        assert "candidates" in data
+        assert "source_zone_fill_probability" in data
+        assert "latency_ms" in data
+        assert "slm_available" in data
+
+    def test_recommend_queried_zone_matches(self, test_client):
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z005"})
+        data = r.json()
+        assert data["queried_zone_id"] == "GLW_Z005"
+
+    def test_recommend_candidates_not_include_anchor(self, test_client):
+        """The queried zone must never appear in its own candidate list."""
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001", "k": 5})
+        data = r.json()
+        candidate_ids = [c["zone_id"] for c in data["candidates"]]
+        assert "GLW_Z001" not in candidate_ids
+
+    def test_recommend_candidate_fields(self, test_client):
+        """Each candidate must have fill_probability, confidence, similarity."""
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001", "k": 3})
+        data = r.json()
+        for c in data["candidates"]:
+            assert 0.0 <= c["fill_probability"] <= 1.0
+            assert 0.0 <= c["confidence"] <= 1.0
+            assert 0.0 <= c["similarity"] <= 1.0
+            assert isinstance(c["rule_violations"], list)
+            assert "reason" in c
+
+    def test_recommend_k_respected(self, test_client):
+        """The number of candidates must not exceed k."""
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001", "k": 3})
+        data = r.json()
+        assert len(data["candidates"]) <= 3
+
+    def test_recommend_fill_probability_range(self, test_client):
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001"})
+        data = r.json()
+        assert 0.0 <= data["source_zone_fill_probability"] <= 1.0
+
+    def test_recommend_violations_at_back(self, test_client):
+        """Candidates with rule violations must be sorted after violation-free ones."""
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_Z001", "k": 10})
+        data = r.json()
+        candidates = data["candidates"]
+        if len(candidates) < 2:
+            pytest.skip("Not enough candidates to test sorting")
+        # Find first candidate with a violation
+        first_violation = next(
+            (i for i, c in enumerate(candidates) if c["rule_violations"]), None
+        )
+        if first_violation is not None:
+            # All candidates before it must have no violations
+            for c in candidates[:first_violation]:
+                assert c["rule_violations"] == []
+
+    def test_recommend_unknown_zone_returns_empty(self, test_client):
+        """An unknown zone_id with no HNSW embedding returns empty candidates."""
+        r = test_client.get("/recommend/", params={"zone_id": "GLW_FAKE_999"})
+        assert r.status_code == 200
+        data = r.json()
+        assert data["candidates"] == []
+
+    def test_recommend_venue_type_filter(self, test_client):
+        """venue_type filter must only return matching zone types in candidates."""
+        r = test_client.get("/recommend/", params={
+            "zone_id": "GLW_Z001", "k": 5, "venue_type": "transit"
+        })
+        assert r.status_code == 200
+        data = r.json()
+        for c in data["candidates"]:
+            if c.get("venue_type"):
+                assert c["venue_type"] == "transit"
+
+
+# =============================================================================
+# 12. Phase 5 — RAG Context with Geofence Integration
+# =============================================================================
+
+
+class TestRAGWithGeofence:
+    @pytest.fixture(scope="class")
+    def rag_with_geofence(self, db_store, hnsw_service):
+        from backend.services.rag_context import RAGContextAssembler
+        from backend.services.geofence import GeofenceRuleEngine
+        return RAGContextAssembler(
+            db_store=db_store,
+            hnsw_service=hnsw_service,
+            geofence_engine=GeofenceRuleEngine(),
+        )
+
+    def test_geofence_line_injected_for_violating_zone(self, rag_with_geofence):
+        """For a zone with station_parking=False, context should mention geofence."""
+        from backend.services.geofence import GeofenceRuleEngine
+        engine = GeofenceRuleEngine()
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        violating = [z for z in all_zones if engine.evaluate(z)]
+        if not violating:
+            pytest.skip("No violating zones in seed data")
+        ctx = rag_with_geofence.assemble(violating[0], tier="cloud")
+        assert "Geofence" in ctx or "station parking" in ctx.lower()
+
+    def test_no_geofence_line_for_clean_zone(self, rag_with_geofence):
+        """For a zone with no violations, context must not contain 'Geofence'."""
+        from backend.services.geofence import GeofenceRuleEngine
+        engine = GeofenceRuleEngine()
+        all_zones = [f"GLW_Z{i:03d}" for i in range(1, 61)]
+        clean = [z for z in all_zones if not engine.evaluate(z)]
+        if not clean:
+            pytest.skip("All zones have violations")
+        ctx = rag_with_geofence.assemble(clean[0], tier="cloud")
+        assert "Geofence" not in ctx

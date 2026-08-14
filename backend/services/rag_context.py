@@ -63,14 +63,15 @@ class RAGContextAssembler:
 
     Usage
     -----
-    assembler = RAGContextAssembler(db_store, hnsw_service)
+    assembler = RAGContextAssembler(db_store, hnsw_service, geofence_engine)
     ctx = assembler.assemble("GLW_Z008", datetime.now(timezone.utc), tier="cloud")
     # ctx → "Current: 67% full, 8 bikes. Typical at 14:00: 61% (7-day avg). ..."
     """
 
-    def __init__(self, db_store, hnsw_service) -> None:
+    def __init__(self, db_store, hnsw_service, geofence_engine=None) -> None:
         self.db = db_store
         self.hnsw = hnsw_service
+        self.geofence = geofence_engine
 
     def assemble(
         self,
@@ -128,6 +129,12 @@ class RAGContextAssembler:
         weather_str = self._weather_line()
         if weather_str:
             parts.append(weather_str)
+
+        # (f) Geofence rule violations — both tiers
+        if self.geofence and zone:
+            rule_line = self.geofence.get_context_line(zone_id)
+            if rule_line:
+                parts.append(rule_line)
 
         # Cloud-only signals ─────────────────────────────────────────────────
         if tier == "cloud":

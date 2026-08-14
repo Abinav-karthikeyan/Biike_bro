@@ -82,6 +82,7 @@ class SLMService:
         prediction_service=None,
         db_store=None,
         hnsw_service=None,
+        geofence_engine=None,
     ) -> None:
         self.model = model or settings.OLLAMA_MODEL_NAME
         self.edge_model = settings.OLLAMA_EDGE_MODEL_NAME
@@ -92,7 +93,11 @@ class SLMService:
         self.hnsw_service = hnsw_service
         self._ollama_ok: Optional[bool] = None
         self._edge_ok: Optional[bool] = None
-        self._rag = RAGContextAssembler(db_store=db_store, hnsw_service=hnsw_service)
+        self._rag = RAGContextAssembler(
+            db_store=db_store,
+            hnsw_service=hnsw_service,
+            geofence_engine=geofence_engine,
+        )
         self._check_ollama()
 
     def _check_ollama(self) -> None:

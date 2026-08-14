@@ -459,11 +459,13 @@ class DuckDBStore:
         timestamp: str,
         actual_availability: float,
         rider_satisfaction: Optional[int] = None,
+        intent_embedding: Optional[list] = None,
     ) -> None:
         """
         Persist a rider outcome via SQLAlchemy ORM.
 
         actual_availability: 0.0=full, 1.0=empty — stored as actual_fill
+        intent_embedding: optional 128-D float list from the query context
         (inverted fill semantics: 0.0 available → fill = 1.0).
         """
         from backend.models.db_models import RiderOutcome
@@ -478,6 +480,7 @@ class DuckDBStore:
                 arrival_time=arrival,
                 actual_fill=actual_fill,
                 satisfaction_score=rider_satisfaction,
+                intent_embedding=intent_embedding,
             )
             session.add(outcome)
             session.commit()

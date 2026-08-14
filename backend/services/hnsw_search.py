@@ -137,6 +137,14 @@ class HNSWSearchService:
             logger.warning("build_from_zones called with empty zone list — skipping")
             return
 
+        # Clear any pre-existing state so repeated calls are idempotent.
+        # Without this, each restart that triggers a rebuild appends to the
+        # old map rather than replacing it, causing duplicate zone IDs.
+        self._zone_id_map = []
+        self._zone_embeddings = {}
+        self._zone_meta = {}
+        self._initialise_zone_index()
+
         lats = [z.get("lat", 55.86) for z in zones]
         lons = [z.get("lon", -4.25) for z in zones]
         lat_center = float(np.mean(lats))
@@ -204,8 +212,12 @@ class HNSWSearchService:
         )
 
         results: List[ZoneSemanticSearchResult] = []
+        seen: set = set()
         for label, dist in zip(labels[0], distances[0]):
             zone_id = self._zone_id_map[label]
+            if zone_id in seen:
+                continue
+            seen.add(zone_id)
 
             # venue_type post-filter
             if venue_type:
@@ -286,6 +298,119 @@ class HNSWSearchService:
         """
         return self.historical_pattern_search(intent_embedding, k=k)
 
+    # ── Context index construction ────────────────────────────────────────
+
+    def build_context_index(self, db_store) -> int:
+        """
+        Populate the 128-D context index from zone_snapshots.
+
+        Aggregates 7 days of snapshots into (zone_id × hour_of_day × day_of_week)
+        buckets — one 128-D embedding per bucket — so historical_pattern_search()
+        returns real records instead of an empty index.
+
+        Called from scripts/build_context_index.py; safe to call at startup but
+        slow on large datasets (60 zones × 24h × 7d = up to 10 080 vectors).
+        Returns the number of vectors added.
+        """
+        zones = db_store.get_zones()
+        if not zones:
+            logger.warning("build_context_index: no zones found — skipping")
+            return 0
+
+        zone_positions = {z["zone_id"]: i for i, z in enumerate(zones)}
+        total_zones = len(zones)
+
+        # Collect snapshots into (zone_id, hour, day_of_week) buckets
+        buckets: Dict[tuple, list] = {}
+        for zone in zones:
+            snaps = db_store.get_zone_snapshots(zone["zone_id"], hours=168)
+            for s in snaps:
+                hour = s.get("hour_of_day")
+                dow = s.get("day_of_week")
+                if hour is None or dow is None:
+                    continue
+                buckets.setdefault((zone["zone_id"], int(hour), int(dow)), []).append(s)
+
+        if not buckets:
+            logger.warning("build_context_index: no snapshots found — context index empty")
+            return 0
+
+        self._initialise_context_index()
+        self._context_id_map = []
+
+        for (zone_id, hour, dow), snaps in buckets.items():
+            emb = self._context_embedding(zone_id, hour, dow, snaps, zone_positions, total_zones)
+            record_id = f"{zone_id}_h{hour:02d}_d{dow}"
+            idx = len(self._context_id_map)
+            self._context_id_map.append(record_id)
+            self._context_index.add_items(emb.reshape(1, -1), [idx])
+
+        self.save_indices()
+        n = len(self._context_id_map)
+        logger.info("Context index built: %d vectors from %d zones", n, total_zones)
+        return n
+
+    @staticmethod
+    def _context_embedding(
+        zone_id: str,
+        hour: int,
+        day_of_week: int,
+        snapshots: list,
+        zone_positions: Dict[str, int],
+        total_zones: int,
+    ) -> np.ndarray:
+        """
+        128-D context vector for a (zone, hour, day_of_week) bucket.
+
+        Encoding
+        ────────
+        [0]     zone position normalized (0–1)
+        [1–16]  hour sinusoidal at 4 frequencies (sin + cos each)
+        [17–23] day-of-week one-hot (7 dims)
+        [24]    mean occupancy_pct (normalized 0–1)
+        [25]    std-dev occupancy_pct (normalized 0–1)
+        [26]    weather bucket: 0=clear, 0.5=other, 1.0=rain
+        [27]    proportion of snapshots with is_event_nearby=True
+        [28–127] zero-padded
+        """
+        _WMO_RAIN = {51, 53, 55, 61, 63, 65, 80, 81, 82, 95}
+
+        vec = np.zeros(CONTEXT_EMBEDDING_DIM, dtype=np.float32)
+
+        vec[0] = zone_positions.get(zone_id, 0) / max(total_zones - 1, 1)
+
+        for i, fn in enumerate([np.sin, np.cos]):
+            for j, freq in enumerate([1, 2, 4, 8]):
+                vec[1 + i * 4 + j] = fn(hour * np.pi * freq / 12)
+
+        if 0 <= day_of_week < 7:
+            vec[17 + day_of_week] = 1.0
+
+        occ_vals = [
+            float(s["occupancy_pct"])
+            for s in snapshots
+            if s.get("occupancy_pct") is not None
+        ]
+        if occ_vals:
+            vec[24] = float(np.mean(occ_vals)) / 100.0
+            vec[25] = float(np.std(occ_vals)) / 100.0
+
+        wcodes = [s.get("weather_code") for s in snapshots if s.get("weather_code") is not None]
+        if wcodes:
+            dominant = max(set(wcodes), key=wcodes.count)
+            if dominant in {0, 1, 2}:
+                vec[26] = 0.0
+            elif dominant in _WMO_RAIN:
+                vec[26] = 1.0
+            else:
+                vec[26] = 0.5
+
+        events = [s.get("is_event_nearby") for s in snapshots if s.get("is_event_nearby") is not None]
+        if events:
+            vec[27] = sum(1 for e in events if e) / len(events)
+
+        return vec
+
     # ── Index management ─────────────────────────────────────────────────
 
     def add_zone(self, zone_id: str, embedding: np.ndarray) -> None:
@@ -306,7 +431,11 @@ class HNSWSearchService:
         if self._context_index:
             self._context_index.save_index(str(path / "context_index.bin"))
         with open(path / "zone_id_map.json", "w") as f:
-            json.dump({"zone_ids": self._zone_id_map, "zone_meta": self._zone_meta}, f)
+            json.dump({
+                "zone_ids": self._zone_id_map,
+                "zone_meta": self._zone_meta,
+                "context_ids": self._context_id_map,
+            }, f)
         logger.info("HNSW indices saved to %s", str(path))
 
     # ── Private helpers ───────────────────────────────────────────────────
@@ -335,12 +464,29 @@ class HNSWSearchService:
                         else:
                             self._zone_id_map = data.get("zone_ids", [])
                             self._zone_meta = data.get("zone_meta", {})
+                            self._context_id_map = data.get("context_ids", [])
 
-                        labels = list(range(len(self._zone_id_map)))
-                        if labels:
-                            vecs = self._zone_index.get_items(labels)
-                            for zone_id, vec in zip(self._zone_id_map, vecs):
-                                self._zone_embeddings[zone_id] = np.array(vec, dtype=np.float32)
+                        # Detect duplicate zone IDs caused by repeated build_from_zones
+                        # calls that did not clear state.  Discard the stale index so
+                        # main.py's get_current_count() == 0 guard triggers a clean rebuild.
+                        unique_ids = set(self._zone_id_map)
+                        if len(unique_ids) != len(self._zone_id_map):
+                            n_dup = len(self._zone_id_map) - len(unique_ids)
+                            logger.warning(
+                                "zone_id_map has %d duplicate entries (%d unique) — "
+                                "discarding stale index and rebuilding on startup",
+                                n_dup, len(unique_ids),
+                            )
+                            self._zone_id_map = []
+                            self._zone_embeddings = {}
+                            self._zone_meta = {}
+                            self._initialise_zone_index()
+                        else:
+                            labels = list(range(len(self._zone_id_map)))
+                            if labels:
+                                vecs = self._zone_index.get_items(labels)
+                                for zone_id, vec in zip(self._zone_id_map, vecs):
+                                    self._zone_embeddings[zone_id] = np.array(vec, dtype=np.float32)
 
                     logger.info(
                         "Loaded zone HNSW index (%d zones) from %s",
