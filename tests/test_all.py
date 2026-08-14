@@ -765,7 +765,7 @@ class TestSLMQueryPhase4:
         assert r.status_code == 200
         data = r.json()
         assert "edge_model" in data
-        assert "edge_model_available" in data
+        assert "edge_available" in data
         assert "tiers_available" in data
         assert "rag_enabled" in data
 

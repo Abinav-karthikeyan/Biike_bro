@@ -1,0 +1,17 @@
+.env
+.venv
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+tests/
+auto-commit-workspace/
+test_persistence.py
+plan_v2/
+data/*.duckdb
+data/app_stdout.log
+data/app_stderr.log
+.git/
+*.md
+!README.md

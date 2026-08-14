@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: cycle-buddy-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: DATABASE_URL
+        value: "duckdb:///:memory:"
+      - key: GBFS_INGEST_ENABLED
+        value: "false"
+      - key: APP_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: '["*"]'
+      - key: GROQ_API_KEY
+        sync: false   # set this secret manually in the Render dashboard

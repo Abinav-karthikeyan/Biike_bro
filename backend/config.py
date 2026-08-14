@@ -53,14 +53,14 @@ class Settings(BaseSettings):
     # SLM_MODEL_NAME was previously used for a Transformers/HuggingFace path
     # that was dropped in V2 (Ollama serves both tiers instead).
     # Kept here to avoid breaking .env files that reference it.
-    SLM_MODEL_NAME: str = "Qwen/Qwen2.5-0.5B-Instruct"  # unused in V2 — see OLLAMA_EDGE_MODEL_NAME
+    SLM_MODEL_NAME: str = "Qwen/Qwen2.5-0.5B-Instruct"  # unused in V2 — kept for .env backwards compat
     SLM_MAX_LATENCY_MS: int = 200  # <200ms requirement per PRD
 
-    # ── Ollama (local inference daemon) ───────────────────────────────────
-    OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL_NAME: str = "qwen2.5"          # cloud tier — 7B, ~60s timeout on CPU
-    OLLAMA_EDGE_MODEL_NAME: str = "qwen2.5:0.5b"  # edge/mobile tier — 0.5B, faster
-    OLLAMA_TIMEOUT_SECONDS: int = 60
+    # ── Groq (cloud inference API) ────────────────────────────────────────
+    GROQ_API_KEY: str = ""
+    GROQ_CLOUD_MODEL: str = "llama-3.1-8b-instant"   # cloud tier — 8B, comparable to Qwen2.5 7B
+    GROQ_EDGE_MODEL: str = "llama-3.2-1b-preview"     # edge tier — 1B, comparable to Qwen2.5 0.5B
+    GROQ_TIMEOUT_SECONDS: int = 30
 
     # ── RAG context token budgets (per inference tier) ────────────────────
     # ~4 chars/token rule-of-thumb for Qwen2.5's BPE vocabulary.
