@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5500"]
 
     # ── Database ─────────────────────────────────────────────────────────
-    DATABASE_URL: str = "postgresql+asyncpg://buddy:buddy@localhost:5432/cycle_buddy"
+    DATABASE_URL: str = "duckdb:///:memory:"  # override with postgresql+asyncpg://... for Postgres
     DATABASE_POOL_SIZE: int = 10
 
     # ── Redis ─────────────────────────────────────────────────────────────
