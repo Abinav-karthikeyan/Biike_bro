@@ -5,7 +5,7 @@ pydantic==2.13.4
 pydantic-settings==2.14.1
 
 # ── Data Layer ───────────────────────────────────────────────────
-duckdb==1.5.3
+duckdb==1.0.0
 duckdb-engine==0.13.6
 pandas==3.0.3
 numpy==2.4.6

@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
 
 COPY backend/requirements.txt .
 
-# Install hnswlib from source so it compiles for this machine's CPU
-# rather than using the PyPI binary wheel (which assumes AVX2/AVX-512)
+# Compile hnswlib from source (avoids pre-built AVX2/AVX-512 wheel).
+# duckdb pinned to 1.0.0 — 1.5.x uses AVX-512 which Render free-tier CPUs lack.
 RUN pip install --no-cache-dir --no-binary hnswlib -r requirements.txt
 
 COPY . .
